@@ -34,13 +34,15 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="MyBudgetApp"
-        Description="MyBudgetApp"
+        DisplayName="Budżet Domowy"
+        Description="Aplikacja do zarządzania budżetem domowym. Umożliwia dodawanie dochodów i wydatków, śledzenie salda oraz analizę miesięcznych finansów. Prosty interfejs i intuicyjna obsługa pomagają w kontrolowaniu codziennych wydatków."
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape"/></uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>
