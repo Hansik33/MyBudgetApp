@@ -6,7 +6,6 @@
     xmlns:local="using:MyBudgetApp"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="using:MyBudgetApp.ViewModels"
     mc:Ignorable="d"
     Title="Budżet Domowy">
 
@@ -15,11 +14,9 @@
     </Window.SystemBackdrop>
 
     <Grid>
-        <Grid.DataContext>
-            <vm:MainViewModel />
-        </Grid.DataContext>
-
-        <TextBlock Text="{Binding WelcomeText}" FontSize="24" Margin="20"/>
+        <ContentControl x:Name="MainContent"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch" />
     </Grid>
 
 </Window>

@@ -10,9 +10,9 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using MyBudgetApp.Views;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using MyBudgetApp.ViewModels;
 
 namespace MyBudgetApp
 {
@@ -21,6 +21,10 @@ namespace MyBudgetApp
         public MainWindow()
         {
             InitializeComponent();
+            NavigateTo(new LoginView());
         }
+
+        public void NavigateTo(UserControl userControl) =>
+            MainContent.Content = userControl;
     }
 }
