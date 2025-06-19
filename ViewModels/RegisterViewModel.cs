@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace MyBudgetApp.ViewModels
 {
-    public class LoginViewModel : INotifyPropertyChanged
+    public class RegisterViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private string _username = "Karol";
+        private string _username = string.Empty;
         public string Username
         {
             get => _username;
@@ -35,6 +35,20 @@ namespace MyBudgetApp.ViewModels
                 {
                     _password = value;
                     OnPropertyChanged(nameof(Password));
+                }
+            }
+        }
+
+        private string _confirmPassword = string.Empty;
+        public string ConfirmPassword
+        {
+            get => _confirmPassword;
+            set
+            {
+                if (_confirmPassword != value)
+                {
+                    _confirmPassword = value;
+                    OnPropertyChanged(nameof(ConfirmPassword));
                 }
             }
         }

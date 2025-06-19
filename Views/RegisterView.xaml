@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="MyBudgetApp.Views.RegisterView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyBudgetApp.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:MyBudgetApp.ViewModels"
+    mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <vm:RegisterViewModel />
+    </UserControl.DataContext>
+
+    <StackPanel Width="300" Padding="40" Spacing="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+        <TextBlock Text="Rejestracja" FontSize="28" FontWeight="Bold" Margin="0,0,0,10" />
+
+        <TextBlock Text="Nazwa użytkownika" />
+        <TextBox Text="{Binding Username, Mode=TwoWay}" />
+
+        <TextBlock Text="Hasło" />
+        <PasswordBox />
+
+        <TextBlock Text="Potwierdź hasło" />
+        <PasswordBox />
+
+        <Button Content="Zarejestruj się" Height="40" Margin="0,10,0,0" />
+
+        <Rectangle Height="1" Fill="Gray" Margin="0,20,0,20" />
+
+        <TextBlock Text="Masz już konto?" HorizontalAlignment="Center" />
+        <Button Content="Zaloguj się" HorizontalAlignment="Center" />
+    </StackPanel>
+ 
+</UserControl>
