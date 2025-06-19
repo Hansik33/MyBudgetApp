@@ -1,17 +1,30 @@
-﻿using System;
+﻿using MyBudgetApp.Helpers;
+using MyBudgetApp.Interfaces;
+using MyBudgetApp.Views;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MyBudgetApp.ViewModels
 {
     public class LoginViewModel : INotifyPropertyChanged
     {
+        public ICommand GoToRegisterCommand { get; }
+        private readonly INavigationService _nav;
+
+        public LoginViewModel(INavigationService nav)
+        {
+            _nav = nav;
+            GoToRegisterCommand = new RelayCommand(_nav.GoToRegister);
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private string _username = "Karol";
+        private string _username = string.Empty;
         public string Username
         {
             get => _username;
