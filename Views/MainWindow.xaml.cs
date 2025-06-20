@@ -27,6 +27,9 @@ namespace MyBudgetApp
         {
             InitializeComponent();
 
+            var dbService = new DatabaseService();
+            var connected = dbService.TryConnect();
+
             _nav = new NavigationService(MainContent);
             _nav.GoToLogin();
         }

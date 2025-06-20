@@ -32,17 +32,6 @@ namespace MyBudgetApp
 
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            string connectionString = "server=localhost;port=3306;database=mybudgetapp;user=root;password=qwertyz1234!";
-
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
-                .Options;
-
-            using var db = new AppDbContext(options);
-
-            bool connected = db.Database.CanConnect();
-            Debug.WriteLine($"Połączenie z bazą: {connected}");
-
             _window = new MainWindow();
             _window.Activate();
         }
