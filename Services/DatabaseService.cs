@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyBudgetApp.Data;
+using MyBudgetApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
