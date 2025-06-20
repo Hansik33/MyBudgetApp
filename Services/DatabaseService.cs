@@ -27,5 +27,27 @@ namespace MyBudgetApp.Services
             Debug.WriteLine($"Połączenie z bazą: {connected}");
             return connected;
         }
+
+        public bool InsertUser(string username, string passwordHash)
+        {
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
+                .Options;
+
+            using var db = new AppDbContext(options);
+
+            bool userExists = db.Users.Any(u => u.Username == username);
+            if (userExists)
+                return false;
+
+            db.Users.Add(new User
+            {
+                Username = username,
+                Password_hash = passwordHash
+            });
+
+            db.SaveChanges();
+            return true;
+        }
     }
 }

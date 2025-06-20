@@ -1,9 +1,12 @@
-﻿using MyBudgetApp.Helpers;
+﻿using Microsoft.UI.Xaml.Controls;
+using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
+using MyBudgetApp.Services;
 using MyBudgetApp.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,12 +17,18 @@ namespace MyBudgetApp.ViewModels
     public class RegisterViewModel : INotifyPropertyChanged
     {
         public ICommand GoToLoginCommand { get; }
+        public ICommand RegisterCommand { get; }
+
         private readonly INavigationService _nav;
+        private readonly DatabaseService _db;
 
         public RegisterViewModel(INavigationService nav)
         {
             _nav = nav;
+            _db = new DatabaseService();
+
             GoToLoginCommand = new RelayCommand(_nav.GoToLogin);
+            RegisterCommand = new RelayCommand(Register);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -66,7 +75,46 @@ namespace MyBudgetApp.ViewModels
             }
         }
 
+        private async void Register()
+        {
+            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
+            {
+                await ShowDialog("Uzupełnij wszystkie pola.");
+                return;
+            }
+
+            if (Password != ConfirmPassword)
+            {
+                await ShowDialog("Hasła się nie zgadzają.");
+                return;
+            }
+
+            var success = _db.InsertUser(Username, Password);
+
+            if (!success)
+            {
+                await ShowDialog("Użytkownik już istnieje.");
+                return;
+            }
+
+            await ShowDialog("Rejestracja zakończona sukcesem.");
+            _nav.GoToLogin();
+        }
+
+        private async Task ShowDialog(string message)
+        {
+            var dialog = new ContentDialog
+            {
+                Title = "Informacja",
+                Content = message,
+                CloseButtonText = "OK",
+                XamlRoot = MainWindow.Instance.Content.XamlRoot
+            };
+            await dialog.ShowAsync();
+        }
+
         private void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
+

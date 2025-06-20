@@ -15,17 +15,17 @@
         <TextBox Text="{Binding Username, Mode=TwoWay}" />
 
         <TextBlock Text="Hasło" />
-        <PasswordBox />
+        <PasswordBox x:Name="PasswordBox" PasswordChanged="PasswordBox_PasswordChanged" />
 
         <TextBlock Text="Potwierdź hasło" />
-        <PasswordBox />
+        <PasswordBox x:Name="ConfirmPasswordBox" PasswordChanged="ConfirmPasswordBox_PasswordChanged" />
 
-        <Button Content="Zarejestruj się" Height="40" Margin="0,10,0,0" />
+        <Button Content="Zarejestruj się" Command="{Binding RegisterCommand}" Height="40" Margin="0,10,0,0" />
 
         <Rectangle Height="1" Fill="Gray" Margin="0,20,0,20" />
 
         <TextBlock Text="Masz już konto?" HorizontalAlignment="Center" />
         <Button Content="Zaloguj się" Command="{Binding GoToLoginCommand}" HorizontalAlignment="Center" />
     </StackPanel>
- 
+
 </UserControl>

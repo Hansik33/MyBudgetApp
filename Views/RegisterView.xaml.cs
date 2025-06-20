@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using MyBudgetApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,9 +14,6 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace MyBudgetApp.Views
 {
     public sealed partial class RegisterView : UserControl
@@ -23,6 +21,20 @@ namespace MyBudgetApp.Views
         public RegisterView()
         {
             InitializeComponent();
+        }
+
+        private RegisterViewModel ViewModel => (RegisterViewModel)this.DataContext;
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender is PasswordBox passwordBox)
+                ViewModel.Password = passwordBox.Password;
+        }
+
+        private void ConfirmPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender is PasswordBox passwordBox)
+                ViewModel.ConfirmPassword = passwordBox.Password;
         }
     }
 }
