@@ -5,17 +5,25 @@ using System.Threading.Tasks;
 
 namespace MyBudgetApp.Services
 {
-    public static class DialogService
+    public class DialogService
     {
-        public static async Task ShowMessageAsync(string message, XamlRoot root)
+        private XamlRoot? _xamlRoot;
+
+        public void SetXamlRoot(XamlRoot root) => _xamlRoot = root;
+
+        public async Task ShowMessageAsync(string message)
         {
+            if (_xamlRoot is null)
+                throw new InvalidOperationException("XamlRoot is not set.");
+
             var dialog = new ContentDialog
             {
                 Title = "Informacja",
                 Content = message,
                 CloseButtonText = "OK",
-                XamlRoot = root
+                XamlRoot = _xamlRoot
             };
+
             await dialog.ShowAsync();
         }
     }

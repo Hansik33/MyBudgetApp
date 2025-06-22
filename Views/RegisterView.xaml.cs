@@ -1,5 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using MyBudgetApp.Services;
 using MyBudgetApp.ViewModels;
 
 namespace MyBudgetApp.Views
@@ -8,12 +9,16 @@ namespace MyBudgetApp.Views
     {
         public RegisterView()
         {
-            InitializeComponent();
+            InitializeComponent();            
             Loaded += RegisterView_Loaded;
         }
 
-        private void RegisterView_Loaded(object sender, RoutedEventArgs e) =>
-            DataContext = new RegisterViewModel(this.XamlRoot);
+        private void RegisterView_Loaded(object sender, RoutedEventArgs e)
+        {
+            var dialogService = new DialogService();
+            dialogService.SetXamlRoot(this.XamlRoot);
+            DataContext = new RegisterViewModel(dialogService);
+        }
 
         private RegisterViewModel ViewModel => (RegisterViewModel)DataContext;
 
