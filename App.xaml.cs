@@ -12,14 +12,8 @@ namespace MyBudgetApp
 
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            var dbService = new DatabaseService();
-            var connected = dbService.TryConnect();
-
-            var mainWindow = new MainWindow();
-            mainWindow.Activate();
-
-            NavigationService.Initialize(mainWindow.MainContent);
-            NavigationService.GoToLogin();
+            var startup = new AppStartupService();
+            startup.Start();
         }
     }
 }
