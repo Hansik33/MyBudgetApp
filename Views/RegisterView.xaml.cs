@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using MyBudgetApp.Services;
@@ -7,13 +8,18 @@ namespace MyBudgetApp.Views
 {
     public sealed partial class RegisterView : UserControl
     {
+        private readonly DialogService _dialogService;
+
         public RegisterView()
         {
-            InitializeComponent();            
+            InitializeComponent();
+
+            _dialogService = App.ServiceProvider!.GetRequiredService<DialogService>();
+
             Loaded += RegisterView_Loaded;
         }
 
-        private void RegisterView_Loaded(object sender, RoutedEventArgs e) => DialogService.SetXamlRoot(XamlRoot);
+        private void RegisterView_Loaded(object sender, RoutedEventArgs e) => _dialogService.SetXamlRoot(XamlRoot);
 
         private RegisterViewModel ViewModel => (RegisterViewModel)DataContext;
 

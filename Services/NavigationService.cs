@@ -1,35 +1,41 @@
-﻿using Microsoft.UI.Xaml.Controls;
-using MyBudgetApp.Helpers;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml.Controls;
+using MyBudgetApp.ViewModels;
 using MyBudgetApp.Views;
+using System;
 
 namespace MyBudgetApp.Services
 {
-    public static class NavigationService
+    public class NavigationService
     {
-        private static ContentControl? _mainContent;
+        private readonly IServiceProvider _serviceProvider;
+        private ContentControl? _mainContent;
 
-        public static void Initialize(ContentControl contentControl)
-        {
-            _mainContent = contentControl;
-        }
+        public NavigationService(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
-        public static void NavigateTo(UserControl view)
+        public void Initialize(ContentControl contentControl) => _mainContent = contentControl;
+
+        public void NavigateTo(UserControl view)
         {
             if (_mainContent is not null)
                 _mainContent.Content = view;
         }
 
-        public static void GoToLogin()
+        public void GoToLogin()
         {
-            var viewModel = ViewModelFactory.CreateLoginViewModel();
-            var view = new LoginView { DataContext = viewModel };
+            var view = new LoginView
+            {
+                DataContext = _serviceProvider.GetRequiredService<LoginViewModel>()
+            };
             NavigateTo(view);
         }
 
-        public static void GoToRegister()
+        public void GoToRegister()
         {
-            var viewModel = ViewModelFactory.CreateRegisterViewModel();
-            var view = new RegisterView { DataContext = viewModel };
+            var view = new RegisterView
+            {
+                DataContext = _serviceProvider.GetRequiredService<RegisterViewModel>()
+            };
             NavigateTo(view);
         }
     }

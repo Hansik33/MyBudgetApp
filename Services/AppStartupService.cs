@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 
 namespace MyBudgetApp.Services
 {
@@ -16,8 +17,9 @@ namespace MyBudgetApp.Services
 
             if (_window is MainWindow mw)
             {
-                NavigationService.Initialize(mw.MainContent);
-                NavigationService.GoToLogin();
+                var navigationService = App.ServiceProvider!.GetRequiredService<NavigationService>();
+                navigationService.Initialize(mw.MainContent);
+                navigationService.GoToLogin();
             }
         }
     }

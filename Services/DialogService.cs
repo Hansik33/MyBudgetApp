@@ -3,22 +3,28 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
 
-public static class DialogService
+namespace MyBudgetApp.Services
 {
-    private static XamlRoot? _xamlRoot;
-
-    public static void SetXamlRoot(XamlRoot xamlRoot) => _xamlRoot = xamlRoot;
-
-    public static async Task ShowMessageAsync(string message)
+    public class DialogService
     {
-        var dialog = new ContentDialog
-        {
-            Title = "Informacja",
-            Content = message,
-            CloseButtonText = "OK",
-            XamlRoot = _xamlRoot!
-        };
+        private XamlRoot? _xamlRoot;
 
-        await dialog.ShowAsync();
+        public void SetXamlRoot(XamlRoot xamlRoot) => _xamlRoot = xamlRoot;
+
+        public async Task ShowMessageAsync(string message)
+        {
+            if (_xamlRoot is null)
+                throw new InvalidOperationException("XamlRoot is not set. Call SetXamlRoot before showing dialogs.");
+
+            var dialog = new ContentDialog
+            {
+                Title = "Informacja",
+                Content = message,
+                CloseButtonText = "OK",
+                XamlRoot = _xamlRoot
+            };
+
+            await dialog.ShowAsync();
+        }
     }
 }

@@ -7,11 +7,14 @@ namespace MyBudgetApp.ViewModels
 {
     public class LoginViewModel : INotifyPropertyChanged
     {
+        private readonly NavigationService _navigationService;
+
         public ICommand GoToRegisterCommand { get; }
 
-        public LoginViewModel()
+        public LoginViewModel(NavigationService navigationService)
         {
-            GoToRegisterCommand = new RelayCommand(() => NavigationService.GoToRegister());
+            _navigationService = navigationService;
+            GoToRegisterCommand = new RelayCommand(() => _navigationService.GoToRegister());
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
