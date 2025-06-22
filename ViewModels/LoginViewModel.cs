@@ -1,5 +1,5 @@
 ﻿using MyBudgetApp.Helpers;
-using MyBudgetApp.Interfaces;
+using MyBudgetApp.Services;
 using MyBudgetApp.Views;
 using System;
 using System.Collections.Generic;
@@ -14,12 +14,10 @@ namespace MyBudgetApp.ViewModels
     public class LoginViewModel : INotifyPropertyChanged
     {
         public ICommand GoToRegisterCommand { get; }
-        private readonly INavigationService _nav;
 
-        public LoginViewModel(INavigationService nav)
+        public LoginViewModel()
         {
-            _nav = nav;
-            GoToRegisterCommand = new RelayCommand(_nav.GoToRegister);
+            GoToRegisterCommand = new RelayCommand(() => NavigationService.GoToRegister());
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -14,7 +14,8 @@
     </Window.SystemBackdrop>
 
     <Grid>
-        <ContentControl x:Name="MainContent" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+        <ContentControl x:Name="MainContent" x:FieldModifier="public"
+                        HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
     </Grid>
 
 </Window>

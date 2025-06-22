@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using MyBudgetApp.Interfaces;
 using MyBudgetApp.Services;
 using MyBudgetApp.ViewModels;
 using MyBudgetApp.Views;
@@ -21,10 +20,7 @@ namespace MyBudgetApp
 {
     public sealed partial class MainWindow : Window
     {
-        private readonly INavigationService _nav;
-
         public static MainWindow Instance { get; private set; } = null!;
-
 
         public MainWindow()
         {
@@ -33,9 +29,6 @@ namespace MyBudgetApp
 
             var dbService = new DatabaseService();
             var connected = dbService.TryConnect();
-
-            _nav = new NavigationService(MainContent);
-            _nav.GoToLogin();
         }
     }
 }

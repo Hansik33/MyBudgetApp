@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
 using MyBudgetApp.Data;
+using MyBudgetApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -34,6 +35,10 @@ namespace MyBudgetApp
         {
             _window = new MainWindow();
             _window.Activate();
+
+            var mainContent = MainWindow.Instance.MainContent;
+            NavigationService.Initialize(mainContent);
+            NavigationService.GoToLogin();
         }
     } 
 }

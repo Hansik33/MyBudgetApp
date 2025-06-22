@@ -1,6 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using MyBudgetApp.Helpers;
-using MyBudgetApp.Interfaces;
 using MyBudgetApp.Services;
 using MyBudgetApp.Views;
 using System;
@@ -19,15 +18,13 @@ namespace MyBudgetApp.ViewModels
         public ICommand GoToLoginCommand { get; }
         public ICommand RegisterCommand { get; }
 
-        private readonly INavigationService _nav;
         private readonly DatabaseService _db;
 
-        public RegisterViewModel(INavigationService nav)
+        public RegisterViewModel()
         {
-            _nav = nav;
             _db = new DatabaseService();
 
-            GoToLoginCommand = new RelayCommand(_nav.GoToLogin);
+            GoToLoginCommand = new RelayCommand(() => NavigationService.GoToLogin());
             RegisterCommand = new RelayCommand(Register);
         }
 
@@ -98,7 +95,7 @@ namespace MyBudgetApp.ViewModels
             }
 
             await ShowDialog("Rejestracja zakończona sukcesem.");
-            _nav.GoToLogin();
+            NavigationService.GoToLogin();
         }
 
         private async Task ShowDialog(string message)

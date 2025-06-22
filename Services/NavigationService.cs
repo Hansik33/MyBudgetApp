@@ -1,5 +1,4 @@
 ﻿using Microsoft.UI.Xaml.Controls;
-using MyBudgetApp.Interfaces;
 using MyBudgetApp.ViewModels;
 using MyBudgetApp.Views;
 using System;
@@ -10,25 +9,24 @@ using System.Threading.Tasks;
 
 namespace MyBudgetApp.Services
 {
-    public class NavigationService : INavigationService
+    public static class NavigationService
     {
-        private readonly ContentControl _mainContent;
+        private static ContentControl? _mainContent;
 
-        public NavigationService(ContentControl mainContent)
+        public static void Initialize(ContentControl contentControl) =>
+            _mainContent = contentControl;
+
+        public static void NavigateTo(UserControl view)
         {
-            _mainContent = mainContent;
+            if (_mainContent is not null)
+                _mainContent.Content = view;
         }
 
-        public void NavigateTo(UserControl view)
-        {
-            _mainContent.Content = view;
-        }
+        public static void GoToLogin() =>
+            NavigateTo(new LoginView { DataContext = new LoginViewModel() });
 
-        public void GoToLogin() =>
-            NavigateTo(new LoginView { DataContext = new LoginViewModel(this) });
-
-        public void GoToRegister() =>
-            NavigateTo(new RegisterView { DataContext = new RegisterViewModel(this) });
+        public static void GoToRegister() =>
+            NavigateTo(new RegisterView { DataContext = new RegisterViewModel() });
     }
 }
 
