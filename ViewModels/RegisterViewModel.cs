@@ -1,5 +1,6 @@
 ﻿using MyBudgetApp.Helpers;
-using MyBudgetApp.Services;
+using MyBudgetApp.Interfaces;
+using MyBudgetApp.Views;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,17 +12,17 @@ namespace MyBudgetApp.ViewModels
         public ICommand GoToLoginCommand { get; }
         public ICommand RegisterCommand { get; }
 
-        private readonly DatabaseService _db;
-        private readonly DialogService _dialogService;
-        private readonly NavigationService _navigationService;
+        private readonly IDatabaseService _db;
+        private readonly IDialogService _dialog;
+        private readonly INavigationService _navigationService;
 
-        public RegisterViewModel(DatabaseService db, DialogService dialogService, NavigationService navigationService)
+        public RegisterViewModel(IDatabaseService db, IDialogService dialog, INavigationService navigationService)
         {
             _db = db;
-            _dialogService = dialogService;
+            _dialog = dialog;
             _navigationService = navigationService;
 
-            GoToLoginCommand = new RelayCommand(() => _navigationService.GoToLogin());
+            GoToLoginCommand = new RelayCommand(() => _navigationService.NavigateTo<LoginView, LoginViewModel>());
             RegisterCommand = new RelayCommand(async () => await Register());
         }
 
@@ -73,13 +74,13 @@ namespace MyBudgetApp.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
             {
-                await _dialogService.ShowMessageAsync("Uzupełnij wszystkie pola.");
+                await _dialog.ShowMessageAsync("Uzupełnij wszystkie pola.");
                 return;
             }
 
             if (Password != ConfirmPassword)
             {
-                await _dialogService.ShowMessageAsync("Hasła się nie zgadzają.");
+                await _dialog.ShowMessageAsync("Hasła się nie zgadzają.");
                 return;
             }
 
@@ -87,12 +88,12 @@ namespace MyBudgetApp.ViewModels
 
             if (!success)
             {
-                await _dialogService.ShowMessageAsync("Użytkownik już istnieje.");
+                await _dialog.ShowMessageAsync("Użytkownik już istnieje.");
                 return;
             }
 
-            await _dialogService.ShowMessageAsync("Rejestracja zakończona sukcesem.");
-            _navigationService.GoToLogin();
+            await _dialog.ShowMessageAsync("Rejestracja zakończona sukcesem.");
+            _navigationService.NavigateTo<LoginView, LoginViewModel>();
         }
 
         private void OnPropertyChanged(string propertyName) =>

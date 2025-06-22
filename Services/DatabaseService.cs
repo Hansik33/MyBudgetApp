@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyBudgetApp.Data;
+using MyBudgetApp.Interfaces;
 using MyBudgetApp.Models;
 using System.Diagnostics;
 using System.Linq;
 
 namespace MyBudgetApp.Services
 {
-    public class DatabaseService
+    public class DatabaseService : IDatabaseService
     {
-        private const string ConnectionString =
-            "server=localhost;port=3306;database=mybudgetapp;user=root;password=qwertyz1234!";
+        private const string ConnectionString = "server=localhost;port=3306;database=mybudgetapp;user=root;password=qwertyz1234!";
 
         public bool TryConnect()
         {
@@ -32,8 +32,7 @@ namespace MyBudgetApp.Services
 
             using var db = new AppDbContext(options);
 
-            bool userExists = db.Users.Any(u => u.Username == username);
-            if (userExists)
+            if (db.Users.Any(u => u.Username == username))
                 return false;
 
             db.Users.Add(new User

@@ -1,5 +1,6 @@
 ﻿using MyBudgetApp.Helpers;
-using MyBudgetApp.Services;
+using MyBudgetApp.Interfaces;
+using MyBudgetApp.Views;
 using System.ComponentModel;
 using System.Windows.Input;
 
@@ -7,14 +8,15 @@ namespace MyBudgetApp.ViewModels
 {
     public class LoginViewModel : INotifyPropertyChanged
     {
-        private readonly NavigationService _navigationService;
+        private readonly INavigationService _navigationService;
 
         public ICommand GoToRegisterCommand { get; }
 
-        public LoginViewModel(NavigationService navigationService)
+        public LoginViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            GoToRegisterCommand = new RelayCommand(() => _navigationService.GoToRegister());
+            GoToRegisterCommand = new RelayCommand(() =>
+                _navigationService.NavigateTo<RegisterView, RegisterViewModel>());
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

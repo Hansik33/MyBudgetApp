@@ -1,20 +1,21 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using MyBudgetApp.Interfaces;
 using System;
 using System.Threading.Tasks;
 
 namespace MyBudgetApp.Services
 {
-    public class DialogService
+    public class DialogService : IDialogService
     {
         private XamlRoot? _xamlRoot;
 
-        public void SetXamlRoot(XamlRoot xamlRoot) => _xamlRoot = xamlRoot;
+        public void SetXamlRoot(XamlRoot root) => _xamlRoot = root;
 
         public async Task ShowMessageAsync(string message)
         {
             if (_xamlRoot is null)
-                throw new InvalidOperationException("XamlRoot is not set. Call SetXamlRoot before showing dialogs.");
+                return;
 
             var dialog = new ContentDialog
             {

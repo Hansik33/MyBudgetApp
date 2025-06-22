@@ -1,25 +1,32 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
+using MyBudgetApp.Interfaces;
 
 namespace MyBudgetApp.Services
 {
     public class AppStartupService
     {
+        private readonly INavigationService _navigationService;
+        private readonly IDatabaseService _databaseService;
+
         private Window? _window;
+
+        public AppStartupService(INavigationService navigationService, IDatabaseService databaseService)
+        {
+            _navigationService = navigationService;
+            _databaseService = databaseService;
+        }
 
         public void Start()
         {
-            var dbService = new DatabaseService();
-            var connected = dbService.TryConnect();
+            var connected = _databaseService.TryConnect();
 
             _window = new MainWindow();
             _window.Activate();
 
             if (_window is MainWindow mw)
             {
-                var navigationService = App.ServiceProvider!.GetRequiredService<NavigationService>();
-                navigationService.Initialize(mw.MainContent);
-                navigationService.GoToLogin();
+                _navigationService.Initialize(mw.MainContent);
+                _navigationService.GoToLogin();
             }
         }
     }

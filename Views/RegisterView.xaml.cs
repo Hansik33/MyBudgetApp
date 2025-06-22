@@ -1,21 +1,19 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using MyBudgetApp.Services;
+using MyBudgetApp.Interfaces;
 using MyBudgetApp.ViewModels;
 
 namespace MyBudgetApp.Views
 {
     public sealed partial class RegisterView : UserControl
     {
-        private readonly DialogService _dialogService;
+        private readonly IDialogService _dialogService;
 
         public RegisterView()
         {
             InitializeComponent();
-
-            _dialogService = App.ServiceProvider!.GetRequiredService<DialogService>();
-
+            _dialogService = App.ServiceProvider!.GetRequiredService<IDialogService>();
             Loaded += RegisterView_Loaded;
         }
 

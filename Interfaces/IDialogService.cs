@@ -1,0 +1,11 @@
+﻿using Microsoft.UI.Xaml;
+using System.Threading.Tasks;
+
+namespace MyBudgetApp.Interfaces
+{
+    public interface IDialogService
+    {
+        void SetXamlRoot(XamlRoot root);
+        Task ShowMessageAsync(string message);
+    }
+}
