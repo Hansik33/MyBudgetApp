@@ -7,7 +7,6 @@ namespace MyBudgetApp.Views
         public LoginView()
         {
             InitializeComponent();
-            DataContext = new ViewModels.LoginViewModel();
         }
     }
 }

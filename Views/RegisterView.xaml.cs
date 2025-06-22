@@ -13,12 +13,7 @@ namespace MyBudgetApp.Views
             Loaded += RegisterView_Loaded;
         }
 
-        private void RegisterView_Loaded(object sender, RoutedEventArgs e)
-        {
-            var dialogService = new DialogService();
-            dialogService.SetXamlRoot(this.XamlRoot);
-            DataContext = new RegisterViewModel(dialogService);
-        }
+        private void RegisterView_Loaded(object sender, RoutedEventArgs e) => DialogService.SetXamlRoot(XamlRoot);
 
         private RegisterViewModel ViewModel => (RegisterViewModel)DataContext;
 

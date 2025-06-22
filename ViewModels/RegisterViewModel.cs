@@ -12,12 +12,10 @@ namespace MyBudgetApp.ViewModels
         public ICommand GoToLoginCommand { get; }
         public ICommand RegisterCommand { get; }
 
-        private readonly DialogService _dialogService;
         private readonly DatabaseService _db;
 
-        public RegisterViewModel(DialogService dialogService)
+        public RegisterViewModel()
         {
-            _dialogService = dialogService;
             _db = new DatabaseService();
 
             GoToLoginCommand = new RelayCommand(() => NavigationService.GoToLogin());
@@ -94,7 +92,8 @@ namespace MyBudgetApp.ViewModels
             NavigationService.GoToLogin();
         }
 
-        private async Task ShowDialog(string message) => await _dialogService.ShowMessageAsync(message);
+        private async Task ShowDialog(string message) => await DialogService.ShowMessageAsync(message);
+        
 
         private void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

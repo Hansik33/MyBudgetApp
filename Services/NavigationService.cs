@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Controls;
+using MyBudgetApp.Helpers;
 using MyBudgetApp.Views;
 
 namespace MyBudgetApp.Services
@@ -7,8 +8,10 @@ namespace MyBudgetApp.Services
     {
         private static ContentControl? _mainContent;
 
-        public static void Initialize(ContentControl contentControl) =>
+        public static void Initialize(ContentControl contentControl)
+        {
             _mainContent = contentControl;
+        }
 
         public static void NavigateTo(UserControl view)
         {
@@ -16,11 +19,19 @@ namespace MyBudgetApp.Services
                 _mainContent.Content = view;
         }
 
-        public static void GoToLogin() =>
-            NavigateTo(new LoginView());
+        public static void GoToLogin()
+        {
+            var viewModel = ViewModelFactory.CreateLoginViewModel();
+            var view = new LoginView { DataContext = viewModel };
+            NavigateTo(view);
+        }
 
-        public static void GoToRegister() =>
-            NavigateTo(new RegisterView());
+        public static void GoToRegister()
+        {
+            var viewModel = ViewModelFactory.CreateRegisterViewModel();
+            var view = new RegisterView { DataContext = viewModel };
+            NavigateTo(view);
+        }
     }
 }
 
