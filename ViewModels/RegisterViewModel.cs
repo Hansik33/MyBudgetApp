@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using MyBudgetApp.Helpers;
 using MyBudgetApp.Services;
 using MyBudgetApp.Views;
@@ -18,10 +19,12 @@ namespace MyBudgetApp.ViewModels
         public ICommand GoToLoginCommand { get; }
         public ICommand RegisterCommand { get; }
 
+        private readonly XamlRoot _xamlRoot;
         private readonly DatabaseService _db;
 
-        public RegisterViewModel()
+        public RegisterViewModel(XamlRoot xamlRoot)
         {
+            _xamlRoot = xamlRoot; 
             _db = new DatabaseService();
 
             GoToLoginCommand = new RelayCommand(() => NavigationService.GoToLogin());
@@ -98,17 +101,8 @@ namespace MyBudgetApp.ViewModels
             NavigationService.GoToLogin();
         }
 
-        private async Task ShowDialog(string message)
-        {
-            var dialog = new ContentDialog
-            {
-                Title = "Informacja",
-                Content = message,
-                CloseButtonText = "OK",
-                XamlRoot = MainWindow.Instance.Content.XamlRoot
-            };
-            await dialog.ShowAsync();
-        }
+        private async Task ShowDialog(string message) => await DialogService.ShowMessageAsync(message, _xamlRoot);
+        
 
         private void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

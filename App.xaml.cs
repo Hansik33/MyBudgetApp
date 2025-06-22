@@ -24,8 +24,6 @@ namespace MyBudgetApp
 {
     public partial class App : Application
     {
-        private Window? _window;
-
         public App()
         {
             InitializeComponent();
@@ -33,11 +31,10 @@ namespace MyBudgetApp
 
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            _window = new MainWindow();
-            _window.Activate();
+            var mainWindow = new MainWindow();
+            mainWindow.Activate();
 
-            var mainContent = MainWindow.Instance.MainContent;
-            NavigationService.Initialize(mainContent);
+            NavigationService.Initialize(mainWindow.MainContent);
             NavigationService.GoToLogin();
         }
     } 

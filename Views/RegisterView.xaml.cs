@@ -21,9 +21,13 @@ namespace MyBudgetApp.Views
         public RegisterView()
         {
             InitializeComponent();
+            Loaded += RegisterView_Loaded;
         }
 
-        private RegisterViewModel ViewModel => (RegisterViewModel)this.DataContext;
+        private void RegisterView_Loaded(object sender, RoutedEventArgs e) =>
+            DataContext = new RegisterViewModel(this.XamlRoot);
+
+        private RegisterViewModel ViewModel => (RegisterViewModel)DataContext;
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {

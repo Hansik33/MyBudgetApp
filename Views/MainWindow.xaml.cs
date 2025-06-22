@@ -20,12 +20,9 @@ namespace MyBudgetApp
 {
     public sealed partial class MainWindow : Window
     {
-        public static MainWindow Instance { get; private set; } = null!;
-
         public MainWindow()
         {
             InitializeComponent();
-            Instance = this;
 
             var dbService = new DatabaseService();
             var connected = dbService.TryConnect();

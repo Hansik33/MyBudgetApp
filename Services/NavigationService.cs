@@ -23,10 +23,10 @@ namespace MyBudgetApp.Services
         }
 
         public static void GoToLogin() =>
-            NavigateTo(new LoginView { DataContext = new LoginViewModel() });
+            NavigateTo(new LoginView());
 
         public static void GoToRegister() =>
-            NavigateTo(new RegisterView { DataContext = new RegisterViewModel() });
+            NavigateTo(new RegisterView());
     }
 }
 
