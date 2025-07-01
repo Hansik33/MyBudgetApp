@@ -10,6 +10,12 @@ namespace MyBudgetApp.Services
     public class DatabaseService : IDatabaseService
     {
         private const string ConnectionString = "server=localhost;port=3306;database=mybudgetapp;user=root;password=qwertyz1234!";
+        private readonly IPasswordHashService _passwordHashService;
+
+        public DatabaseService(IPasswordHashService passwordHashService)
+        {
+            _passwordHashService = passwordHashService;
+        }
 
         public bool TryConnect()
         {
@@ -24,7 +30,7 @@ namespace MyBudgetApp.Services
             return connected;
         }
 
-        public bool InsertUser(string username, string passwordHash)
+        public bool InsertUser(string username, string plainPassword)
         {
             var options = new DbContextOptionsBuilder<AppDbContext>()
                 .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
@@ -35,10 +41,12 @@ namespace MyBudgetApp.Services
             if (db.Users.Any(u => u.Username == username))
                 return false;
 
+            var hashed = _passwordHashService.Hash(plainPassword);
+
             db.Users.Add(new User
             {
                 Username = username,
-                Password_hash = passwordHash
+                Password_hash = hashed
             });
 
             db.SaveChanges();

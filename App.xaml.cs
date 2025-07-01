@@ -28,6 +28,7 @@ namespace MyBudgetApp
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IDatabaseService, DatabaseService>();
             services.AddSingleton<IDialogService, DialogService>();
+            services.AddSingleton<IPasswordHashService, PasswordHashService>();
             services.AddSingleton<AppStartupService>();
 
             services.AddTransient<LoginViewModel>();
