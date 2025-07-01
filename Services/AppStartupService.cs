@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using MyBudgetApp.Interfaces;
+using MyBudgetApp.ViewModels;
 
 namespace MyBudgetApp.Services
 {
@@ -18,7 +19,7 @@ namespace MyBudgetApp.Services
 
         public void Start()
         {
-            var connected = _databaseService.TryConnect();
+            _databaseService.TryConnect();
 
             _window = new MainWindow();
             _window.Activate();
@@ -26,7 +27,7 @@ namespace MyBudgetApp.Services
             if (_window is MainWindow mw)
             {
                 _navigationService.Initialize(mw.MainContent);
-                _navigationService.GoToLogin();
+                _navigationService.NavigateTo<LoginViewModel>();
             }
         }
     }

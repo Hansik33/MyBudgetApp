@@ -1,6 +1,5 @@
 ﻿using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
-using MyBudgetApp.Views;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,16 +12,16 @@ namespace MyBudgetApp.ViewModels
         public ICommand RegisterCommand { get; }
 
         private readonly IDatabaseService _db;
-        private readonly IDialogService _dialog;
+        private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
 
-        public RegisterViewModel(IDatabaseService db, IDialogService dialog, INavigationService navigationService)
+        public RegisterViewModel(IDatabaseService db, IDialogService dialogService, INavigationService navigationService)
         {
             _db = db;
-            _dialog = dialog;
+            _dialogService = dialogService;
             _navigationService = navigationService;
 
-            GoToLoginCommand = new RelayCommand(() => _navigationService.NavigateTo<LoginView, LoginViewModel>());
+            GoToLoginCommand = new RelayCommand(() => _navigationService.GoToLogin());
             RegisterCommand = new RelayCommand(async () => await Register());
         }
 
@@ -74,13 +73,13 @@ namespace MyBudgetApp.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
             {
-                await _dialog.ShowMessageAsync("Uzupełnij wszystkie pola.");
+                await _dialogService.ShowMessageAsync("Uzupełnij wszystkie pola.");
                 return;
             }
 
             if (Password != ConfirmPassword)
             {
-                await _dialog.ShowMessageAsync("Hasła się nie zgadzają.");
+                await _dialogService.ShowMessageAsync("Hasła się nie zgadzają.");
                 return;
             }
 
@@ -88,12 +87,12 @@ namespace MyBudgetApp.ViewModels
 
             if (!success)
             {
-                await _dialog.ShowMessageAsync("Użytkownik już istnieje.");
+                await _dialogService.ShowMessageAsync("Użytkownik już istnieje.");
                 return;
             }
 
-            await _dialog.ShowMessageAsync("Rejestracja zakończona sukcesem.");
-            _navigationService.NavigateTo<LoginView, LoginViewModel>();
+            await _dialogService.ShowMessageAsync("Rejestracja zakończona sukcesem.");
+            _navigationService.GoToLogin();
         }
 
         private void OnPropertyChanged(string propertyName) =>

@@ -15,12 +15,12 @@ namespace MyBudgetApp
         {
             InitializeComponent();
 
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
-            ServiceProvider = serviceCollection.BuildServiceProvider();
+            var services = new ServiceCollection();
+            ConfigureServices(services);
+            ServiceProvider = services.BuildServiceProvider();
 
-            var startupService = ServiceProvider.GetRequiredService<AppStartupService>();
-            startupService.Start();
+            var startup = ServiceProvider.GetRequiredService<AppStartupService>();
+            startup.Start();
         }
 
         private void ConfigureServices(IServiceCollection services)
