@@ -1,11 +1,10 @@
 ﻿using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
-using System.ComponentModel;
 using System.Windows.Input;
 
 namespace MyBudgetApp.ViewModels
 {
-    public class LoginViewModel : INotifyPropertyChanged
+    public class LoginViewModel : BaseViewModel
     {
         private readonly INavigationService _navigationService;
 
@@ -17,37 +16,18 @@ namespace MyBudgetApp.ViewModels
             GoToRegisterCommand = new RelayCommand(() => _navigationService.GoToRegister());
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         private string _username = string.Empty;
         public string Username
         {
             get => _username;
-            set
-            {
-                if (_username != value)
-                {
-                    _username = value;
-                    OnPropertyChanged(nameof(Username));
-                }
-            }
+            set => SetProperty(ref _username, value);
         }
 
         private string _password = string.Empty;
         public string Password
         {
             get => _password;
-            set
-            {
-                if (_password != value)
-                {
-                    _password = value;
-                    OnPropertyChanged(nameof(Password));
-                }
-            }
+            set => SetProperty(ref _password, value);
         }
-
-        private void OnPropertyChanged(string propertyName) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

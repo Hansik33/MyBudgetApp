@@ -1,12 +1,11 @@
 ﻿using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MyBudgetApp.ViewModels
 {
-    public class RegisterViewModel : INotifyPropertyChanged
+    public class RegisterViewModel : BaseViewModel
     {
         public ICommand GoToLoginCommand { get; }
         public ICommand RegisterCommand { get; }
@@ -25,48 +24,25 @@ namespace MyBudgetApp.ViewModels
             RegisterCommand = new RelayCommand(async () => await Register());
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         private string _username = string.Empty;
         public string Username
         {
             get => _username;
-            set
-            {
-                if (_username != value)
-                {
-                    _username = value;
-                    OnPropertyChanged(nameof(Username));
-                }
-            }
+            set => SetProperty(ref _username, value);
         }
 
         private string _password = string.Empty;
         public string Password
         {
             get => _password;
-            set
-            {
-                if (_password != value)
-                {
-                    _password = value;
-                    OnPropertyChanged(nameof(Password));
-                }
-            }
+            set => SetProperty(ref _password, value);
         }
 
         private string _confirmPassword = string.Empty;
         public string ConfirmPassword
         {
             get => _confirmPassword;
-            set
-            {
-                if (_confirmPassword != value)
-                {
-                    _confirmPassword = value;
-                    OnPropertyChanged(nameof(ConfirmPassword));
-                }
-            }
+            set => SetProperty(ref _confirmPassword, value);
         }
 
         private async Task Register()
@@ -94,8 +70,5 @@ namespace MyBudgetApp.ViewModels
             await _dialogService.ShowMessageAsync("Rejestracja zakończona sukcesem.");
             _navigationService.GoToLogin();
         }
-
-        private void OnPropertyChanged(string propertyName) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
