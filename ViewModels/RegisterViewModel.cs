@@ -1,5 +1,7 @@
-﻿using MyBudgetApp.Helpers;
+﻿using MyBudgetApp.Enums;
+using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
+using MyBudgetApp.Resources;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -45,17 +47,27 @@ namespace MyBudgetApp.ViewModels
             set => SetProperty(ref _confirmPassword, value);
         }
 
+        private bool IsUsernameValid() => !string.IsNullOrWhiteSpace(Username);
+        private bool IsPasswordValid() => !string.IsNullOrWhiteSpace(Password);
+        private bool ArePasswordsMatching() => Password == ConfirmPassword;
+
         private async Task Register()
         {
-            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
+            if (!IsUsernameValid())
             {
-                await _dialogService.ShowMessageAsync("Uzupełnij wszystkie pola.");
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.UserEmpty, DialogType.Warning);
                 return;
             }
 
-            if (Password != ConfirmPassword)
+            if (!IsPasswordValid())
             {
-                await _dialogService.ShowMessageAsync("Hasła się nie zgadzają.");
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.PasswordEmpty, DialogType.Warning);
+                return;
+            }
+
+            if (!ArePasswordsMatching())
+            {
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.PasswordMismatch, DialogType.Warning);
                 return;
             }
 
@@ -63,11 +75,11 @@ namespace MyBudgetApp.ViewModels
 
             if (!success)
             {
-                await _dialogService.ShowMessageAsync("Użytkownik już istnieje.");
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.UserExists, DialogType.Warning);
                 return;
             }
 
-            await _dialogService.ShowMessageAsync("Rejestracja zakończona sukcesem.");
+            await _dialogService.ShowMessageAsync(AppStrings.Dialogs.RegisterSuccess, DialogType.Success);
             _navigationService.GoToLogin();
         }
     }
