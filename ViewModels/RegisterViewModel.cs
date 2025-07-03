@@ -9,16 +9,16 @@ namespace MyBudgetApp.ViewModels
 {
     public class RegisterViewModel : BaseViewModel
     {
-        public ICommand GoToLoginCommand { get; }
-        public ICommand RegisterCommand { get; }
-
-        private readonly IDatabaseService _db;
+        private readonly IDatabaseService _databaseService;
         private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
 
-        public RegisterViewModel(IDatabaseService db, IDialogService dialogService, INavigationService navigationService)
+        public ICommand GoToLoginCommand { get; }
+        public ICommand RegisterCommand { get; }
+
+        public RegisterViewModel(IDatabaseService databaseService, IDialogService dialogService, INavigationService navigationService)
         {
-            _db = db;
+            _databaseService = databaseService;
             _dialogService = dialogService;
             _navigationService = navigationService;
 
@@ -71,7 +71,7 @@ namespace MyBudgetApp.ViewModels
                 return;
             }
 
-            var success = _db.InsertUser(Username, Password);
+            var success = _databaseService.InsertUser(Username, Password);
 
             if (!success)
             {

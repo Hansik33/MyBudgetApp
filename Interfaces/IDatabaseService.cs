@@ -4,5 +4,6 @@
     {
         bool TryConnect();
         bool InsertUser(string username, string passwordHash);
+        bool AuthenticateUser(string username, string plainPassword);
     }
 }
