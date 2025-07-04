@@ -12,13 +12,13 @@
         <TextBlock Text="Rejestracja" FontSize="28" FontWeight="Bold" Margin="0,0,0,10" />
 
         <TextBlock Text="Nazwa użytkownika" />
-        <TextBox Text="{Binding Username, Mode=TwoWay}" />
+        <TextBox x:Name="TextBox" Text="{Binding Username, Mode=TwoWay}" KeyUp="Enter_KeyUp" />
 
         <TextBlock Text="Hasło" />
-        <PasswordBox x:Name="PasswordBox" PasswordChanged="PasswordBox_PasswordChanged" />
+        <PasswordBox x:Name="PasswordBox" PasswordChanged="PasswordBox_PasswordChanged" KeyUp="Enter_KeyUp" />
 
         <TextBlock Text="Potwierdź hasło" />
-        <PasswordBox x:Name="ConfirmPasswordBox" PasswordChanged="ConfirmPasswordBox_PasswordChanged" />
+        <PasswordBox x:Name="ConfirmPasswordBox" PasswordChanged="ConfirmPasswordBox_PasswordChanged" KeyUp="Enter_KeyUp" />
 
         <Button Content="Zarejestruj się" Command="{Binding RegisterCommand}" Height="40" Margin="0,10,0,0" />
 
