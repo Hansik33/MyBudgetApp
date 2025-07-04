@@ -7,19 +7,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:MyBudgetApp.Controls"
+    xmlns:behaviors="using:MyBudgetApp.Behaviors"
     mc:Ignorable="d">
 
-    <StackPanel Width="300" Padding="40" Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <StackPanel behaviors:EnterKeyBehavior.Command="{Binding RegisterCommand}"
+                Width="300" Padding="40" Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock Text="Rejestracja" FontSize="28" FontWeight="Bold" Margin="0,0,0,10" />
 
         <TextBlock Text="Nazwa użytkownika" />
-        <TextBox Text="{Binding Username, Mode=TwoWay}" KeyUp="Enter_KeyUp" />
+        <TextBox Text="{Binding Username, Mode=TwoWay}" />
 
         <TextBlock Text="Hasło" />
-        <controls:BindablePasswordBox Password="{Binding Password, Mode=TwoWay}" KeyUp="Enter_KeyUp" />
+        <controls:BindablePasswordBox Password="{Binding Password, Mode=TwoWay}" />
 
         <TextBlock Text="Potwierdź hasło" />
-        <controls:BindablePasswordBox Password="{Binding ConfirmPassword, Mode=TwoWay}" KeyUp="Enter_KeyUp" />
+        <controls:BindablePasswordBox Password="{Binding ConfirmPassword, Mode=TwoWay}" />
 
         <Button Content="Zarejestruj się" Command="{Binding RegisterCommand}" Height="40" Margin="0,10,0,0" />
 
