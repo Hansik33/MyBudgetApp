@@ -6,11 +6,13 @@
     xmlns:local="using:MyBudgetApp.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:MyBudgetApp.Helpers"
     xmlns:controls="using:MyBudgetApp.Controls"
     xmlns:behaviors="using:MyBudgetApp.Behaviors"
     mc:Ignorable="d">
 
-    <StackPanel behaviors:EnterKeyBehavior.Command="{Binding LoginCommand}"
+    <StackPanel helpers:DialogServiceXamlRootSetter.Attach="True"
+                behaviors:EnterKeyBehavior.Command="{Binding LoginCommand}"
                 Width="300" Padding="40" Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock Text="Logowanie" FontSize="28" FontWeight="Bold" Margin="0,0,0,10" />
 
