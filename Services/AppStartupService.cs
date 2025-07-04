@@ -23,9 +23,9 @@ namespace MyBudgetApp.Services
             _window = new MainWindow();
             _window.Activate();
 
-            if (_window is MainWindow mw)
+            if (_window is MainWindow mainWindow)
             {
-                _navigationService.Initialize(mw.MainContent);
+                _navigationService.Initialize(mainWindow.MainContent);
                 _navigationService.GoToLogin();
             }
         }

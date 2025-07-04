@@ -21,8 +21,6 @@ namespace MyBudgetApp.Views
 
         private void RegisterView_Loaded(object sender, RoutedEventArgs e) => _dialogService.SetXamlRoot(XamlRoot);
 
-        private RegisterViewModel ViewModel => (RegisterViewModel)DataContext;
-
         private void Enter_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter && DataContext is RegisterViewModel vm)
@@ -46,18 +44,6 @@ namespace MyBudgetApp.Views
                 if (vm.RegisterCommand.CanExecute(null))
                     vm.RegisterCommand.Execute(null);
             }
-        }
-
-        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            if (sender is PasswordBox passwordBox)
-                ViewModel.Password = passwordBox.Password;
-        }
-
-        private void ConfirmPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            if (sender is PasswordBox passwordBox)
-                ViewModel.ConfirmPassword = passwordBox.Password;
         }
     }
 }

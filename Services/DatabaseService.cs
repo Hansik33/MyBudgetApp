@@ -24,8 +24,8 @@ namespace MyBudgetApp.Services
                 .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
                 .Options;
 
-            using var db = new AppDbContext(options);
-            bool connected = db.Database.CanConnect();
+            using var appDbContext = new AppDbContext(options);
+            bool connected = appDbContext.Database.CanConnect();
 
             Debug.WriteLine($"Połączenie z bazą: {connected}");
             return connected;
@@ -37,20 +37,20 @@ namespace MyBudgetApp.Services
                 .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
                 .Options;
 
-            using var db = new AppDbContext(options);
+            using var appDbContext = new AppDbContext(options);
 
-            if (db.Users.Any(u => u.Username == username))
+            if (appDbContext.Users.Any(u => u.Username == username))
                 return false;
 
             var hashed = _passwordHashService.Hash(plainPassword);
 
-            db.Users.Add(new User
+            appDbContext.Users.Add(new User
             {
                 Username = username,
                 Password_hash = hashed
             });
 
-            db.SaveChanges();
+            appDbContext.SaveChanges();
             return true;
         }
 
