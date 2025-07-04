@@ -2,6 +2,8 @@
 using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Resources;
+using MyBudgetApp.Validators;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -47,27 +49,24 @@ namespace MyBudgetApp.ViewModels
             set => SetProperty(ref _confirmPassword, value);
         }
 
-        private bool IsUsernameValid() => !string.IsNullOrWhiteSpace(Username);
-        private bool IsPasswordValid() => !string.IsNullOrWhiteSpace(Password);
-        private bool ArePasswordsMatching() => Password == ConfirmPassword;
-
         private async Task Register()
         {
-            if (!IsUsernameValid())
-            {
-                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.UserEmpty, DialogType.Warning);
-                return;
-            }
+            var errors = AuthenticationValidator
+                .Validate(Username, Password, ConfirmPassword)
+                .ToList();
 
-            if (!IsPasswordValid())
+            if (errors.Any())
             {
-                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.PasswordEmpty, DialogType.Warning);
-                return;
-            }
+                var firstError = errors.First();
+                var message = firstError switch
+                {
+                    "UsernameEmpty" => AppStrings.Dialogs.UserEmpty,
+                    "PasswordEmpty" => AppStrings.Dialogs.PasswordEmpty,
+                    "PasswordMismatch" => AppStrings.Dialogs.PasswordMismatch,
+                    _ => throw new System.NotImplementedException()
+                };
 
-            if (!ArePasswordsMatching())
-            {
-                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.PasswordMismatch, DialogType.Warning);
+                await _dialogService.ShowMessageAsync(message, DialogType.Warning);
                 return;
             }
 

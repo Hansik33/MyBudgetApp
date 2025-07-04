@@ -2,6 +2,8 @@
 using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Resources;
+using MyBudgetApp.Validators;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -40,20 +42,23 @@ namespace MyBudgetApp.ViewModels
             set => SetProperty(ref _password, value);
         }
 
-        private bool IsUsernameValid() => !string.IsNullOrWhiteSpace(Username);
-        private bool IsPasswordValid() => !string.IsNullOrWhiteSpace(Password);
-
         private async Task Login()
         {
-            if (!IsUsernameValid())
-            {
-                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.UserEmpty, DialogType.Warning);
-                return;
-            }
+            var errors = AuthenticationValidator
+                .Validate(Username, Password)
+                .ToList();
 
-            if (!IsPasswordValid())
+            if (errors.Any())
             {
-                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.PasswordEmpty, DialogType.Warning);
+                var firstError = errors.First();
+                var message = firstError switch
+                {
+                    "UsernameEmpty" => AppStrings.Dialogs.UserEmpty,
+                    "PasswordEmpty" => AppStrings.Dialogs.PasswordEmpty,
+                    _ => throw new System.NotImplementedException()
+                };
+
+                await _dialogService.ShowMessageAsync(message, DialogType.Warning);
                 return;
             }
 
