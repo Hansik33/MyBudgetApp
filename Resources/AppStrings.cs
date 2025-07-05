@@ -16,6 +16,7 @@
             public const string UserNotFound = "Nieprawidłowa nazwa użytkownika lub hasło!";
             public const string RegisterSuccess = "Rejestracja zakończona pomyślnie.";
             public const string LoginSuccess = "Zalogowano jako: {0}";
+            public const string UserLoggedOut = "Wylogowano pomyślnie.";
         }
     }
 }

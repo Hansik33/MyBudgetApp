@@ -12,10 +12,7 @@ namespace MyBudgetApp.Controls
                 typeof(BindablePasswordBox),
                 new PropertyMetadata(string.Empty, OnPasswordPropertyChanged));
 
-        public BindablePasswordBox()
-        {
-            InitializeComponent();
-        }
+        public BindablePasswordBox() => InitializeComponent();
 
         public string Password
         {

@@ -25,6 +25,7 @@ namespace MyBudgetApp
 
         private void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IUserContext, UserContextService>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IDatabaseService, DatabaseService>();
             services.AddSingleton<IDialogService, DialogService>();

@@ -6,10 +6,12 @@
     xmlns:local="using:MyBudgetApp.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:MyBudgetApp.ViewModels"
     xmlns:helpers="using:MyBudgetApp.Helpers"
     xmlns:controls="using:MyBudgetApp.Controls"
-    xmlns:behaviors="using:MyBudgetApp.Behaviors"
-    mc:Ignorable="d">
+    xmlns:behaviors="using:MyBudgetApp.Behaviors" 
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=viewmodels:LoginViewModel}">
 
     <StackPanel helpers:DialogServiceXamlRootSetter.Attach="True"
                 behaviors:EnterKeyBehavior.Command="{Binding LoginCommand}"

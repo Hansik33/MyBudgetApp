@@ -6,10 +6,18 @@
     xmlns:local="using:MyBudgetApp.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:viewmodels="using:MyBudgetApp.ViewModels" 
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=viewmodels:DashboardViewModel}">
 
-    <Grid>
+    <StackPanel Width="300" Padding="40" Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Rectangle Height="1" Fill="Gray" Margin="0,20,0,20" />
 
-    </Grid>
-    
+        <TextBlock HorizontalAlignment="Center">
+            <Run Text="Zalogowano jako: " />
+            <Run Text="{Binding Username}" />
+        </TextBlock>
+        <Button Content="Wyloguj się" Command="{Binding LogoutCommand}" HorizontalAlignment="Center" />
+    </StackPanel>
+
 </UserControl>

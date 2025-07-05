@@ -1,9 +1,11 @@
-﻿namespace MyBudgetApp.Interfaces
+﻿using MyBudgetApp.Models;
+
+namespace MyBudgetApp.Interfaces
 {
     public interface IDatabaseService
     {
         bool TryConnect();
         bool InsertUser(string username, string passwordHash);
-        bool AuthenticateUser(string username, string plainPassword);
+        User? GetUserByCredentials(string username, string plainPassword);
     }
 }

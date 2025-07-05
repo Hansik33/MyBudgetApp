@@ -11,6 +11,7 @@ namespace MyBudgetApp.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
+        private readonly IUserContext _userContext;
         private readonly IDatabaseService _databaseService;
         private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
@@ -18,9 +19,10 @@ namespace MyBudgetApp.ViewModels
         public ICommand GoToRegisterCommand { get; }
         public ICommand LoginCommand { get; }
 
-        public LoginViewModel(IDatabaseService databaseService,
+        public LoginViewModel(IUserContext userContext, IDatabaseService databaseService,
             IDialogService dialogService, INavigationService navigationService)
         {
+            _userContext = userContext;
             _databaseService = databaseService;
             _dialogService = dialogService;
             _navigationService = navigationService;
@@ -63,15 +65,19 @@ namespace MyBudgetApp.ViewModels
                 return;
             }
 
-            var success = _databaseService.AuthenticateUser(Username, Password);
+            var user = _databaseService.GetUserByCredentials(Username, Password);
 
-            if (!success)
+            if (user == null)
             {
                 await _dialogService.ShowMessageAsync(AppStrings.Dialogs.UserNotFound, DialogType.Error);
                 return;
             }
 
-            await _dialogService.ShowMessageAsync(string.Format(AppStrings.Dialogs.LoginSuccess, Username), DialogType.Info);
+            await _dialogService.ShowMessageAsync(string.Format(AppStrings.Dialogs.LoginSuccess, user.Username), DialogType.Info);
+
+            _userContext.UserId = user.Id;
+            _userContext.Username = user.Username;
+
             _navigationService.GoToDashboard();
         }
     }

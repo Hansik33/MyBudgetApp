@@ -13,10 +13,7 @@ namespace MyBudgetApp.Services
             "server=localhost;port=3306;database=mybudgetapp;user=root;password=qwertyz1234!";
         private readonly IPasswordHashService _passwordHashService;
 
-        public DatabaseService(IPasswordHashService passwordHashService)
-        {
-            _passwordHashService = passwordHashService;
-        }
+        public DatabaseService(IPasswordHashService passwordHashService) => _passwordHashService = passwordHashService;
 
         public bool TryConnect()
         {
@@ -27,7 +24,7 @@ namespace MyBudgetApp.Services
             using var appDbContext = new AppDbContext(options);
             bool connected = appDbContext.Database.CanConnect();
 
-            Debug.WriteLine($"Połączenie z bazą: {connected}");
+            Debug.WriteLine($"Database connection: {connected}");
             return connected;
         }
 
@@ -39,7 +36,7 @@ namespace MyBudgetApp.Services
 
             using var appDbContext = new AppDbContext(options);
 
-            if (appDbContext.Users.Any(u => u.Username == username))
+            if (appDbContext.Users.Any(user => user.Username == username))
                 return false;
 
             var hashed = _passwordHashService.Hash(plainPassword);
@@ -54,19 +51,19 @@ namespace MyBudgetApp.Services
             return true;
         }
 
-        public bool AuthenticateUser(string username, string plainPassword)
+        public User? GetUserByCredentials(string username, string plainPassword)
         {
             var options = new DbContextOptionsBuilder<AppDbContext>()
                 .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
                 .Options;
 
-            using var db = new AppDbContext(options);
+            using var appDbContext = new AppDbContext(options);
 
-            var user = db.Users.FirstOrDefault(u => u.Username == username);
+            var user = appDbContext.Users.FirstOrDefault(user => user.Username == username);
             if (user == null)
-                return false;
+                return null;
 
-            return _passwordHashService.Verify(plainPassword, user.Password_hash);
+            return _passwordHashService.Verify(plainPassword, user.Password_hash) ? user : null;
         }
     }
 }
