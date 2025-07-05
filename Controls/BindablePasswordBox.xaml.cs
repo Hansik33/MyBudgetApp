@@ -23,9 +23,9 @@ namespace MyBudgetApp.Controls
             set => SetValue(PasswordProperty, value);
         }
 
-        private static void OnPasswordPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnPasswordPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            if (d is BindablePasswordBox control && control.PART_PasswordBox.Password != (string)e.NewValue)
+            if (dependencyObject is BindablePasswordBox control && control.PART_PasswordBox.Password != (string)e.NewValue)
             {
                 control.PART_PasswordBox.PasswordChanged -= control.OnPasswordChanged;
                 control.PART_PasswordBox.Password = (string)e.NewValue;

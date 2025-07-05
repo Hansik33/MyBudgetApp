@@ -33,6 +33,7 @@ namespace MyBudgetApp
 
             services.AddTransient<LoginViewModel>();
             services.AddTransient<RegisterViewModel>();
+            services.AddTransient<DashboardViewModel>();
         }
     }
 }

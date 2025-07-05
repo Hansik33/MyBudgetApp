@@ -18,7 +18,8 @@ namespace MyBudgetApp.ViewModels
         public ICommand GoToLoginCommand { get; }
         public ICommand RegisterCommand { get; }
 
-        public RegisterViewModel(IDatabaseService databaseService, IDialogService dialogService, INavigationService navigationService)
+        public RegisterViewModel(IDatabaseService databaseService,
+            IDialogService dialogService, INavigationService navigationService)
         {
             _databaseService = databaseService;
             _dialogService = dialogService;

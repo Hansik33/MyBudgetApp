@@ -8,5 +8,6 @@ namespace MyBudgetApp.Interfaces
         void NavigateTo<TViewModel>() where TViewModel : class;
         void GoToLogin();
         void GoToRegister();
+        void GoToDashboard();
     }
 }

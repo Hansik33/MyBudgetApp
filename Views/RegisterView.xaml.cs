@@ -4,9 +4,6 @@ namespace MyBudgetApp.Views
 {
     public sealed partial class RegisterView : UserControl
     {
-        public RegisterView()
-        {
-            InitializeComponent();
-        }
+        public RegisterView() => InitializeComponent();
     }
 }

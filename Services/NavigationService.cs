@@ -30,5 +30,6 @@ namespace MyBudgetApp.Services
 
         public void GoToLogin() => NavigateTo<LoginViewModel>();
         public void GoToRegister() => NavigateTo<RegisterViewModel>();
+        public void GoToDashboard() => NavigateTo<DashboardViewModel>();
     }
 }

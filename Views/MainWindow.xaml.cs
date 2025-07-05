@@ -4,9 +4,6 @@ namespace MyBudgetApp
 {
     public sealed partial class MainWindow : Window
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+        public MainWindow() => InitializeComponent();
     }
 }

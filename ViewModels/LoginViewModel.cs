@@ -18,7 +18,8 @@ namespace MyBudgetApp.ViewModels
         public ICommand GoToRegisterCommand { get; }
         public ICommand LoginCommand { get; }
 
-        public LoginViewModel(IDatabaseService databaseService, IDialogService dialogService, INavigationService navigationService)
+        public LoginViewModel(IDatabaseService databaseService,
+            IDialogService dialogService, INavigationService navigationService)
         {
             _databaseService = databaseService;
             _dialogService = dialogService;
@@ -71,7 +72,7 @@ namespace MyBudgetApp.ViewModels
             }
 
             await _dialogService.ShowMessageAsync(string.Format(AppStrings.Dialogs.LoginSuccess, Username), DialogType.Info);
-            _navigationService.GoToLogin();
+            _navigationService.GoToDashboard();
         }
     }
 }
