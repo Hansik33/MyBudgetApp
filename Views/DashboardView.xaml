@@ -79,6 +79,30 @@
                     HorizontalAlignment="Center" Margin="0,10,0,0" />
             <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />
 
+            <TextBlock Text="Wpłaty do celów" FontWeight="Bold" FontSize="16" />
+            <ItemsControl ItemsSource="{Binding Savings}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
+                            <StackPanel Orientation="Vertical" Spacing="2">
+                                <TextBlock>
+                                    <Run Text="Kwota: " />
+                                    <Run Text="{Binding Amount}" />
+                                    <Run Text=" zł" />
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Data: " />
+                                    <Run Text="{Binding Date}" />
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Content="Dodaj wpłatę" Command="{Binding AddSavingCommand}" 
+                    HorizontalAlignment="Center" Margin="0,10,0,0" />
+            <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />
+
             <TextBlock Text="Cele oszczędnościowe" FontWeight="Bold" FontSize="16" />
             <ItemsControl ItemsSource="{Binding SavingGoals}">
                 <ItemsControl.ItemTemplate>

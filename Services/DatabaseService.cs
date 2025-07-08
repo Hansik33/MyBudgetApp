@@ -120,6 +120,19 @@ namespace MyBudgetApp.Services
                       }).ToListAsync();
         }
 
+        public async Task<List<Saving>> GetSavingsAsync(int userId)
+        {
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
+                .Options;
+
+            using var appDbContext = new AppDbContext(options);
+
+            return await appDbContext.Savings
+                .Where(saving => saving.UserId == userId)
+                .ToListAsync();
+        }
+
         public async Task<List<SavingGoal>> GetSavingGoalsAsync(int userId)
         {
             var options = new DbContextOptionsBuilder<AppDbContext>()

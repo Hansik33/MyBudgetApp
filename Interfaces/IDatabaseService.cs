@@ -10,5 +10,6 @@ public interface IDatabaseService
 
     Task<List<Budget>> GetBudgetsAsync(int userId);
     Task<List<Transaction>> GetTransactionsAsync(int userId);
+    Task<List<Saving>> GetSavingsAsync(int userId);
     Task<List<SavingGoal>> GetSavingGoalsAsync(int userId);
 }
