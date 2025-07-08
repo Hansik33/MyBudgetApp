@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UserControl
     x:Class="MyBudgetApp.Views.DashboardView"
+    x:Name="Root"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MyBudgetApp.Views"
@@ -10,14 +11,108 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type=viewmodels:DashboardViewModel}">
 
-    <StackPanel Width="300" Padding="40" Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Rectangle Height="1" Fill="Gray" Margin="0,20,0,20" />
+    <ScrollViewer>
+        <StackPanel MaxWidth="500" MinWidth="280" Padding="40" 
+                    Spacing="14" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-        <TextBlock HorizontalAlignment="Center">
-            <Run Text="Zalogowano jako: " />
-            <Run Text="{Binding Username}" />
-        </TextBlock>
-        <Button Content="Wyloguj się" Command="{Binding LogoutCommand}" HorizontalAlignment="Center" />
-    </StackPanel>
+            <TextBlock Text="Budżety" FontWeight="Bold" FontSize="16" />
+            <ItemsControl ItemsSource="{Binding Budgets}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
+                            <StackPanel Orientation="Vertical" Spacing="2">
+                                <TextBlock>
+                                    <Run Text="Kategoria: " />
+                                    <Run Text="{Binding CategoryName}" />
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Miesiąc: " />
+                                    <Run Text="{Binding Month}" />
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Limit: " />
+                                    <Run Text="{Binding LimitAmount}" />
+                                    <Run Text=" zł" />
+                                </TextBlock>
+                                <Button Content="Usuń" Command="{Binding DataContext.RemoveBudgetCommand, 
+                                    ElementName=Root}" CommandParameter="{Binding}" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Content="Dodaj budżet" Command="{Binding AddBudgetCommand}" 
+                    HorizontalAlignment="Center" Margin="0,10,0,0" />
+            <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />
+
+            <TextBlock Text="Transakcje" FontWeight="Bold" FontSize="16" />
+            <ItemsControl ItemsSource="{Binding Transactions}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
+                            <StackPanel Orientation="Vertical" Spacing="2">
+                                <TextBlock>
+                                    <Run Text="Typ: " />
+                                    <Run Text="{Binding Type}" />
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Kwota: " />
+                                    <Run Text="{Binding Amount}" />
+                                    <Run Text=" zł" />
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Opis: " />
+                                    <Run Text="{Binding Description}" />
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Data: " />
+                                    <Run Text="{Binding Date}" />
+                                </TextBlock>
+                                <Button Content="Usuń" Command="{Binding DataContext.RemoveTransactionCommand, 
+                                    ElementName=Root}" CommandParameter="{Binding}" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Content="Dodaj transakcję" Command="{Binding AddTransactionCommand}" 
+                    HorizontalAlignment="Center" Margin="0,10,0,0" />
+            <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />
+
+            <TextBlock Text="Cele oszczędnościowe" FontWeight="Bold" FontSize="16" />
+            <ItemsControl ItemsSource="{Binding SavingGoals}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
+                            <StackPanel Spacing="4">
+                                <TextBlock>
+                                    <Run Text="Cel: " />
+                                    <Run Text="{Binding Name}" />
+                                </TextBlock>
+                                <ProgressBar Minimum="0" Maximum="{Binding TargetAmount}" 
+                                             Value="{Binding SavedAmount}" Height="8" />
+                                <TextBlock>
+                                    <Run Text="Termin: " />
+                                    <Run Text="{Binding Deadline}" />
+                                </TextBlock>
+                                <Button Content="Usuń" Command="{Binding DataContext.RemoveSavingGoalCommand, 
+                                    ElementName=Root}" CommandParameter="{Binding}" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Content="Dodaj cel" Command="{Binding AddSavingGoalCommand}" 
+                    HorizontalAlignment="Center" Margin="0,10,0,0" />
+            <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />
+
+            <TextBlock HorizontalAlignment="Center">
+                <Run Text="Zalogowano jako: " />
+                <Run Text="{Binding Username}" />
+            </TextBlock>
+            <Button Content="Wyloguj się" Command="{Binding LogoutCommand}" HorizontalAlignment="Center" />
+
+        </StackPanel>
+    </ScrollViewer>
 
 </UserControl>
