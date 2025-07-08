@@ -2,8 +2,10 @@
 using MyBudgetApp.Data;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Models;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyBudgetApp.Services
 {
@@ -64,6 +66,71 @@ namespace MyBudgetApp.Services
                 return null;
 
             return _passwordHashService.Verify(plainPassword, user.Password_hash) ? user : null;
+        }
+
+        public async Task<List<Budget>> GetBudgetsAsync(int userId)
+        {
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
+                .Options;
+
+            using var appDbContext = new AppDbContext(options);
+
+            return await appDbContext.Budgets
+                .Where(budget => budget.UserId == userId)
+                .Join(appDbContext.Categories,
+                      budget => budget.CategoryId,
+                      category => category.Id,
+                      (budget, category) => new Budget
+                      {
+                          Id = budget.Id,
+                          UserId = budget.UserId,
+                          CategoryId = budget.CategoryId,
+                          Month = budget.Month,
+                          MonthNumber = budget.MonthNumber,
+                          LimitAmount = budget.LimitAmount,
+                          CategoryName = category.Name
+                      }).ToListAsync();
+        }
+
+        public async Task<List<Transaction>> GetTransactionsAsync(int userId)
+        {
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
+                .Options;
+
+            using var appDbContext = new AppDbContext(options);
+
+            return await appDbContext.Transactions
+                .Where(transaction => transaction.UserId == userId)
+                .Join(appDbContext.Categories,
+                      transaction => transaction.CategoryId,
+                      category => category.Id,
+                      (transaction, category) => new Transaction
+                      {
+                          Id = transaction.Id,
+                          UserId = transaction.UserId,
+                          CategoryId = transaction.CategoryId,
+                          Amount = transaction.Amount,
+                          Type = transaction.Type,
+                          Description = transaction.Description ?? string.Empty,
+                          PaymentMethod = transaction.PaymentMethod ?? string.Empty,
+                          Date = transaction.Date,
+                          CategoryName = category.Name
+                      }).ToListAsync();
+        }
+
+        public async Task<List<SavingGoal>> GetSavingGoalsAsync(int userId)
+        {
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
+                .Options;
+
+            using var appDbContext = new AppDbContext(options);
+
+            return await appDbContext.SavingGoals
+                .Where(savingGoal => savingGoal.UserId == userId)
+                .ToListAsync();
         }
     }
 }

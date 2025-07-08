@@ -12,6 +12,7 @@ namespace MyBudgetApp.ViewModels
     public class DashboardViewModel : BaseViewModel
     {
         private readonly IUserContext _userContext;
+        private readonly IDatabaseService _databaseService;
         private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
 
@@ -21,17 +22,36 @@ namespace MyBudgetApp.ViewModels
 
         public ICommand LogoutCommand { get; }
 
-        public DashboardViewModel(IUserContext userContext, IDialogService dialogService, INavigationService navigationService)
+        public DashboardViewModel(IUserContext userContext, IDatabaseService databaseService,
+            IDialogService dialogService, INavigationService navigationService)
         {
             _userContext = userContext;
-            _navigationService = navigationService;
+            _databaseService = databaseService;
             _dialogService = dialogService;
+            _navigationService = navigationService;
 
             LogoutCommand = new RelayCommand(async () => await Logout());
+            _ = LoadDataAsync();
         }
 
         public int UserId => _userContext.UserId;
         public string Username => _userContext.Username;
+
+        private async Task LoadDataAsync()
+        {
+            var budgets = await _databaseService.GetBudgetsAsync(UserId);
+            var transactions = await _databaseService.GetTransactionsAsync(UserId);
+            var savingGoals = await _databaseService.GetSavingGoalsAsync(UserId);
+
+            Budgets.Clear();
+            foreach (var budget in budgets) Budgets.Add(budget);
+
+            Transactions.Clear();
+            foreach (var transaction in transactions) Transactions.Add(transaction);
+
+            SavingGoals.Clear();
+            foreach (var savingGoal in savingGoals) SavingGoals.Add(savingGoal);
+        }
 
         private async Task Logout()
         {
