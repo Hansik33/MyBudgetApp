@@ -5,7 +5,7 @@ namespace MyBudgetApp.Services
     public class UserContextService : IUserContext
     {
         public int UserId { get; set; } = 0;
-        public string Username { get; set; } = string.Empty;
+        public required string Username { get; set; }
         public void Clear()
         {
             UserId = 0;

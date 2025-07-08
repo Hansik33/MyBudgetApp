@@ -1,7 +1,9 @@
 ﻿using MyBudgetApp.Enums;
 using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
+using MyBudgetApp.Models;
 using MyBudgetApp.Resources;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -12,6 +14,10 @@ namespace MyBudgetApp.ViewModels
         private readonly IUserContext _userContext;
         private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
+
+        public ObservableCollection<Budget> Budgets { get; } = new();
+        public ObservableCollection<Transaction> Transactions { get; } = new();
+        public ObservableCollection<SavingGoal> SavingGoals { get; } = new();
 
         public ICommand LogoutCommand { get; }
 
