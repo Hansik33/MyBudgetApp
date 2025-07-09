@@ -19,7 +19,8 @@ namespace MyBudgetApp.ViewModels
         public ObservableCollection<Budget> Budgets { get; } = new();
         public ObservableCollection<Transaction> Transactions { get; } = new();
         public ObservableCollection<Saving> Savings { get; } = new();
-        public ObservableCollection<SavingGoal> SavingGoals { get; } = new();
+        public ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = new();
+
 
         public ICommand LogoutCommand { get; }
 
@@ -55,7 +56,8 @@ namespace MyBudgetApp.ViewModels
             foreach (var saving in savings) Savings.Add(saving);
 
             SavingGoals.Clear();
-            foreach (var savingGoal in savingGoals) SavingGoals.Add(savingGoal);
+            foreach (var savingGoal in savingGoals)
+                SavingGoals.Add(new SavingGoalViewModel(savingGoal));
         }
 
         private async Task Logout()

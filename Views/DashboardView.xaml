@@ -113,8 +113,16 @@
                                     <Run Text="Cel: " />
                                     <Run Text="{Binding Name}" />
                                 </TextBlock>
-                                <ProgressBar Minimum="0" Maximum="{Binding TargetAmount}" 
-                                             Value="{Binding SavedAmount}" Height="8" />
+                                <ProgressBar Minimum="0"
+                                Maximum="{Binding TargetAmountDouble}" Value="{Binding SavedAmountDouble}"
+                                Foreground="{Binding ProgressBrush}" Height="8" />
+                                <TextBlock Text="{Binding ProgressText}" />
+                                <TextBlock HorizontalAlignment="Center">
+                                    <Run Text="{Binding SavedAmount}" />
+                                    <Run Text=" / " />
+                                    <Run Text="{Binding TargetAmount}" />
+                                    <Run Text=" zł" />
+                                </TextBlock>
                                 <TextBlock>
                                     <Run Text="Termin: " />
                                     <Run Text="{Binding Deadline}" />
