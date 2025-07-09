@@ -31,12 +31,12 @@ namespace MyBudgetApp.Services
 
                 if (appWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
                 {
-                    presenter.IsResizable = false;       
-                    presenter.IsMaximizable = false;      
-                    presenter.IsMinimizable = true;       
+                    presenter.IsResizable = false;
+                    presenter.IsMaximizable = false;
+                    presenter.IsMinimizable = true;
                 }
 
-                var displayArea = Microsoft.UI.Windowing.DisplayArea.GetFromWindowId(windowId, 
+                var displayArea = Microsoft.UI.Windowing.DisplayArea.GetFromWindowId(windowId,
                     Microsoft.UI.Windowing.DisplayAreaFallback.Primary);
                 var workArea = displayArea.WorkArea;
                 appWindow.MoveAndResize(workArea);
