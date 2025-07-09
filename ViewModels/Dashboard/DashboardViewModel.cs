@@ -7,19 +7,19 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace MyBudgetApp.ViewModels
+namespace MyBudgetApp.ViewModels.Dashboard
 {
-    public class DashboardViewModel : BaseViewModel
+    public partial class DashboardViewModel : BaseViewModel
     {
         private readonly IUserContext _userContext;
         private readonly IDatabaseService _databaseService;
         private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
 
-        public ObservableCollection<Budget> Budgets { get; } = new();
-        public ObservableCollection<Transaction> Transactions { get; } = new();
-        public ObservableCollection<Saving> Savings { get; } = new();
-        public ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = new();
+        public ObservableCollection<Budget> Budgets { get; } = [];
+        public ObservableCollection<Transaction> Transactions { get; } = [];
+        public ObservableCollection<Saving> Savings { get; } = [];
+        public ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = [];
 
 
         public ICommand LogoutCommand { get; }

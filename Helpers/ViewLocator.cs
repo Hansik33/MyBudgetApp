@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace MyBudgetApp.Helpers
@@ -13,10 +14,10 @@ namespace MyBudgetApp.Helpers
                 .Replace("ViewModel", "View");
 
             var viewAssembly = Assembly.GetExecutingAssembly();
-            var viewType = viewAssembly.GetType(viewName);
 
-            if (viewType == null)
-                throw new InvalidOperationException($"No View found for ViewModel: {viewModelType.Name}");
+            var viewType = viewAssembly.GetTypes()
+                .FirstOrDefault(t => t.FullName == viewName)
+                ?? throw new InvalidOperationException($"No View found for ViewModel: {viewModelType.Name}");
 
             return viewType;
         }

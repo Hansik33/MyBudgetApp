@@ -2,7 +2,8 @@
 using Microsoft.UI.Xaml.Controls;
 using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
-using MyBudgetApp.ViewModels;
+using MyBudgetApp.ViewModels.Auth;
+using MyBudgetApp.ViewModels.Dashboard;
 using System;
 
 namespace MyBudgetApp.Services

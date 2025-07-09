@@ -2,7 +2,8 @@
 using Microsoft.UI.Xaml;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Services;
-using MyBudgetApp.ViewModels;
+using MyBudgetApp.ViewModels.Auth;
+using MyBudgetApp.ViewModels.Dashboard;
 using System;
 
 namespace MyBudgetApp
@@ -23,7 +24,7 @@ namespace MyBudgetApp
             startup.Start();
         }
 
-        private void ConfigureServices(IServiceCollection services)
+        private static void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IUserContext, UserContextService>();
             services.AddSingleton<INavigationService, NavigationService>();

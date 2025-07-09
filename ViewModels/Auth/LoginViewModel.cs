@@ -7,26 +7,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace MyBudgetApp.ViewModels
+namespace MyBudgetApp.ViewModels.Auth
 {
-    public class RegisterViewModel : BaseViewModel
+    public partial class LoginViewModel : BaseViewModel
     {
+        private readonly IUserContext _userContext;
         private readonly IDatabaseService _databaseService;
         private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
 
-        public ICommand GoToLoginCommand { get; }
-        public ICommand RegisterCommand { get; }
+        public ICommand GoToRegisterCommand { get; }
+        public ICommand LoginCommand { get; }
 
-        public RegisterViewModel(IDatabaseService databaseService,
+        public LoginViewModel(IUserContext userContext, IDatabaseService databaseService,
             IDialogService dialogService, INavigationService navigationService)
         {
+            _userContext = userContext;
             _databaseService = databaseService;
             _dialogService = dialogService;
             _navigationService = navigationService;
 
-            GoToLoginCommand = new RelayCommand(() => _navigationService.GoToLogin());
-            RegisterCommand = new RelayCommand(async () => await Register());
+            GoToRegisterCommand = new RelayCommand(() => _navigationService.GoToRegister());
+            LoginCommand = new RelayCommand(async () => await Login());
         }
 
         private string _username = string.Empty;
@@ -43,27 +45,19 @@ namespace MyBudgetApp.ViewModels
             set => SetProperty(ref _password, value);
         }
 
-        private string _confirmPassword = string.Empty;
-        public string ConfirmPassword
-        {
-            get => _confirmPassword;
-            set => SetProperty(ref _confirmPassword, value);
-        }
-
-        private async Task Register()
+        private async Task Login()
         {
             var errors = AuthenticationValidator
-                .Validate(Username, Password, ConfirmPassword)
+                .Validate(Username, Password)
                 .ToList();
 
-            if (errors.Any())
+            if (errors.Count != 0)
             {
                 var firstError = errors.First();
                 var message = firstError switch
                 {
                     "UsernameEmpty" => AppStrings.Dialogs.UserEmpty,
                     "PasswordEmpty" => AppStrings.Dialogs.PasswordEmpty,
-                    "PasswordMismatch" => AppStrings.Dialogs.PasswordMismatch,
                     _ => throw new System.NotImplementedException()
                 };
 
@@ -71,16 +65,20 @@ namespace MyBudgetApp.ViewModels
                 return;
             }
 
-            var success = _databaseService.InsertUser(Username, Password);
+            var user = _databaseService.GetUserByCredentials(Username, Password);
 
-            if (!success)
+            if (user == null)
             {
-                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.UserExists, DialogType.Warning);
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.UserNotFound, DialogType.Error);
                 return;
             }
 
-            await _dialogService.ShowMessageAsync(AppStrings.Dialogs.RegisterSuccess, DialogType.Success);
-            _navigationService.GoToLogin();
+            await _dialogService.ShowMessageAsync(string.Format(AppStrings.Dialogs.LoginSuccess, user.Username), DialogType.Info);
+
+            _userContext.UserId = user.Id;
+            _userContext.Username = user.Username;
+
+            _navigationService.GoToDashboard();
         }
     }
 }

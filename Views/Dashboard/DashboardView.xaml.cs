@@ -1,6 +1,6 @@
 using Microsoft.UI.Xaml.Controls;
 
-namespace MyBudgetApp.Views
+namespace MyBudgetApp.Views.Dashboard
 {
     public sealed partial class DashboardView : UserControl
     {
