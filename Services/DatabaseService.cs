@@ -86,7 +86,7 @@ namespace MyBudgetApp.Services
                           Id = budget.Id,
                           UserId = budget.UserId,
                           CategoryId = budget.CategoryId,
-                          Month = budget.Month,
+                          Year = budget.Year,
                           MonthNumber = budget.MonthNumber,
                           LimitAmount = budget.LimitAmount,
                           CategoryName = category.Name

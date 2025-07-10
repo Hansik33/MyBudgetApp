@@ -30,8 +30,8 @@
                                     <Run Text="{Binding CategoryName}" />
                                 </TextBlock>
                                 <TextBlock>
-                                    <Run Text="Miesiąc: "/>
-                                    <Run Text="{Binding Month}" />
+                                    <Run Text="Rok: "/>
+                                    <Run Text="{Binding Year}" />
                                 </TextBlock>
                                 <TextBlock>
                                     <Run Text="Limit: " />

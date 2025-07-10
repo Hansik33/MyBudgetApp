@@ -14,7 +14,7 @@ namespace MyBudgetApp.Data.Configurations
             builder.Property(budget => budget.UserId).HasColumnName("user_id");
             builder.Property(budget => budget.CategoryId).HasColumnName("category_id");
             builder.Property(budget => budget.MonthNumber).HasColumnName("month_number");
-            builder.Property(budget => budget.Month).HasColumnName("month");
+            builder.Property(budget => budget.Year).HasColumnName("year");
             builder.Property(budget => budget.LimitAmount).HasColumnName("limit_amount");
             builder.Ignore(budget => budget.CategoryName);
         }
