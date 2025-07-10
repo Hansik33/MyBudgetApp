@@ -21,23 +21,29 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
-                            <StackPanel Orientation="Vertical" Spacing="2">
+                            <StackPanel Orientation="Vertical" Spacing="4">
                                 <Button Content="✕" Command="{Binding DataContext.RemoveBudgetCommand, ElementName=Root}"
-                                        CommandParameter="{Binding}" HorizontalAlignment="Center"
-                                        FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
+                            CommandParameter="{Binding}" HorizontalAlignment="Center"
+                            FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
                                 <TextBlock>
-                                    <Run Text="Kategoria: " />
+                                    <Run Text="Kategoria: " FontWeight="Bold" />
                                     <Run Text="{Binding CategoryName}" />
                                 </TextBlock>
                                 <TextBlock>
-                                    <Run Text="Rok: "/>
-                                    <Run Text="{Binding Year}" />
+                                    <Run Text="Miesiąc: " FontWeight="Bold" />
+                                    <Run Text="{Binding Month}" />
                                 </TextBlock>
                                 <TextBlock>
-                                    <Run Text="Limit: " />
-                                    <Run Text="{Binding LimitAmount}" />
-                                    <Run Text=" zł" />
+                                    <Run Text="Rok: " FontWeight="Bold" />
+                                    <Run Text="{Binding Year}" />
                                 </TextBlock>
+                                <TextBlock Text="Limit:" FontWeight="Bold" />
+                                <TextBlock Text="{Binding UsagePercentLabel}" HorizontalAlignment="Center" />
+                                <ProgressBar Minimum="0"
+                                 Maximum="{Binding LimitAmountDouble}"
+                                 Value="{Binding UsedAmountDouble}"
+                                 Foreground="{Binding UsageBrush}" Height="8" />
+                                <TextBlock Text="{Binding UsageLabel}" HorizontalAlignment="Center" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
@@ -58,7 +64,7 @@
                                         FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
                                 <TextBlock>
                                     <Run Text="Typ: " />
-                                    <Run Text="{Binding Type}" />
+                                    <Run Text="{Binding TypeText}" />
                                 </TextBlock>
                                 <TextBlock>
                                     <Run Text="Kwota: " />

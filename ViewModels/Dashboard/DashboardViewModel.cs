@@ -3,7 +3,9 @@ using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Models;
 using MyBudgetApp.Resources;
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -16,16 +18,18 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
 
-        public ObservableCollection<Budget> Budgets { get; } = [];
-        public ObservableCollection<Transaction> Transactions { get; } = [];
+        public ObservableCollection<BudgetViewModel> Budgets { get; } = [];
+        public ObservableCollection<TransactionViewModel> Transactions { get; } = [];
         public ObservableCollection<Saving> Savings { get; } = [];
         public ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = [];
 
-
         public ICommand LogoutCommand { get; }
 
-        public DashboardViewModel(IUserContext userContext, IDatabaseService databaseService,
-            IDialogService dialogService, INavigationService navigationService)
+        public DashboardViewModel(
+            IUserContext userContext,
+            IDatabaseService databaseService,
+            IDialogService dialogService,
+            INavigationService navigationService)
         {
             _userContext = userContext;
             _databaseService = databaseService;
@@ -47,13 +51,26 @@ namespace MyBudgetApp.ViewModels.Dashboard
             var savingGoals = await _databaseService.GetSavingGoalsAsync(UserId);
 
             Budgets.Clear();
-            foreach (var budget in budgets) Budgets.Add(budget);
+            foreach (var budget in budgets)
+            {
+                var usedAmount = transactions
+                    .Where(transaction =>
+                        transaction.CategoryId == budget.CategoryId &&
+                        transaction.Date.Year == budget.Year &&
+                        transaction.Date.Month == budget.MonthNumber &&
+                        transaction.Type.Equals(nameof(TransactionType.Expense), StringComparison.OrdinalIgnoreCase))
+                    .Sum(transaction => transaction.Amount);
+
+                Budgets.Add(new BudgetViewModel(budget, usedAmount));
+            }
 
             Transactions.Clear();
-            foreach (var transaction in transactions) Transactions.Add(transaction);
+            foreach (var transaction in transactions)
+                Transactions.Add(new TransactionViewModel(transaction));
 
             Savings.Clear();
-            foreach (var saving in savings) Savings.Add(saving);
+            foreach (var saving in savings)
+                Savings.Add(saving);
 
             SavingGoals.Clear();
             foreach (var savingGoal in savingGoals)
@@ -63,7 +80,6 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private async Task Logout()
         {
             await _dialogService.ShowMessageAsync(AppStrings.Dialogs.UserLoggedOut, DialogType.Info);
-
             _userContext.Clear();
             _navigationService.GoToLogin();
         }
