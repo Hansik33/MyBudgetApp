@@ -12,8 +12,9 @@
     d:DataContext="{d:DesignInstance Type=viewmodels:DashboardViewModel}">
 
     <ScrollViewer>
-        <StackPanel MaxWidth="500" MinWidth="280" Padding="40" 
-                    Spacing="14" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" 
+                    MaxWidth="500" MinWidth="280" Padding="40" Spacing="14">
 
             <TextBlock Text="Budżety" FontWeight="Bold" FontSize="16" />
             <ItemsControl ItemsSource="{Binding Budgets}">
@@ -21,12 +22,15 @@
                     <DataTemplate>
                         <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
                             <StackPanel Orientation="Vertical" Spacing="2">
+                                <Button Content="✕" Command="{Binding DataContext.RemoveBudgetCommand, ElementName=Root}"
+                                        CommandParameter="{Binding}" HorizontalAlignment="Center"
+                                        FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
                                 <TextBlock>
                                     <Run Text="Kategoria: " />
                                     <Run Text="{Binding CategoryName}" />
                                 </TextBlock>
                                 <TextBlock>
-                                    <Run Text="Miesiąc: " />
+                                    <Run Text="Miesiąc: "/>
                                     <Run Text="{Binding Month}" />
                                 </TextBlock>
                                 <TextBlock>
@@ -34,8 +38,6 @@
                                     <Run Text="{Binding LimitAmount}" />
                                     <Run Text=" zł" />
                                 </TextBlock>
-                                <Button Content="Usuń" Command="{Binding DataContext.RemoveBudgetCommand, 
-                                    ElementName=Root}" CommandParameter="{Binding}" HorizontalAlignment="Center" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
@@ -51,6 +53,9 @@
                     <DataTemplate>
                         <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
                             <StackPanel Orientation="Vertical" Spacing="2">
+                                <Button Content="✕" Command="{Binding DataContext.RemoveBudgetCommand, ElementName=Root}"
+                                        CommandParameter="{Binding}" HorizontalAlignment="Center"
+                                        FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
                                 <TextBlock>
                                     <Run Text="Typ: " />
                                     <Run Text="{Binding Type}" />
@@ -68,8 +73,6 @@
                                     <Run Text="Data: " />
                                     <Run Text="{Binding Date}" />
                                 </TextBlock>
-                                <Button Content="Usuń" Command="{Binding DataContext.RemoveTransactionCommand, 
-                                    ElementName=Root}" CommandParameter="{Binding}" HorizontalAlignment="Center" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
@@ -85,6 +88,9 @@
                     <DataTemplate>
                         <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
                             <StackPanel Orientation="Vertical" Spacing="2">
+                                <Button Content="✕" Command="{Binding DataContext.RemoveBudgetCommand, ElementName=Root}"
+                                        CommandParameter="{Binding}" HorizontalAlignment="Center"
+                                        FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
                                 <TextBlock>
                                     <Run Text="Kwota: " />
                                     <Run Text="{Binding Amount}" />
@@ -109,13 +115,16 @@
                     <DataTemplate>
                         <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
                             <StackPanel Spacing="4">
+                                <Button Content="✕" Command="{Binding DataContext.RemoveBudgetCommand, ElementName=Root}"
+                                        CommandParameter="{Binding}" HorizontalAlignment="Center"
+                                        FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
                                 <TextBlock>
                                     <Run Text="Cel: " />
                                     <Run Text="{Binding Name}" />
                                 </TextBlock>
                                 <ProgressBar Minimum="0"
-                                Maximum="{Binding TargetAmountDouble}" Value="{Binding SavedAmountDouble}"
-                                Foreground="{Binding ProgressBrush}" Height="8" />
+                                             Maximum="{Binding TargetAmountDouble}" Value="{Binding SavedAmountDouble}"
+                                             Foreground="{Binding ProgressBrush}" Height="8" />
                                 <TextBlock Text="{Binding ProgressText}" />
                                 <TextBlock HorizontalAlignment="Center">
                                     <Run Text="{Binding SavedAmount}" />
@@ -127,8 +136,6 @@
                                     <Run Text="Termin: " />
                                     <Run Text="{Binding Deadline}" />
                                 </TextBlock>
-                                <Button Content="Usuń" Command="{Binding DataContext.RemoveSavingGoalCommand, 
-                                    ElementName=Root}" CommandParameter="{Binding}" HorizontalAlignment="Center" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
@@ -145,6 +152,7 @@
             <Button Content="Wyloguj się" Command="{Binding LogoutCommand}" HorizontalAlignment="Center" />
 
         </StackPanel>
+
     </ScrollViewer>
 
 </UserControl>
