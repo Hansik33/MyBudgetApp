@@ -27,7 +27,7 @@
                             FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
                                 <TextBlock>
                                     <Run Text="Kategoria:" FontWeight="Bold" />
-                                    <Run Text="{Binding CategoryName}" />
+                                    <Run Text="{Binding Category}" />
                                 </TextBlock>
                                 <TextBlock>
                                     <Run Text="Miesiąc:" FontWeight="Bold" />
@@ -38,12 +38,12 @@
                                     <Run Text="{Binding Year}" />
                                 </TextBlock>
                                 <TextBlock Text="Limit:" FontWeight="Bold" />
-                                <TextBlock Text="{Binding UsagePercentLabel}" HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding UsagePercent}" HorizontalAlignment="Center" />
                                 <ProgressBar Minimum="0"
                                  Maximum="{Binding LimitAmountDouble}"
                                  Value="{Binding UsedAmountDouble}"
                                  Foreground="{Binding UsageBrush}" Height="8" />
-                                <TextBlock Text="{Binding UsageLabel}" HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding UsageLimit}" HorizontalAlignment="Center" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>

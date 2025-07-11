@@ -14,20 +14,20 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public int Id => _budget.Id;
         public int UserId => _budget.UserId;
         public int CategoryId => _budget.CategoryId;
-        public string CategoryName => _budget.CategoryName;
+        public string Category => _budget.CategoryName;
         public int Year => _budget.Year;
         public int MonthNumber => _budget.MonthNumber;
         public string Month => Culture.TextInfo.ToTitleCase(
             new DateTime(Year, MonthNumber, 1).ToString("MMMM", Culture));
-        public decimal LimitAmount => _budget.LimitAmount;
 
+        public decimal LimitAmount => _budget.LimitAmount;
         public decimal UsedAmount { get; } = usedAmount;
         public double UsedAmountDouble => (double)UsedAmount;
         public double LimitAmountDouble => (double)LimitAmount;
 
-        public double UsagePercent => LimitAmount == 0 ? 0 : Math.Min((double)(UsedAmount / LimitAmount) * 100.0, 999.0);
-        public string UsagePercentLabel => $"{UsagePercent:0.00}%";
-        public string UsageLabel => $"{UsedAmount:0.00} / {LimitAmount:0.00} zł";
+        public double UsagePercentNumber => LimitAmount == 0 ? 0 : Math.Min((double)(UsedAmount / LimitAmount) * 100.0, 999.0);
+        public string UsagePercent => $"{UsagePercentNumber:0.00}%";
+        public string UsageLimit => $"{UsedAmount:0.00} / {LimitAmount:0.00} zł";
 
         public SolidColorBrush UsageBrush
         {
@@ -36,7 +36,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
                 if (LimitAmount == 0)
                     return new SolidColorBrush(Colors.Gray);
 
-                double usage = UsagePercent / 100.0;
+                double usage = UsagePercentNumber / 100.0;
 
                 return usage switch
                 {
