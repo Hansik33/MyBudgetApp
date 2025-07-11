@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="MyBudgetApp.Views.Dashboard.TransactionCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyBudgetApp.Views.Dashboard"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
+        <StackPanel Orientation="Vertical" Spacing="2">
+            <Button Content="✕" Command="{Binding DataContext.RemoveBudgetCommand, ElementName=Root}"
+                CommandParameter="{Binding}" HorizontalAlignment="Center"
+                FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
+            <TextBlock>
+            <Run Text="Typ:" FontWeight="Bold" />
+            <Run Text="{Binding Type}" />
+            </TextBlock>
+            <TextBlock>
+            <Run Text="Kategoria:" FontWeight="Bold" />
+            <Run Text="{Binding Category}" />
+            </TextBlock>
+            <TextBlock>
+            <Run Text="Kwota:" FontWeight="Bold" />
+            <Run Text="{Binding Amount}" />
+            <Run Text="zł" />
+            </TextBlock>
+            <TextBlock>
+            <Run Text="Metoda płatności:" FontWeight="Bold" />
+            <Run Text="{Binding PaymentMethod}" />
+            </TextBlock>
+            <TextBlock>
+            <Run Text="Opis:" FontWeight="Bold" />
+            <Run Text="{Binding Description}" />
+            </TextBlock>
+            <TextBlock>
+            <Run Text="Miesiąc:" FontWeight="Bold" />
+            <Run Text="{Binding Month}" />
+            </TextBlock>
+            <TextBlock>
+            <Run Text="Rok:" FontWeight="Bold" />
+            <Run Text="{Binding Year}" />
+            </TextBlock>
+        </StackPanel>
+    </Border>
+    
+</UserControl>
