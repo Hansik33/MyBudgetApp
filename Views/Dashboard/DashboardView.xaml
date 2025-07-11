@@ -172,7 +172,7 @@
 
             <TextBlock HorizontalAlignment="Center">
                 <Run Text="Zalogowano jako:" />
-                <Run Text="{Binding Username}" />
+                <Run Text="{Binding Username}" FontWeight="Bold" />
             </TextBlock>
             <Button Content="Wyloguj się" Command="{Binding LogoutCommand}" HorizontalAlignment="Center" />
 
