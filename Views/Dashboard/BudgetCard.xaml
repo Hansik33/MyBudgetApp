@@ -1,0 +1,39 @@
+<UserControl
+    x:Class="MyBudgetApp.Views.Dashboard.BudgetCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyBudgetApp.Views.Dashboard"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
+        <StackPanel Orientation="Vertical" Spacing="4">
+            <Button Content="✕"
+                    Command="{Binding RemoveBudgetCommand}"
+                    CommandParameter="{Binding}"
+                    HorizontalAlignment="Center"
+                    FontSize="16" Padding="0" Margin="0,0,0,10"
+                    Width="32" Height="32" />
+            <TextBlock>
+                <Run Text="Kategoria:" FontWeight="Bold" />
+                <Run Text="{Binding Category}" />
+            </TextBlock>
+            <TextBlock>
+                <Run Text="Miesiąc:" FontWeight="Bold" />
+                <Run Text="{Binding Month}" />
+            </TextBlock>
+            <TextBlock>
+                <Run Text="Rok:" FontWeight="Bold" />
+                <Run Text="{Binding Year}" />
+            </TextBlock>
+            <TextBlock Text="Limit:" FontWeight="Bold" />
+            <TextBlock Text="{Binding UsagePercent}" HorizontalAlignment="Center" />
+            <ProgressBar Minimum="0"
+                         Maximum="{Binding LimitAmountDouble}"
+                         Value="{Binding UsedAmountDouble}"
+                         Foreground="{Binding UsageBrush}" Height="8" />
+            <TextBlock Text="{Binding UsageLimit}" HorizontalAlignment="Center" />
+        </StackPanel>
+    </Border>
+</UserControl>
