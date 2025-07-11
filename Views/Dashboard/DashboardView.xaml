@@ -26,15 +26,15 @@
                             CommandParameter="{Binding}" HorizontalAlignment="Center"
                             FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
                                 <TextBlock>
-                                    <Run Text="Kategoria: " FontWeight="Bold" />
+                                    <Run Text="Kategoria:" FontWeight="Bold" />
                                     <Run Text="{Binding CategoryName}" />
                                 </TextBlock>
                                 <TextBlock>
-                                    <Run Text="Miesiąc: " FontWeight="Bold" />
+                                    <Run Text="Miesiąc:" FontWeight="Bold" />
                                     <Run Text="{Binding Month}" />
                                 </TextBlock>
                                 <TextBlock>
-                                    <Run Text="Rok: " FontWeight="Bold" />
+                                    <Run Text="Rok:" FontWeight="Bold" />
                                     <Run Text="{Binding Year}" />
                                 </TextBlock>
                                 <TextBlock Text="Limit:" FontWeight="Bold" />
@@ -63,20 +63,20 @@
                                         CommandParameter="{Binding}" HorizontalAlignment="Center"
                                         FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
                                 <TextBlock>
-                                    <Run Text="Typ: " />
+                                    <Run Text="Typ:" />
                                     <Run Text="{Binding TypeText}" />
                                 </TextBlock>
                                 <TextBlock>
-                                    <Run Text="Kwota: " />
+                                    <Run Text="Kwota:" />
                                     <Run Text="{Binding Amount}" />
-                                    <Run Text=" zł" />
+                                    <Run Text="zł" />
                                 </TextBlock>
                                 <TextBlock>
-                                    <Run Text="Opis: " />
+                                    <Run Text="Opis:" />
                                     <Run Text="{Binding Description}" />
                                 </TextBlock>
                                 <TextBlock>
-                                    <Run Text="Data: " />
+                                    <Run Text="Data:" />
                                     <Run Text="{Binding Date}" />
                                 </TextBlock>
                             </StackPanel>
@@ -98,12 +98,12 @@
                                         CommandParameter="{Binding}" HorizontalAlignment="Center"
                                         FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
                                 <TextBlock>
-                                    <Run Text="Kwota: " />
+                                    <Run Text="Kwota:" />
                                     <Run Text="{Binding Amount}" />
-                                    <Run Text=" zł" />
+                                    <Run Text="zł" />
                                 </TextBlock>
                                 <TextBlock>
-                                    <Run Text="Data: " />
+                                    <Run Text="Data:" />
                                     <Run Text="{Binding Date}" />
                                 </TextBlock>
                             </StackPanel>
@@ -125,7 +125,7 @@
                                         CommandParameter="{Binding}" HorizontalAlignment="Center"
                                         FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
                                 <TextBlock>
-                                    <Run Text="Cel: " />
+                                    <Run Text="Cel:" />
                                     <Run Text="{Binding Name}" />
                                 </TextBlock>
                                 <ProgressBar Minimum="0"
@@ -134,12 +134,12 @@
                                 <TextBlock Text="{Binding ProgressText}" />
                                 <TextBlock HorizontalAlignment="Center">
                                     <Run Text="{Binding SavedAmount}" />
-                                    <Run Text=" / " />
+                                    <Run Text="/" />
                                     <Run Text="{Binding TargetAmount}" />
-                                    <Run Text=" zł" />
+                                    <Run Text="zł" />
                                 </TextBlock>
                                 <TextBlock>
-                                    <Run Text="Termin: " />
+                                    <Run Text="Termin:" />
                                     <Run Text="{Binding Deadline}" />
                                 </TextBlock>
                             </StackPanel>
@@ -152,7 +152,7 @@
             <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />
 
             <TextBlock HorizontalAlignment="Center">
-                <Run Text="Zalogowano jako: " />
+                <Run Text="Zalogowano jako:" />
                 <Run Text="{Binding Username}" />
             </TextBlock>
             <Button Content="Wyloguj się" Command="{Binding LogoutCommand}" HorizontalAlignment="Center" />
