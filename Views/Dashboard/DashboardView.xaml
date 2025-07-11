@@ -63,21 +63,33 @@
                                         CommandParameter="{Binding}" HorizontalAlignment="Center"
                                         FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
                                 <TextBlock>
-                                    <Run Text="Typ:" />
-                                    <Run Text="{Binding TypeText}" />
+                                    <Run Text="Typ:" FontWeight="Bold" />
+                                    <Run Text="{Binding Type}" />
                                 </TextBlock>
                                 <TextBlock>
-                                    <Run Text="Kwota:" />
+                                    <Run Text="Kategoria:" FontWeight="Bold" />
+                                    <Run Text="{Binding Category}" />
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Kwota:" FontWeight="Bold" />
                                     <Run Text="{Binding Amount}" />
                                     <Run Text="zł" />
                                 </TextBlock>
                                 <TextBlock>
-                                    <Run Text="Opis:" />
+                                    <Run Text="Metoda płatności:" FontWeight="Bold" />
+                                    <Run Text="{Binding PaymentMethod}" />
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Opis:" FontWeight="Bold" />
                                     <Run Text="{Binding Description}" />
                                 </TextBlock>
                                 <TextBlock>
-                                    <Run Text="Data:" />
-                                    <Run Text="{Binding Date}" />
+                                    <Run Text="Miesiąc:" FontWeight="Bold" />
+                                    <Run Text="{Binding Month}" />
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Rok:" FontWeight="Bold" />
+                                    <Run Text="{Binding Year}" />
                                 </TextBlock>
                             </StackPanel>
                         </Border>
