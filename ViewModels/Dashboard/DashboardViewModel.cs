@@ -71,7 +71,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
             SavingGoals.Clear();
             foreach (var savingGoal in savingGoals)
-                SavingGoals.Add(new SavingGoalViewModel(savingGoal));
+                SavingGoals.Add(new SavingGoalViewModel(savingGoal, savings));
 
             OnPropertyChanged(nameof(SavingAmountTotal));
             OnPropertyChanged(nameof(BalanceNumber));

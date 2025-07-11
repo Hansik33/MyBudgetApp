@@ -2,18 +2,24 @@
 using Microsoft.UI.Xaml.Media;
 using MyBudgetApp.Models;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace MyBudgetApp.ViewModels.Dashboard
 {
-    public class SavingGoalViewModel(SavingGoal savingGoal)
+    public class SavingGoalViewModel(SavingGoal savingGoal, IEnumerable<Saving> savings)
     {
         private static readonly CultureInfo Culture = new("pl-PL");
 
         public int Id => savingGoal.Id;
         public string Goal => savingGoal.Name;
         public decimal TargetAmount => savingGoal.TargetAmount;
-        public decimal SavedAmount => savingGoal.SavedAmount;
+
+        public decimal SavedAmount { get; } = savings
+                .Where(saving => saving.GoalId == savingGoal.Id)
+                .Sum(saving => saving.Amount);
+
         public DateTime DeadlineDateTime => savingGoal.Deadline;
         public string Deadline => DeadlineDateTime.ToString("dd.MM.yyyy", Culture);
 
