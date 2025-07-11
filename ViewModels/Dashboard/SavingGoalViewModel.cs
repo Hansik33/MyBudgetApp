@@ -2,34 +2,40 @@
 using Microsoft.UI.Xaml.Media;
 using MyBudgetApp.Models;
 using System;
+using System.Globalization;
 
 namespace MyBudgetApp.ViewModels.Dashboard
 {
-    public class SavingGoalViewModel(SavingGoal savingGoalModel)
+    public class SavingGoalViewModel(SavingGoal savingGoal)
     {
-        private readonly SavingGoal _savingGoalModel = savingGoalModel;
+        private readonly SavingGoal _savingGoal = savingGoal;
+        private static readonly CultureInfo Culture = new("pl-PL");
 
-        public string Name => _savingGoalModel.Name;
-        public decimal TargetAmount => _savingGoalModel.TargetAmount;
-        public decimal SavedAmount => _savingGoalModel.SavedAmount;
-        public DateTime Deadline => _savingGoalModel.Deadline;
+        public int Id => _savingGoal.Id;
+        public string Goal => _savingGoal.Name;
+        public decimal TargetAmount => _savingGoal.TargetAmount;
+        public decimal SavedAmount => _savingGoal.SavedAmount;
+        public DateTime DeadlineDateTime => _savingGoal.Deadline;
+        public string Deadline => DeadlineDateTime.ToString("dd.MM.yyyy", Culture);
 
-        public double TargetAmountDouble => (double)_savingGoalModel.TargetAmount;
-        public double SavedAmountDouble => (double)_savingGoalModel.SavedAmount;
+        public double TargetAmountDouble => (double)TargetAmount;
+        public double SavedAmountDouble => (double)SavedAmount;
 
-        public string ProgressText =>
-            _savingGoalModel.TargetAmount == 0
-                ? "Progres: 0%"
-                : $"Progres: {Math.Round((_savingGoalModel.SavedAmount / _savingGoalModel.TargetAmount) * 100)}%";
+        public double ProgressPercentNumber =>
+            TargetAmount == 0 ? 0 : Math.Min((double)(SavedAmount / TargetAmount) * 100.0, 999.0);
 
-        public Brush ProgressBrush
+        public string ProgressPercent => $"{ProgressPercentNumber:0.00}%";
+
+        public string ProgressAmount => $"{SavedAmount:0.00} / {TargetAmount:0.00} zł";
+
+        public SolidColorBrush ProgressBrush
         {
             get
             {
-                if (_savingGoalModel.TargetAmount == 0)
+                if (TargetAmount == 0)
                     return new SolidColorBrush(Colors.Gray);
 
-                double progress = (double)_savingGoalModel.SavedAmount / (double)_savingGoalModel.TargetAmount;
+                double progress = ProgressPercentNumber / 100.0;
 
                 return progress switch
                 {
