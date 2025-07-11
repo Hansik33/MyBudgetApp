@@ -13,6 +13,7 @@
     <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
         <StackPanel Orientation="Vertical" Spacing="4">
             <local:DeleteIconButton />
+            <Button Content="Usuń" Command="{x:Bind DeleteCommand, Mode=OneWay}" CommandParameter="{Binding}" />
             <TextBlock>
                 <Run Text="Kategoria:" FontWeight="Bold" />
                 <Run Text="{Binding Category}" />

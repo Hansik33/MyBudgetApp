@@ -3,7 +3,6 @@ using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Interfaces.Dashboard;
 using MyBudgetApp.Resources;
-using MyBudgetApp.Services.Dashboard;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
