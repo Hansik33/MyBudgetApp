@@ -59,17 +59,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
             Budgets.Clear();
             foreach (var budget in budgets)
-            {
-                var usedAmount = transactions
-                    .Where(transaction =>
-                        transaction.CategoryId == budget.CategoryId &&
-                        transaction.Date.Year == budget.Year &&
-                        transaction.Date.Month == budget.MonthNumber &&
-                        transaction.Type == TransactionType.Expense)
-                    .Sum(transaction => transaction.Amount);
-
-                Budgets.Add(new BudgetViewModel(budget, usedAmount));
-            }
+                Budgets.Add(new BudgetViewModel(budget, transactions));
 
             Transactions.Clear();
             foreach (var transaction in transactions)
@@ -78,11 +68,10 @@ namespace MyBudgetApp.ViewModels.Dashboard
             Savings.Clear();
             foreach (var saving in savings)
             {
-                var goal = savingGoals.FirstOrDefault(g => g.Id == saving.GoalId);
+                var goal = savingGoals.FirstOrDefault(savingGoals => savingGoals.Id == saving.GoalId);
                 var goalName = goal?.Name ?? "Nieznany cel";
                 Savings.Add(new SavingViewModel(saving, goalName));
             }
-
 
             SavingGoals.Clear();
             foreach (var savingGoal in savingGoals)

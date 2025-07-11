@@ -1,12 +1,15 @@
 ﻿using Microsoft.UI;
 using Microsoft.UI.Xaml.Media;
+using MyBudgetApp.Enums;
 using MyBudgetApp.Models;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace MyBudgetApp.ViewModels.Dashboard
 {
-    public partial class BudgetViewModel(Budget budget, decimal usedAmount) : BaseViewModel
+    public partial class BudgetViewModel(Budget budget, IEnumerable<Transaction> transactions) : BaseViewModel
     {
         private static readonly CultureInfo Culture = new("pl-PL");
 
@@ -21,7 +24,12 @@ namespace MyBudgetApp.ViewModels.Dashboard
             new DateTime(Year, MonthNumber, 1).ToString("MMMM", Culture));
 
         public decimal LimitAmount => budget.LimitAmount;
-        public decimal UsedAmount => usedAmount;
+        public decimal UsedAmount { get; } = transactions
+                .Where(transaction => transaction.Type == TransactionType.Expense &&
+                            transaction.CategoryId == budget.CategoryId &&
+                            transaction.Date.Year == budget.Year &&
+                            transaction.Date.Month == budget.MonthNumber)
+                .Sum(transaction => transaction.Amount);
 
         public double UsedAmountDouble => (double)UsedAmount;
         public double LimitAmountDouble => (double)LimitAmount;
