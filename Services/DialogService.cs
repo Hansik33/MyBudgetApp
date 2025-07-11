@@ -11,13 +11,16 @@ namespace MyBudgetApp.Services
     public class DialogService : IDialogService
     {
         private XamlRoot? _xamlRoot;
+        private bool _isDialogOpen = false;
 
         public void SetXamlRoot(XamlRoot root) => _xamlRoot = root;
 
         public async Task ShowMessageAsync(string message, DialogType dialogType)
         {
-            if (_xamlRoot is null)
+            if (_xamlRoot is null || _isDialogOpen)
                 return;
+
+            _isDialogOpen = true;
 
             var title = dialogType switch
             {
@@ -36,6 +39,7 @@ namespace MyBudgetApp.Services
             };
 
             await dialog.ShowAsync();
+            _isDialogOpen = false;
         }
     }
 }
