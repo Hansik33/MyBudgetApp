@@ -26,10 +26,12 @@
             <ItemsControl ItemsSource="{Binding Budgets}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:BudgetViewModel">
-                        <dashboardControls:BudgetCard DeleteCommand="{Binding DataContext.DeleteBudgetCommand, ElementName=Root}" />
+                        <dashboardControls:BudgetCard Budget="{x:Bind}" 
+                        DeleteCommand="{Binding DataContext.DeleteBudgetCommand, ElementName=Root}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+
             <Button Content="Dodaj budżet" Command="{Binding AddBudgetCommand}" 
                     HorizontalAlignment="Center" Margin="0,10,0,0" />
             <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />

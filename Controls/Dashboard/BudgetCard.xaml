@@ -6,14 +6,15 @@
     xmlns:local="using:MyBudgetApp.Controls.Dashboard"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewmodels="using:MyBudgetApp.ViewModels.Dashboard" 
+    xmlns:viewmodels="using:MyBudgetApp.ViewModels.Dashboard"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type=viewmodels:BudgetViewModel}">
 
     <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
         <StackPanel Orientation="Vertical" Spacing="4">
-            <local:DeleteIconButton />
-            <Button Content="Usuń" Command="{x:Bind DeleteCommand, Mode=OneWay}" CommandParameter="{Binding}" />
+            <local:DeleteIconButton
+                Command="{x:Bind DeleteCommand, Mode=OneWay}"
+                CommandParameter="{x:Bind Budget, Mode=OneWay}" />
             <TextBlock>
                 <Run Text="Kategoria:" FontWeight="Bold" />
                 <Run Text="{Binding Category}" />
@@ -26,6 +27,7 @@
                 <Run Text="Rok:" FontWeight="Bold" />
                 <Run Text="{Binding Year}" />
             </TextBlock>
+
             <TextBlock Text="Limit:" FontWeight="Bold" />
             <TextBlock Text="{Binding UsagePercent}" HorizontalAlignment="Center" />
             <ProgressBar Minimum="0"

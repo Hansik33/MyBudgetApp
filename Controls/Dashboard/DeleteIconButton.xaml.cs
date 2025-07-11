@@ -6,13 +6,19 @@ namespace MyBudgetApp.Controls.Dashboard
 {
     public sealed partial class DeleteIconButton : UserControl
     {
-        public DeleteIconButton() => InitializeComponent();
-
         public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(DeleteIconButton), new PropertyMetadata(null));
+        DependencyProperty.Register(nameof(Command),
+                                    typeof(ICommand),
+                                    typeof(DeleteIconButton),
+                                    new PropertyMetadata(null));
 
         public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(DeleteIconButton), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(CommandParameter),
+                                        typeof(object),
+                                        typeof(DeleteIconButton),
+                                        new PropertyMetadata(null));
+
+        public DeleteIconButton() => InitializeComponent();
 
         public ICommand Command
         {
