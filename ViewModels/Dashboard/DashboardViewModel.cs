@@ -1,7 +1,6 @@
 ﻿using MyBudgetApp.Enums;
 using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
-using MyBudgetApp.Models;
 using MyBudgetApp.Resources;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -19,7 +18,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         public ObservableCollection<BudgetViewModel> Budgets { get; } = [];
         public ObservableCollection<TransactionViewModel> Transactions { get; } = [];
-        public ObservableCollection<Saving> Savings { get; } = [];
+        public ObservableCollection<SavingViewModel> Savings { get; } = [];
         public ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = [];
 
         public ICommand LogoutCommand { get; }
@@ -42,13 +41,14 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public int UserId => _userContext.UserId;
         public string Username => _userContext.Username;
 
+        public decimal SavingAmountTotal => Savings.Sum(saving => saving.Amount);
         public decimal BalanceNumber =>
-            Transactions
-                .Where(transaction => transaction.TypeEnum == TransactionType.Income)
-                .Sum(transaction => transaction.Amount)
-            - Transactions
-                .Where(transaction => transaction.TypeEnum == TransactionType.Expense)
-                .Sum(transaction => transaction.Amount);
+        Transactions.Where(transaction =>
+        transaction.TypeEnum == TransactionType.Income).Sum(transaction => transaction.Amount)
+        - Transactions.Where(transaction =>
+        transaction.TypeEnum == TransactionType.Expense).Sum(transaction => transaction.Amount)
+        - SavingAmountTotal;
+
         public string Balance => $"{BalanceNumber:0.00} zł";
 
         private async Task LoadDataAsync()
@@ -75,16 +75,23 @@ namespace MyBudgetApp.ViewModels.Dashboard
             Transactions.Clear();
             foreach (var transaction in transactions)
                 Transactions.Add(new TransactionViewModel(transaction));
-            OnPropertyChanged(nameof(BalanceNumber));
-            OnPropertyChanged(nameof(Balance));
 
             Savings.Clear();
             foreach (var saving in savings)
-                Savings.Add(saving);
+            {
+                var goal = savingGoals.FirstOrDefault(g => g.Id == saving.GoalId);
+                var goalName = goal?.Name ?? "Nieznany cel";
+                Savings.Add(new SavingViewModel(saving, goalName));
+            }
+
 
             SavingGoals.Clear();
             foreach (var savingGoal in savingGoals)
                 SavingGoals.Add(new SavingGoalViewModel(savingGoal));
+
+            OnPropertyChanged(nameof(SavingAmountTotal));
+            OnPropertyChanged(nameof(BalanceNumber));
+            OnPropertyChanged(nameof(Balance));
         }
 
         private async Task Logout()
