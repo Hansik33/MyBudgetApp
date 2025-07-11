@@ -3,22 +3,13 @@ using MyBudgetApp.Interfaces;
 
 namespace MyBudgetApp.Services
 {
-    public class AppStartupService
+    public class AppStartupService(INavigationService navigationService, IDatabaseService databaseService)
     {
-        private readonly INavigationService _navigationService;
-        private readonly IDatabaseService _databaseService;
-
         private Window? _window;
-
-        public AppStartupService(INavigationService navigationService, IDatabaseService databaseService)
-        {
-            _navigationService = navigationService;
-            _databaseService = databaseService;
-        }
 
         public void Start()
         {
-            _databaseService.TryConnect();
+            databaseService.TryConnect();
 
             _window = new MainWindow();
             _window.Activate();
@@ -41,11 +32,9 @@ namespace MyBudgetApp.Services
                 var workArea = displayArea.WorkArea;
                 appWindow.MoveAndResize(workArea);
 
-                _navigationService.Initialize(mainWindow.MainContent);
-                _navigationService.GoToLogin();
+                navigationService.Initialize(mainWindow.MainContent);
+                navigationService.GoToLogin();
             }
-
-
         }
     }
 }

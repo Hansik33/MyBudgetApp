@@ -11,13 +11,11 @@ using System.Threading.Tasks;
 
 namespace MyBudgetApp.Services
 {
-    public class DatabaseService : IDatabaseService
+    public class DatabaseService(IPasswordHashService passwordHashService) : IDatabaseService
     {
         private const string ConnectionString =
             "server=localhost;port=3306;database=mybudgetapp;user=root;password=qwertyz1234!";
-        private readonly IPasswordHashService _passwordHashService;
-
-        public DatabaseService(IPasswordHashService passwordHashService) => _passwordHashService = passwordHashService;
+        private readonly IPasswordHashService _passwordHashService = passwordHashService;
 
         public bool TryConnect()
         {

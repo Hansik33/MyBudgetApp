@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI;
 using Microsoft.UI.Xaml.Media;
+using MyBudgetApp.Models;
 using System;
 
 namespace MyBudgetApp.ViewModels.Dashboard

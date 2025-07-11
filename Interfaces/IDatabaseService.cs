@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public interface IDatabaseService
+namespace MyBudgetApp.Interfaces
 {
-    bool TryConnect();
-    bool InsertUser(string username, string passwordHash);
-    User? GetUserByCredentials(string username, string plainPassword);
+    public interface IDatabaseService
+    {
+        bool TryConnect();
+        bool InsertUser(string username, string passwordHash);
+        User? GetUserByCredentials(string username, string plainPassword);
 
-    Task<List<Budget>> GetBudgetsAsync(int userId);
-    Task<List<Transaction>> GetTransactionsAsync(int userId);
-    Task<List<Saving>> GetSavingsAsync(int userId);
-    Task<List<SavingGoal>> GetSavingGoalsAsync(int userId);
+        Task<List<Budget>> GetBudgetsAsync(int userId);
+        Task<List<Transaction>> GetTransactionsAsync(int userId);
+        Task<List<Saving>> GetSavingsAsync(int userId);
+        Task<List<SavingGoal>> GetSavingGoalsAsync(int userId);
+    }
 }

@@ -8,12 +8,10 @@ using System;
 
 namespace MyBudgetApp.Services
 {
-    public class NavigationService : INavigationService
+    public class NavigationService(IServiceProvider serviceProvider) : INavigationService
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceProvider _serviceProvider = serviceProvider;
         private ContentControl? _host;
-
-        public NavigationService(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
         public void Initialize(ContentControl host) => _host = host;
 
