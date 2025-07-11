@@ -1,7 +1,9 @@
 ﻿using MyBudgetApp.Enums;
 using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
+using MyBudgetApp.Interfaces.Dashboard;
 using MyBudgetApp.Resources;
+using MyBudgetApp.Services.Dashboard;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +13,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 {
     public partial class DashboardViewModel : BaseViewModel
     {
+        private readonly IBudgetService _budgetService;
         private readonly IUserContext _userContext;
         private readonly IDatabaseService _databaseService;
         private readonly IDialogService _dialogService;
@@ -22,18 +25,22 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = [];
 
         public ICommand LogoutCommand { get; }
+        public ICommand DeleteBudgetCommand { get; }
 
-        public DashboardViewModel(IUserContext userContext,
+        public DashboardViewModel(IBudgetService budgetService,
+                                  IUserContext userContext,
                                   IDatabaseService databaseService,
                                   IDialogService dialogService,
                                   INavigationService navigationService)
         {
+            _budgetService = budgetService;
             _userContext = userContext;
             _databaseService = databaseService;
             _dialogService = dialogService;
             _navigationService = navigationService;
 
             LogoutCommand = new RelayCommand(async () => await Logout());
+            DeleteBudgetCommand = new RelayCommand<BudgetViewModel>(async budget => await DeleteBudget(budget));
             _ = LoadDataAsync();
         }
 
@@ -74,6 +81,15 @@ namespace MyBudgetApp.ViewModels.Dashboard
                 SavingGoals.Add(new SavingGoalViewModel(savingGoal, savings));
 
             OnPropertyChanged(nameof(SavingAmountTotal));
+            OnPropertyChanged(nameof(BalanceNumber));
+            OnPropertyChanged(nameof(Balance));
+        }
+
+        private async Task DeleteBudget(BudgetViewModel budget)
+        {
+            await _budgetService.DeleteBudgetAsync(budget.Id);
+            Budgets.Remove(budget);
+
             OnPropertyChanged(nameof(BalanceNumber));
             OnPropertyChanged(nameof(Balance));
         }

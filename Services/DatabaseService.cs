@@ -160,5 +160,20 @@ namespace MyBudgetApp.Services
                 .Where(savingGoal => savingGoal.UserId == userId)
                 .ToListAsync();
         }
+
+        public async Task DeleteBudgetAsync(int budgetId)
+        {
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
+                .Options;
+
+            using var ctx = new AppDbContext(options);
+
+            var budget = await ctx.Budgets.FirstOrDefaultAsync(budget => budget.Id == budgetId);
+            if (budget is null) return;
+
+            ctx.Budgets.Remove(budget);
+            await ctx.SaveChangesAsync();
+        }
     }
 }
