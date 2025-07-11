@@ -15,6 +15,7 @@
   <ItemGroup>
     <None Remove="Controls\BindablePasswordBox.xaml" />
     <None Remove="Views\Dashboard\BudgetCard.xaml" />
+    <None Remove="Views\Dashboard\TransactionCard.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -71,6 +72,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Auth\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Dashboard\SavingCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Dashboard\TransactionCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Dashboard\BudgetCard.xaml">

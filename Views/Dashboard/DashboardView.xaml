@@ -37,42 +37,7 @@
             <ItemsControl ItemsSource="{Binding Transactions}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
-                            <StackPanel Orientation="Vertical" Spacing="2">
-                                <Button Content="✕" Command="{Binding DataContext.RemoveBudgetCommand, ElementName=Root}"
-                                        CommandParameter="{Binding}" HorizontalAlignment="Center"
-                                        FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
-                                <TextBlock>
-                                    <Run Text="Typ:" FontWeight="Bold" />
-                                    <Run Text="{Binding Type}" />
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run Text="Kategoria:" FontWeight="Bold" />
-                                    <Run Text="{Binding Category}" />
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run Text="Kwota:" FontWeight="Bold" />
-                                    <Run Text="{Binding Amount}" />
-                                    <Run Text="zł" />
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run Text="Metoda płatności:" FontWeight="Bold" />
-                                    <Run Text="{Binding PaymentMethod}" />
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run Text="Opis:" FontWeight="Bold" />
-                                    <Run Text="{Binding Description}" />
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run Text="Miesiąc:" FontWeight="Bold" />
-                                    <Run Text="{Binding Month}" />
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run Text="Rok:" FontWeight="Bold" />
-                                    <Run Text="{Binding Year}" />
-                                </TextBlock>
-                            </StackPanel>
-                        </Border>
+                        <local:TransactionCard />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -84,27 +49,7 @@
             <ItemsControl ItemsSource="{Binding Savings}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
-                            <StackPanel Orientation="Vertical" Spacing="2">
-                                <TextBlock>
-                                    <Run Text="Cel:" FontWeight="Bold"/>
-                                    <Run Text="{Binding Goal}" />
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run Text="Kwota:" FontWeight="Bold"/>
-                                    <Run Text="{Binding Amount}" />
-                                    <Run Text="zł" />
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run Text="Data:" FontWeight="Bold"/>
-                                    <Run Text="{Binding Date}" />
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run Text="Godzina:" FontWeight="Bold"/>
-                                    <Run Text="{Binding Time}" />
-                                </TextBlock>
-                            </StackPanel>
-                        </Border>
+                        <local:SavingCard />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
