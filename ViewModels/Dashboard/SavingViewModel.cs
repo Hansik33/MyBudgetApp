@@ -3,22 +3,15 @@ using System.Globalization;
 
 namespace MyBudgetApp.ViewModels.Dashboard
 {
-    public class SavingViewModel
+    public class SavingViewModel(Saving saving, string goalName)
     {
-        private readonly Saving _saving;
         private static readonly CultureInfo Culture = new("pl-PL");
 
-        public SavingViewModel(Saving saving, string goalName)
-        {
-            _saving = saving;
-            Goal = goalName;
-        }
+        public decimal Amount => saving.Amount;
 
-        public decimal Amount => _saving.Amount;
+        public string Date => saving.Date.ToString("dd.MM.yyyy", Culture);
+        public string Time => saving.Date.ToString("HH:mm", Culture);
 
-        public string Date => _saving.Date.ToString("dd.MM.yyyy", Culture);
-        public string Time => _saving.Date.ToString("HH:mm", Culture);
-
-        public string Goal { get; }
+        public string Goal { get; } = goalName;
     }
 }

@@ -19,8 +19,10 @@ namespace MyBudgetApp.ViewModels.Auth
         public ICommand GoToRegisterCommand { get; }
         public ICommand LoginCommand { get; }
 
-        public LoginViewModel(IUserContext userContext, IDatabaseService databaseService,
-            IDialogService dialogService, INavigationService navigationService)
+        public LoginViewModel(IUserContext userContext,
+                              IDatabaseService databaseService,
+                              IDialogService dialogService,
+                              INavigationService navigationService)
         {
             _userContext = userContext;
             _databaseService = databaseService;

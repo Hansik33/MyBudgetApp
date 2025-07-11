@@ -6,9 +6,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 {
     public class TransactionViewModel(Transaction transaction)
     {
-        private readonly Transaction _transaction = transaction;
-
-        public TransactionType TypeEnum => _transaction.Type;
+        public TransactionType TypeEnum => transaction.Type;
 
         public string Type => TypeEnum switch
         {
@@ -17,13 +15,13 @@ namespace MyBudgetApp.ViewModels.Dashboard
             _ => throw new NotImplementedException()
         };
 
-        public string Category => _transaction.CategoryName;
-        public decimal Amount => _transaction.Amount;
-        public string PaymentMethod => _transaction.PaymentMethod;
-        public string Description => _transaction.Description;
-        public DateTime Date => _transaction.Date;
-        public int Year => _transaction.Date.Year;
+        public string Category => transaction.CategoryName;
+        public decimal Amount => transaction.Amount;
+        public string PaymentMethod => transaction.PaymentMethod;
+        public string Description => transaction.Description;
+        public DateTime Date => transaction.Date;
+        public int Year => transaction.Date.Year;
         public string Month => new System.Globalization.CultureInfo("pl-PL").TextInfo.ToTitleCase(
-            _transaction.Date.ToString("MMMM", new System.Globalization.CultureInfo("pl-PL")));
+            transaction.Date.ToString("MMMM", new System.Globalization.CultureInfo("pl-PL")));
     }
 }

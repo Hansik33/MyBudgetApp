@@ -10,7 +10,6 @@ namespace MyBudgetApp.Services
 {
     public class NavigationService(IServiceProvider serviceProvider) : INavigationService
     {
-        private readonly IServiceProvider _serviceProvider = serviceProvider;
         private ContentControl? _host;
 
         public void Initialize(ContentControl host) => _host = host;
@@ -22,7 +21,7 @@ namespace MyBudgetApp.Services
 
             var viewType = ViewLocator.ResolveViewType(typeof(TViewModel));
             var view = (UserControl)Activator.CreateInstance(viewType)!;
-            view.DataContext = _serviceProvider.GetRequiredService<TViewModel>();
+            view.DataContext = serviceProvider.GetRequiredService<TViewModel>();
 
             _host.Content = view;
         }

@@ -19,7 +19,8 @@ namespace MyBudgetApp.ViewModels.Auth
         public ICommand RegisterCommand { get; }
 
         public RegisterViewModel(IDatabaseService databaseService,
-            IDialogService dialogService, INavigationService navigationService)
+                                 IDialogService dialogService,
+                                 INavigationService navigationService)
         {
             _databaseService = databaseService;
             _dialogService = dialogService;

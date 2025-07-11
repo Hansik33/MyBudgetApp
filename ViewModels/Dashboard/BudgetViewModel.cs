@@ -6,26 +6,29 @@ using System.Globalization;
 
 namespace MyBudgetApp.ViewModels.Dashboard
 {
-    public class BudgetViewModel(Budget budget, decimal usedAmount)
+    public partial class BudgetViewModel(Budget budget, decimal usedAmount) : BaseViewModel
     {
-        private readonly Budget _budget = budget;
         private static readonly CultureInfo Culture = new("pl-PL");
 
-        public int Id => _budget.Id;
-        public int UserId => _budget.UserId;
-        public int CategoryId => _budget.CategoryId;
-        public string Category => _budget.CategoryName;
-        public int Year => _budget.Year;
-        public int MonthNumber => _budget.MonthNumber;
+        public int Id => budget.Id;
+        public int UserId => budget.UserId;
+        public int CategoryId => budget.CategoryId;
+        public string Category => budget.CategoryName;
+        public int Year => budget.Year;
+        public int MonthNumber => budget.MonthNumber;
+
         public string Month => Culture.TextInfo.ToTitleCase(
             new DateTime(Year, MonthNumber, 1).ToString("MMMM", Culture));
 
-        public decimal LimitAmount => _budget.LimitAmount;
-        public decimal UsedAmount { get; } = usedAmount;
+        public decimal LimitAmount => budget.LimitAmount;
+        public decimal UsedAmount => usedAmount;
+
         public double UsedAmountDouble => (double)UsedAmount;
         public double LimitAmountDouble => (double)LimitAmount;
 
-        public double UsagePercentNumber => LimitAmount == 0 ? 0 : Math.Min((double)(UsedAmount / LimitAmount) * 100.0, 999.0);
+        public double UsagePercentNumber =>
+            LimitAmount == 0 ? 0 : Math.Min((double)(UsedAmount / LimitAmount) * 100.0, 999.0);
+
         public string UsagePercent => $"{UsagePercentNumber:0.00}%";
         public string UsageLimit => $"{UsedAmount:0.00} / {LimitAmount:0.00} zł";
 
@@ -46,6 +49,5 @@ namespace MyBudgetApp.ViewModels.Dashboard
                 };
             }
         }
-
     }
 }

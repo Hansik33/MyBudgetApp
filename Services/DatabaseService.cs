@@ -15,7 +15,6 @@ namespace MyBudgetApp.Services
     {
         private const string ConnectionString =
             "server=localhost;port=3306;database=mybudgetapp;user=root;password=qwertyz1234!";
-        private readonly IPasswordHashService _passwordHashService = passwordHashService;
 
         public bool TryConnect()
         {
@@ -41,7 +40,7 @@ namespace MyBudgetApp.Services
             if (appDbContext.Users.Any(user => user.Username == username))
                 return false;
 
-            var hashed = _passwordHashService.Hash(plainPassword);
+            var hashed = passwordHashService.Hash(plainPassword);
 
             appDbContext.Users.Add(new User
             {
@@ -65,7 +64,7 @@ namespace MyBudgetApp.Services
             if (user == null)
                 return null;
 
-            return _passwordHashService.Verify(plainPassword, user.Password_hash) ? user : null;
+            return passwordHashService.Verify(plainPassword, user.Password_hash) ? user : null;
         }
 
         public async Task<List<Budget>> GetBudgetsAsync(int userId)

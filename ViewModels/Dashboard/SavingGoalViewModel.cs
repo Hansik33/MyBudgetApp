@@ -8,14 +8,13 @@ namespace MyBudgetApp.ViewModels.Dashboard
 {
     public class SavingGoalViewModel(SavingGoal savingGoal)
     {
-        private readonly SavingGoal _savingGoal = savingGoal;
         private static readonly CultureInfo Culture = new("pl-PL");
 
-        public int Id => _savingGoal.Id;
-        public string Goal => _savingGoal.Name;
-        public decimal TargetAmount => _savingGoal.TargetAmount;
-        public decimal SavedAmount => _savingGoal.SavedAmount;
-        public DateTime DeadlineDateTime => _savingGoal.Deadline;
+        public int Id => savingGoal.Id;
+        public string Goal => savingGoal.Name;
+        public decimal TargetAmount => savingGoal.TargetAmount;
+        public decimal SavedAmount => savingGoal.SavedAmount;
+        public DateTime DeadlineDateTime => savingGoal.Deadline;
         public string Deadline => DeadlineDateTime.ToString("dd.MM.yyyy", Culture);
 
         public double TargetAmountDouble => (double)TargetAmount;

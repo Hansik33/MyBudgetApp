@@ -23,11 +23,10 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         public ICommand LogoutCommand { get; }
 
-        public DashboardViewModel(
-            IUserContext userContext,
-            IDatabaseService databaseService,
-            IDialogService dialogService,
-            INavigationService navigationService)
+        public DashboardViewModel(IUserContext userContext,
+                                  IDatabaseService databaseService,
+                                  IDialogService dialogService,
+                                  INavigationService navigationService)
         {
             _userContext = userContext;
             _databaseService = databaseService;
