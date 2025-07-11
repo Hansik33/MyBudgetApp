@@ -61,28 +61,7 @@
             <ItemsControl ItemsSource="{Binding SavingGoals}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
-                            <StackPanel Orientation="Vertical" Spacing="4">
-                                <Button Content="✕" Command="{Binding DataContext.RemoveBudgetCommand, ElementName=Root}"
-                                        CommandParameter="{Binding}" HorizontalAlignment="Center"
-                                        FontSize="16" Padding="0" Margin="0,0,0,10" Width="32" Height="32" />
-                                <TextBlock>
-                                    <Run Text="Cel:" FontWeight="Bold" />
-                                    <Run Text="{Binding Goal}" />
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run Text="Termin:" FontWeight="Bold" />
-                                    <Run Text="{Binding Deadline}" />
-                                </TextBlock>
-                                <TextBlock Text="Postęp:" FontWeight="Bold" />
-                                <TextBlock Text="{Binding ProgressPercent}" HorizontalAlignment="Center" />
-                                <ProgressBar Minimum="0"
-                                             Maximum="{Binding TargetAmountDouble}" 
-                                             Value="{Binding SavedAmountDouble}"
-                                             Foreground="{Binding ProgressBrush}" Height="8" />
-                                <TextBlock Text="{Binding ProgressAmount}" HorizontalAlignment="Center" />
-                            </StackPanel>
-                        </Border>
+                        <local:SavingGoalCard />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
