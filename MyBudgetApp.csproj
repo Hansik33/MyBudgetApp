@@ -14,6 +14,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Controls\BindablePasswordBox.xaml" />
+    <None Remove="Controls\Dashboard\DeleteIconButton.xaml" />
     <None Remove="Views\Dashboard\BudgetCard.xaml" />
     <None Remove="Views\Dashboard\TransactionCard.xaml" />
   </ItemGroup>
@@ -72,8 +73,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\Auth\" />
-    <Folder Include="Controls\Dashboard\" />
     <Folder Include="Views\Auth\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Dashboard\DeleteIconButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="ViewModels\Dashboard\SavingGoalCard.xaml">
