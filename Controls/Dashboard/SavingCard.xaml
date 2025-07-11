@@ -6,7 +6,9 @@
     xmlns:local="using:MyBudgetApp.Controls.Dashboard"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:viewmodels="using:MyBudgetApp.ViewModels.Dashboard" 
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=viewmodels:SavingViewModel}">
 
     <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
         <StackPanel Orientation="Vertical" Spacing="2">
