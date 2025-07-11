@@ -67,11 +67,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
             Savings.Clear();
             foreach (var saving in savings)
-            {
-                var goal = savingGoals.FirstOrDefault(savingGoals => savingGoals.Id == saving.GoalId);
-                var goalName = goal?.Name ?? "Nieznany cel";
-                Savings.Add(new SavingViewModel(saving, goalName));
-            }
+                Savings.Add(new SavingViewModel(saving, savingGoals));
 
             SavingGoals.Clear();
             foreach (var savingGoal in savingGoals)
