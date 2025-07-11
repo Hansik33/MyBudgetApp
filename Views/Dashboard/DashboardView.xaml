@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:MyBudgetApp.ViewModels.Dashboard" 
+    xmlns:dashboardControls="using:MyBudgetApp.Controls.Dashboard"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type=viewmodels:DashboardViewModel}">
 
@@ -25,7 +26,7 @@
             <ItemsControl ItemsSource="{Binding Budgets}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <local:BudgetCard />
+                        <dashboardControls:BudgetCard />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -37,7 +38,7 @@
             <ItemsControl ItemsSource="{Binding Transactions}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <local:TransactionCard />
+                        <dashboardControls:TransactionCard />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -49,7 +50,7 @@
             <ItemsControl ItemsSource="{Binding Savings}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <local:SavingCard />
+                        <dashboardControls:SavingCard />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -61,7 +62,7 @@
             <ItemsControl ItemsSource="{Binding SavingGoals}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <local:SavingGoalCard />
+                        <dashboardControls:SavingGoalCard />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

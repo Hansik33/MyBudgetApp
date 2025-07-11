@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:MyBudgetApp.ViewModels.Auth"
     xmlns:helpers="using:MyBudgetApp.Helpers"
-    xmlns:controls="using:MyBudgetApp.Controls"
+    xmlns:authControls="using:MyBudgetApp.Controls.Auth"
     xmlns:behaviors="using:MyBudgetApp.Behaviors" 
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type=viewmodels:LoginViewModel}">
@@ -22,7 +22,7 @@
         <TextBox Text="{Binding Username, Mode=TwoWay}" />
 
         <TextBlock Text="Hasło" />
-        <controls:BindablePasswordBox Password="{Binding Password, Mode=TwoWay}" />
+        <authControls:BindablePasswordBox Password="{Binding Password, Mode=TwoWay}" />
 
         <Button Content="Zaloguj" Command="{Binding LoginCommand}" Height="40" Margin="0,10,0,0" />
 

@@ -71,6 +71,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controls\Auth\" />
+    <Folder Include="Controls\Dashboard\" />
     <Folder Include="Views\Auth\" />
   </ItemGroup>
   <ItemGroup>

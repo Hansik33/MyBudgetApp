@@ -1,7 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace MyBudgetApp.Controls
+namespace MyBudgetApp.Controls.Auth
 {
     public sealed partial class BindablePasswordBox : UserControl
     {

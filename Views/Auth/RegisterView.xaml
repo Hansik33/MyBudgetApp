@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:MyBudgetApp.ViewModels.Auth"
     xmlns:helpers="using:MyBudgetApp.Helpers"
-    xmlns:controls="using:MyBudgetApp.Controls"
+    xmlns:authControls="using:MyBudgetApp.Controls.Auth"
     xmlns:behaviors="using:MyBudgetApp.Behaviors"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type=viewmodels:RegisterViewModel}">
@@ -22,10 +22,10 @@
         <TextBox Text="{Binding Username, Mode=TwoWay}" />
 
         <TextBlock Text="Hasło" />
-        <controls:BindablePasswordBox Password="{Binding Password, Mode=TwoWay}" />
+        <authControls:BindablePasswordBox Password="{Binding Password, Mode=TwoWay}" />
 
         <TextBlock Text="Potwierdź hasło" />
-        <controls:BindablePasswordBox Password="{Binding ConfirmPassword, Mode=TwoWay}" />
+        <authControls:BindablePasswordBox Password="{Binding ConfirmPassword, Mode=TwoWay}" />
 
         <Button Content="Zarejestruj się" Command="{Binding RegisterCommand}" Height="40" Margin="0,10,0,0" />
 
