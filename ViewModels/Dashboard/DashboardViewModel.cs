@@ -3,7 +3,6 @@ using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Models;
 using MyBudgetApp.Resources;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,6 +42,15 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public int UserId => _userContext.UserId;
         public string Username => _userContext.Username;
 
+        public decimal BalanceNumber =>
+            Transactions
+                .Where(transaction => transaction.TypeEnum == TransactionType.Income)
+                .Sum(transaction => transaction.Amount)
+            - Transactions
+                .Where(transaction => transaction.TypeEnum == TransactionType.Expense)
+                .Sum(transaction => transaction.Amount);
+        public string Balance => $"{BalanceNumber:0.00} zł";
+
         private async Task LoadDataAsync()
         {
             var budgets = await _databaseService.GetBudgetsAsync(UserId);
@@ -58,7 +66,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
                         transaction.CategoryId == budget.CategoryId &&
                         transaction.Date.Year == budget.Year &&
                         transaction.Date.Month == budget.MonthNumber &&
-                        transaction.Type.Equals(nameof(TransactionType.Expense), StringComparison.OrdinalIgnoreCase))
+                        transaction.Type == TransactionType.Expense)
                     .Sum(transaction => transaction.Amount);
 
                 Budgets.Add(new BudgetViewModel(budget, usedAmount));
@@ -67,6 +75,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
             Transactions.Clear();
             foreach (var transaction in transactions)
                 Transactions.Add(new TransactionViewModel(transaction));
+            OnPropertyChanged(nameof(BalanceNumber));
+            OnPropertyChanged(nameof(Balance));
 
             Savings.Clear();
             foreach (var saving in savings)

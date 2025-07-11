@@ -16,6 +16,11 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" 
                     MaxWidth="500" MinWidth="280" Padding="40" Spacing="14">
 
+            <TextBlock HorizontalAlignment="Center" FontSize="16">
+                <Run Text="Saldo:" FontWeight="Bold" />
+                <Run Text="{Binding Balance}" />
+            </TextBlock>
+            
             <TextBlock Text="Budżety" FontWeight="Bold" FontSize="16" />
             <ItemsControl ItemsSource="{Binding Budgets}">
                 <ItemsControl.ItemTemplate>
