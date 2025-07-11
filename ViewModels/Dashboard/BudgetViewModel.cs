@@ -3,20 +3,13 @@ using Microsoft.UI.Xaml.Media;
 using MyBudgetApp.Models;
 using System;
 using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace MyBudgetApp.ViewModels.Dashboard
 {
-    public class BudgetViewModel
+    public class BudgetViewModel(Budget budget, decimal usedAmount)
     {
-        private readonly Budget _budget;
+        private readonly Budget _budget = budget;
         private static readonly CultureInfo Culture = new("pl-PL");
-
-        public BudgetViewModel(Budget budget, decimal usedAmount)
-        {
-            _budget = budget;
-            UsedAmount = usedAmount;
-        }
 
         public int Id => _budget.Id;
         public int UserId => _budget.UserId;
@@ -28,7 +21,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
             new DateTime(Year, MonthNumber, 1).ToString("MMMM", Culture));
         public decimal LimitAmount => _budget.LimitAmount;
 
-        public decimal UsedAmount { get; }
+        public decimal UsedAmount { get; } = usedAmount;
         public double UsedAmountDouble => (double)UsedAmount;
         public double LimitAmountDouble => (double)LimitAmount;
 

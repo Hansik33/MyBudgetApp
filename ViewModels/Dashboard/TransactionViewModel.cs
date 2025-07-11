@@ -4,11 +4,9 @@ using System;
 
 namespace MyBudgetApp.ViewModels.Dashboard
 {
-    public class TransactionViewModel
+    public class TransactionViewModel(Transaction transaction)
     {
-        private readonly Transaction _transaction;
-
-        public TransactionViewModel(Transaction transaction) => _transaction = transaction;
+        private readonly Transaction _transaction = transaction;
 
         public TransactionType Type =>
             Enum.TryParse<TransactionType>(_transaction.Type, out var type)

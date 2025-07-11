@@ -1,5 +1,8 @@
-﻿public class Category
+﻿namespace MyBudgetApp.Models
 {
-    public required int Id { get; set; }
-    public required string Name { get; set; }
+    public class Category
+    {
+        public required int Id { get; set; }
+        public required string Name { get; set; }
+    }
 }

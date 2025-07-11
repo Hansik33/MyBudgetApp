@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace MyBudgetApp.ViewModels.Auth
 {
-    public class RegisterViewModel : BaseViewModel
+    public partial class RegisterViewModel : BaseViewModel
     {
         private readonly IDatabaseService _databaseService;
         private readonly IDialogService _dialogService;
@@ -56,7 +56,7 @@ namespace MyBudgetApp.ViewModels.Auth
                 .Validate(Username, Password, ConfirmPassword)
                 .ToList();
 
-            if (errors.Any())
+            if (errors.Count != 0)
             {
                 var firstError = errors.First();
                 var message = firstError switch

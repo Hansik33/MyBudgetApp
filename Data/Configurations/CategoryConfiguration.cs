@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using MyBudgetApp.Models;
 
 namespace MyBudgetApp.Data.Configurations
 {
