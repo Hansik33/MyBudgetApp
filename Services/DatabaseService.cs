@@ -166,13 +166,13 @@ namespace MyBudgetApp.Services
                 .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
                 .Options;
 
-            using var ctx = new AppDbContext(options);
+            using var appDbContext = new AppDbContext(options);
 
-            var budget = await ctx.Budgets.FirstOrDefaultAsync(budget => budget.Id == budgetId);
+            var budget = await appDbContext.Budgets.FirstOrDefaultAsync(budget => budget.Id == budgetId);
             if (budget is null) return;
 
-            ctx.Budgets.Remove(budget);
-            await ctx.SaveChangesAsync();
+            appDbContext.Budgets.Remove(budget);
+            await appDbContext.SaveChangesAsync();
         }
 
         public async Task DeleteTransactionAsync(int transactionId)
@@ -181,13 +181,13 @@ namespace MyBudgetApp.Services
                 .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
                 .Options;
 
-            using var ctx = new AppDbContext(options);
+            using var appDbContext = new AppDbContext(options);
 
-            var transaction = await ctx.Transactions.FirstOrDefaultAsync(transaction => transaction.Id == transactionId);
+            var transaction = await appDbContext.Transactions.FirstOrDefaultAsync(transaction => transaction.Id == transactionId);
             if (transaction is null) return;
 
-            ctx.Transactions.Remove(transaction);
-            await ctx.SaveChangesAsync();
+            appDbContext.Transactions.Remove(transaction);
+            await appDbContext.SaveChangesAsync();
         }
 
         public async Task DeleteSavingAsync(int savingId)
@@ -196,13 +196,28 @@ namespace MyBudgetApp.Services
                 .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
                 .Options;
 
-            using var ctx = new AppDbContext(options);
+            using var appDbContext = new AppDbContext(options);
 
-            var saving = await ctx.Savings.FirstOrDefaultAsync(saving => saving.Id == savingId);
+            var saving = await appDbContext.Savings.FirstOrDefaultAsync(saving => saving.Id == savingId);
             if (saving is null) return;
 
-            ctx.Savings.Remove(saving);
-            await ctx.SaveChangesAsync();
+            appDbContext.Savings.Remove(saving);
+            await appDbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteSavingGoalAsync(int savingGoalId)
+        {
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
+                .Options;
+
+            using var appDbContext = new AppDbContext(options);
+
+            var savingGoal = await appDbContext.SavingGoals.FirstOrDefaultAsync(goal => goal.Id == savingGoalId);
+            if (savingGoal is null) return;
+
+            appDbContext.SavingGoals.Remove(savingGoal);
+            await appDbContext.SaveChangesAsync();
         }
     }
 }

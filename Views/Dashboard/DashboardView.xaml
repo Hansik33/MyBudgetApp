@@ -56,8 +56,8 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:SavingViewModel">
                         <dashboardControls:SavingCard Saving="{x:Bind}" 
-                                                           DeleteCommand="{Binding DataContext.DeleteSavingCommand, 
-                                                                                   ElementName=Root}" />
+                                                      DeleteCommand="{Binding DataContext.DeleteSavingCommand, 
+                                                                              ElementName=Root}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -68,8 +68,10 @@
             <TextBlock Text="Cele oszczędnościowe" FontWeight="Bold" FontSize="16" />
             <ItemsControl ItemsSource="{Binding SavingGoals}">
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <dashboardControls:SavingGoalCard />
+                    <DataTemplate x:DataType="viewmodels:SavingGoalViewModel">
+                        <dashboardControls:SavingGoalCard SavingGoal="{x:Bind}" 
+                                                          DeleteCommand="{Binding DataContext.DeleteSavingGoalCommand, 
+                                                                                  ElementName=Root}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

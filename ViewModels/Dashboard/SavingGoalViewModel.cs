@@ -14,8 +14,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         public int Id => savingGoal.Id;
         public string Goal => savingGoal.Name;
-        public decimal TargetAmount => savingGoal.TargetAmount;
 
+        public decimal TargetAmount => savingGoal.TargetAmount;
         public decimal SavedAmount { get; } = savings
                 .Where(saving => saving.GoalId == savingGoal.Id)
                 .Sum(saving => saving.Amount);
@@ -28,9 +28,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         public double ProgressPercentNumber =>
             TargetAmount == 0 ? 0 : Math.Min((double)(SavedAmount / TargetAmount) * 100.0, 999.0);
-
         public string ProgressPercent => $"{ProgressPercentNumber:0.00}%";
-
         public string ProgressAmount => $"{SavedAmount:0.00} / {TargetAmount:0.00} zł";
 
         public SolidColorBrush ProgressBrush

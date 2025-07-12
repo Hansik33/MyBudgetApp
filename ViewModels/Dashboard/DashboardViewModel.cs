@@ -15,6 +15,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private readonly IBudgetService _budgetService;
         private readonly ITransactionService _transactionService;
         private readonly ISavingService _savingService;
+        private readonly ISavingGoalService _savingGoalService;
 
         private readonly IUserContext _userContext;
         private readonly IDatabaseService _databaseService;
@@ -27,13 +28,16 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = [];
 
         public ICommand LogoutCommand { get; }
+
         public ICommand DeleteBudgetCommand { get; }
         public ICommand DeleteTransactionCommand { get; }
         public ICommand DeleteSavingCommand { get; }
+        public ICommand DeleteSavingGoalCommand { get; }
 
         public DashboardViewModel(IBudgetService budgetService,
                                   ITransactionService transactionService,
                                   ISavingService savingService,
+                                  ISavingGoalService savingGoalService,
                                   IUserContext userContext,
                                   IDatabaseService databaseService,
                                   IDialogService dialogService,
@@ -42,6 +46,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
             _budgetService = budgetService;
             _transactionService = transactionService;
             _savingService = savingService;
+            _savingGoalService = savingGoalService;
 
             _userContext = userContext;
             _databaseService = databaseService;
@@ -54,6 +59,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
             DeleteTransactionCommand = new RelayCommand<TransactionViewModel>(async transaction =>
             await DeleteTransaction(transaction));
             DeleteSavingCommand = new RelayCommand<SavingViewModel>(async saving => await DeleteSaving(saving));
+            DeleteSavingGoalCommand = new RelayCommand<SavingGoalViewModel>(async savingGoal =>
+            await DeleteSavingGoal(savingGoal));
 
             _ = LoadDataAsync();
         }
@@ -117,6 +124,23 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
             await _dialogService.ShowMessageAsync(
                 AppStrings.Dialogs.Saving.DeletedSuccess,
+                DialogType.Success);
+
+            await LoadDataAsync();
+        }
+
+        private async Task DeleteSavingGoal(SavingGoalViewModel savingGoal)
+        {
+            var confirmed = await _dialogService.ShowConfirmationAsync(AppStrings.Dialogs.SavingGoal.ConfirmDelete);
+
+            if (!confirmed)
+                return;
+
+            await _savingGoalService.DeleteSavingGoalAsync(savingGoal.Id);
+            SavingGoals.Remove(savingGoal);
+
+            await _dialogService.ShowMessageAsync(
+                AppStrings.Dialogs.SavingGoal.DeletedSuccess,
                 DialogType.Success);
 
             await LoadDataAsync();

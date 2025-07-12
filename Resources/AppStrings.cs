@@ -38,6 +38,12 @@
                 public const string ConfirmDelete = "Czy na pewno chcesz usunąć tę wpłatę do celu?";
                 public const string DeletedSuccess = "Wpłata do celu została usunięta.";
             }
+
+            public static class SavingGoal
+            {
+                public const string ConfirmDelete = "Czy na pewno chcesz usunąć ten cel oszczędnościowy?";
+                public const string DeletedSuccess = "Cel oszczędnościowy został usunięty.";
+            }
         }
     }
 }
