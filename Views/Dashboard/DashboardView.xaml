@@ -26,8 +26,9 @@
             <ItemsControl ItemsSource="{Binding Budgets}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:BudgetViewModel">
-                        <dashboardControls:BudgetCard Budget="{x:Bind}" 
-                        DeleteCommand="{Binding DataContext.DeleteBudgetCommand, ElementName=Root}" />
+                        <dashboardControls:BudgetCard Budget="{x:Bind}"
+                                                      DeleteCommand="{Binding DataContext.DeleteBudgetCommand, 
+                                                                              ElementName=Root}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -40,8 +41,9 @@
             <ItemsControl ItemsSource="{Binding Transactions}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:TransactionViewModel">
-                        <dashboardControls:TransactionCard Transaction="{x:Bind}" 
-                                   DeleteCommand="{Binding DataContext.DeleteTransactionCommand, ElementName=Root}" />
+                        <dashboardControls:TransactionCard Transaction="{x:Bind}"
+                                                           DeleteCommand="{Binding DataContext.DeleteTransactionCommand, 
+                                                                                   ElementName=Root}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -52,8 +54,10 @@
             <TextBlock Text="Wpłaty do celów" FontWeight="Bold" FontSize="16" />
             <ItemsControl ItemsSource="{Binding Savings}">
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <dashboardControls:SavingCard />
+                    <DataTemplate x:DataType="viewmodels:SavingViewModel">
+                        <dashboardControls:SavingCard Saving="{x:Bind}" 
+                                                           DeleteCommand="{Binding DataContext.DeleteSavingCommand, 
+                                                                                   ElementName=Root}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

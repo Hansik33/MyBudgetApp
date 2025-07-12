@@ -189,5 +189,20 @@ namespace MyBudgetApp.Services
             ctx.Transactions.Remove(transaction);
             await ctx.SaveChangesAsync();
         }
+
+        public async Task DeleteSavingAsync(int savingId)
+        {
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
+                .Options;
+
+            using var ctx = new AppDbContext(options);
+
+            var saving = await ctx.Savings.FirstOrDefaultAsync(saving => saving.Id == savingId);
+            if (saving is null) return;
+
+            ctx.Savings.Remove(saving);
+            await ctx.SaveChangesAsync();
+        }
     }
 }

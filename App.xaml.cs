@@ -30,6 +30,8 @@ namespace MyBudgetApp
         {
             services.AddSingleton<IBudgetService, BudgetService>();
             services.AddSingleton<ITransactionService, TransactionService>();
+            services.AddSingleton<ISavingService, SavingService>();
+
             services.AddSingleton<IUserContext, UserContextService>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IDatabaseService, DatabaseService>();

@@ -12,7 +12,9 @@
 
     <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
         <StackPanel Orientation="Vertical" Spacing="2">
-            <local:DeleteIconButton />
+            <local:DeleteIconButton
+                Command="{x:Bind DeleteCommand, Mode=OneWay}"
+                CommandParameter="{x:Bind Saving, Mode=OneWay}" />
             <TextBlock>
             <Run Text="Cel:" FontWeight="Bold"/>
             <Run Text="{Binding Goal}" />

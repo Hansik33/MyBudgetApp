@@ -14,6 +14,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
     {
         private readonly IBudgetService _budgetService;
         private readonly ITransactionService _transactionService;
+        private readonly ISavingService _savingService;
+
         private readonly IUserContext _userContext;
         private readonly IDatabaseService _databaseService;
         private readonly IDialogService _dialogService;
@@ -27,9 +29,11 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public ICommand LogoutCommand { get; }
         public ICommand DeleteBudgetCommand { get; }
         public ICommand DeleteTransactionCommand { get; }
+        public ICommand DeleteSavingCommand { get; }
 
         public DashboardViewModel(IBudgetService budgetService,
                                   ITransactionService transactionService,
+                                  ISavingService savingService,
                                   IUserContext userContext,
                                   IDatabaseService databaseService,
                                   IDialogService dialogService,
@@ -37,15 +41,19 @@ namespace MyBudgetApp.ViewModels.Dashboard
         {
             _budgetService = budgetService;
             _transactionService = transactionService;
+            _savingService = savingService;
+
             _userContext = userContext;
             _databaseService = databaseService;
             _dialogService = dialogService;
             _navigationService = navigationService;
 
             LogoutCommand = new RelayCommand(async () => await Logout());
+
             DeleteBudgetCommand = new RelayCommand<BudgetViewModel>(async budget => await DeleteBudget(budget));
             DeleteTransactionCommand = new RelayCommand<TransactionViewModel>(async transaction =>
             await DeleteTransaction(transaction));
+            DeleteSavingCommand = new RelayCommand<SavingViewModel>(async saving => await DeleteSaving(saving));
 
             _ = LoadDataAsync();
         }
@@ -77,13 +85,12 @@ namespace MyBudgetApp.ViewModels.Dashboard
                 AppStrings.Dialogs.Budget.DeletedSuccess,
                 DialogType.Success);
 
-            await _budgetService.DeleteBudgetAsync(budget.Id);
             await LoadDataAsync();
         }
 
         private async Task DeleteTransaction(TransactionViewModel transaction)
         {
-            var confirmed = await _dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Transactions.ConfirmDelete);
+            var confirmed = await _dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Transaction.ConfirmDelete);
 
             if (!confirmed)
                 return;
@@ -92,10 +99,26 @@ namespace MyBudgetApp.ViewModels.Dashboard
             Transactions.Remove(transaction);
 
             await _dialogService.ShowMessageAsync(
-                AppStrings.Dialogs.Transactions.DeletedSuccess,
+                AppStrings.Dialogs.Transaction.DeletedSuccess,
                 DialogType.Success);
 
-            await _transactionService.DeleteTransactionAsync(transaction.Id);
+            await LoadDataAsync();
+        }
+
+        private async Task DeleteSaving(SavingViewModel saving)
+        {
+            var confirmed = await _dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Saving.ConfirmDelete);
+
+            if (!confirmed)
+                return;
+
+            await _savingService.DeleteSavingAsync(saving.Id);
+            Savings.Remove(saving);
+
+            await _dialogService.ShowMessageAsync(
+                AppStrings.Dialogs.Saving.DeletedSuccess,
+                DialogType.Success);
+
             await LoadDataAsync();
         }
 

@@ -19,6 +19,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
             Goal = goal?.Name ?? "Nieznany cel";
         }
 
+        public int Id => _saving.Id;
+
         public decimal Amount => _saving.Amount;
 
         public string Date => _saving.Date.ToString("dd.MM.yyyy", Culture);
