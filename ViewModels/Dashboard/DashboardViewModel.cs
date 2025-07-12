@@ -56,6 +56,24 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         public string Balance => $"{BalanceNumber:0.00} zł";
 
+        private async Task DeleteBudget(BudgetViewModel budget)
+        {
+            var confirmed = await _dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Budget.ConfirmDelete);
+
+            if (!confirmed)
+                return;
+
+            await _budgetService.DeleteBudgetAsync(budget.Id);
+            Budgets.Remove(budget);
+
+            await _dialogService.ShowMessageAsync(
+                AppStrings.Dialogs.Budget.DeletedSuccess,
+                DialogType.Success);
+
+            OnPropertyChanged(nameof(BalanceNumber));
+            OnPropertyChanged(nameof(Balance));
+        }
+
         private async Task LoadDataAsync()
         {
             var budgets = await _databaseService.GetBudgetsAsync(UserId);
@@ -80,15 +98,6 @@ namespace MyBudgetApp.ViewModels.Dashboard
                 SavingGoals.Add(new SavingGoalViewModel(savingGoal, savings));
 
             OnPropertyChanged(nameof(SavingAmountTotal));
-            OnPropertyChanged(nameof(BalanceNumber));
-            OnPropertyChanged(nameof(Balance));
-        }
-
-        private async Task DeleteBudget(BudgetViewModel budget)
-        {
-            await _budgetService.DeleteBudgetAsync(budget.Id);
-            Budgets.Remove(budget);
-
             OnPropertyChanged(nameof(BalanceNumber));
             OnPropertyChanged(nameof(Balance));
         }

@@ -75,7 +75,7 @@ namespace MyBudgetApp.ViewModels.Auth
                 return;
             }
 
-            await _dialogService.ShowMessageAsync(string.Format(AppStrings.Dialogs.Auth.LoginSuccess, user.Username), 
+            await _dialogService.ShowMessageAsync(string.Format(AppStrings.Dialogs.Auth.LoginSuccess, user.Username),
                 DialogType.Info);
 
             _userContext.UserId = user.Id;

@@ -41,5 +41,28 @@ namespace MyBudgetApp.Services
             await dialog.ShowAsync();
             _isDialogOpen = false;
         }
+
+        public async Task<bool> ShowConfirmationAsync(string message)
+        {
+            if (_xamlRoot is null || _isDialogOpen)
+                return false;
+
+            _isDialogOpen = true;
+
+            var dialog = new ContentDialog
+            {
+                Title = AppStrings.Dialogs.TitleWarning,
+                Content = message,
+                PrimaryButtonText = "Tak",
+                CloseButtonText = "Nie",
+                DefaultButton = ContentDialogButton.Close,
+                XamlRoot = _xamlRoot
+            };
+
+            var result = await dialog.ShowAsync();
+            _isDialogOpen = false;
+
+            return result == ContentDialogResult.Primary;
+        }
     }
 }

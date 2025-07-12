@@ -8,5 +8,6 @@ namespace MyBudgetApp.Interfaces
     {
         void SetXamlRoot(XamlRoot root);
         Task ShowMessageAsync(string message, DialogType dialogType = DialogType.Info);
+        Task<bool> ShowConfirmationAsync(string message);
     }
 }
