@@ -32,7 +32,6 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-
             <Button Content="Dodaj budżet" Command="{Binding AddBudgetCommand}" 
                     HorizontalAlignment="Center" Margin="0,10,0,0" />
             <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />
@@ -41,11 +40,13 @@
             <ItemsControl ItemsSource="{Binding Categories}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:CategoryViewModel">
-                        <dashboardControls:CategoryCard />
+                        <dashboardControls:CategoryCard Category="{x:Bind}"
+                                   DeleteCommand="{Binding DataContext.DeleteCategoryCommand, 
+                                                           ElementName=Root}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Button Content="Dodaj kategorię" Command="{Binding AddTransactionCommand}" 
+            <Button Content="Dodaj kategorię" Command="{Binding AddCategoryCommand}" 
                     HorizontalAlignment="Center" Margin="0,10,0,0" />
             <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />
 

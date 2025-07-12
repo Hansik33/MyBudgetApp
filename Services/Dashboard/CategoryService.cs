@@ -9,5 +9,6 @@ namespace MyBudgetApp.Services.Dashboard
     public class CategoryService(IDatabaseService databaseService) : ICategoryService
     {
         public async Task<List<Category>> GetCategoriesAsync(int userId) => await databaseService.GetCategoriesAsync(userId);
+        public async Task DeleteCategoryAsync(int categoryId) => await databaseService.DeleteCategoryAsync(categoryId);
     }
 }

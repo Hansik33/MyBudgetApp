@@ -148,6 +148,21 @@ namespace MyBudgetApp.Services
             await appDbContext.SaveChangesAsync();
         }
 
+        public async Task DeleteCategoryAsync(int categoryId)
+        {
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
+                .Options;
+
+            using var appDbContext = new AppDbContext(options);
+
+            var category = await appDbContext.Categories.FirstOrDefaultAsync(category => category.Id == categoryId);
+            if (category is null) return;
+
+            appDbContext.Categories.Remove(category);
+            await appDbContext.SaveChangesAsync();
+        }
+
         public async Task DeleteTransactionAsync(int transactionId)
         {
             var options = new DbContextOptionsBuilder<AppDbContext>()

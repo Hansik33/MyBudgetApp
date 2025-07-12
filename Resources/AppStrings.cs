@@ -27,6 +27,12 @@
                 public const string DeletedSuccess = "Budżet został usunięty.";
             }
 
+            public static class Category
+            {
+                public const string ConfirmDelete = "Czy na pewno chcesz usunąć tę kategorię?";
+                public const string DeletedSuccess = "Kategoria została usunięta.";
+            }
+
             public static class Transaction
             {
                 public const string ConfirmDelete = "Czy na pewno chcesz usunąć tę transakcję?";

@@ -33,6 +33,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         public ICommand DeleteBudgetCommand { get; }
         public ICommand DeleteTransactionCommand { get; }
+        public ICommand DeleteCategoryCommand { get; }
         public ICommand DeleteSavingCommand { get; }
         public ICommand DeleteSavingGoalCommand { get; }
 
@@ -58,6 +59,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
             LogoutCommand = new RelayCommand(async () => await Logout());
 
             DeleteBudgetCommand = new RelayCommand<BudgetViewModel>(async budget => await DeleteBudget(budget));
+            DeleteCategoryCommand = new RelayCommand<CategoryViewModel>(async category => await DeleteCategory(category));
             DeleteTransactionCommand = new RelayCommand<TransactionViewModel>(async transaction =>
             await DeleteTransaction(transaction));
             DeleteSavingCommand = new RelayCommand<SavingViewModel>(async saving => await DeleteSaving(saving));
@@ -92,6 +94,23 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
             await _dialogService.ShowMessageAsync(
                 AppStrings.Dialogs.Budget.DeletedSuccess,
+                DialogType.Success);
+
+            await LoadDataAsync();
+        }
+
+        private async Task DeleteCategory(CategoryViewModel category)
+        {
+            var confirmed = await _dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Category.ConfirmDelete);
+
+            if (!confirmed)
+                return;
+
+            await _budgetService.DeleteBudgetAsync(category.Id);
+            Categories.Remove(category);
+
+            await _dialogService.ShowMessageAsync(
+                AppStrings.Dialogs.Category.DeletedSuccess,
                 DialogType.Success);
 
             await LoadDataAsync();
