@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyBudgetApp.Data;
-using MyBudgetApp.Enums;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Models;
 using System;
@@ -102,38 +101,10 @@ namespace MyBudgetApp.Services
 
             using var appDbContext = new AppDbContext(options);
 
-            var joined = await appDbContext.Transactions
+            return await appDbContext.Transactions
+                .Include(transaction => transaction.Category)
                 .Where(transaction => transaction.UserId == userId)
-                .Join(appDbContext.Categories,
-                      transaction => transaction.CategoryId,
-                      category => category.Id,
-                      (transaction, category) => new { transaction, category })
                 .ToListAsync();
-
-            var result = new List<Transaction>();
-
-            foreach (var item in joined)
-            {
-                var transaction = item.transaction;
-                var category = item.category;
-
-                var success = Enum.TryParse<TransactionType>(transaction.Type.ToString(), true, out var parsedType);
-
-                result.Add(new Transaction
-                {
-                    Id = transaction.Id,
-                    UserId = transaction.UserId,
-                    CategoryId = transaction.CategoryId,
-                    Amount = transaction.Amount,
-                    Type = success ? parsedType : TransactionType.Expense,
-                    Description = transaction.Description ?? string.Empty,
-                    PaymentMethod = transaction.PaymentMethod ?? string.Empty,
-                    Date = transaction.Date,
-                    CategoryName = category.Name
-                });
-            }
-
-            return result;
         }
 
         public async Task<List<Saving>> GetSavingsAsync(int userId)
@@ -185,7 +156,8 @@ namespace MyBudgetApp.Services
 
             using var appDbContext = new AppDbContext(options);
 
-            var transaction = await appDbContext.Transactions.FirstOrDefaultAsync(transaction => transaction.Id == transactionId);
+            var transaction = await appDbContext.Transactions.FirstOrDefaultAsync(transaction =>
+            transaction.Id == transactionId);
             if (transaction is null) return;
 
             appDbContext.Transactions.Remove(transaction);

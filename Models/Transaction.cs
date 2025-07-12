@@ -14,6 +14,6 @@ namespace MyBudgetApp.Models
         public required string PaymentMethod { get; set; }
         public required DateTime Date { get; set; }
 
-        public required string CategoryName { get; set; }
+        public Category Category { get; set; } = null!;
     }
 }

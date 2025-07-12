@@ -19,8 +19,8 @@ namespace MyBudgetApp.Data.Configurations
             builder.Property(transaction => transaction.Description).HasColumnName("description");
             builder.Property(transaction => transaction.PaymentMethod).HasColumnName("payment_method");
             builder.Property(transaction => transaction.Date).HasColumnName("date");
-
-            builder.Ignore(transaction => transaction.CategoryName);
+            builder.HasOne(transaction => transaction.Category).WithMany().HasForeignKey(transaction =>
+            transaction.CategoryId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
