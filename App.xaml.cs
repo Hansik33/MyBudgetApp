@@ -34,6 +34,7 @@ namespace MyBudgetApp
             services.AddSingleton<ISavingGoalService, SavingGoalService>();
 
             services.AddSingleton<IUserContext, UserContextService>();
+            services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IDatabaseService, DatabaseService>();
             services.AddSingleton<IDialogService, DialogService>();

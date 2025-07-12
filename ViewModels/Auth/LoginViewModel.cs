@@ -12,7 +12,7 @@ namespace MyBudgetApp.ViewModels.Auth
     public partial class LoginViewModel : BaseViewModel
     {
         private readonly IUserContext _userContext;
-        private readonly IDatabaseService _databaseService;
+        private readonly IUserService _userService;
         private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
 
@@ -20,12 +20,12 @@ namespace MyBudgetApp.ViewModels.Auth
         public ICommand LoginCommand { get; }
 
         public LoginViewModel(IUserContext userContext,
-                              IDatabaseService databaseService,
+                              IUserService userService,
                               IDialogService dialogService,
                               INavigationService navigationService)
         {
             _userContext = userContext;
-            _databaseService = databaseService;
+            _userService = userService;
             _dialogService = dialogService;
             _navigationService = navigationService;
 
@@ -67,7 +67,7 @@ namespace MyBudgetApp.ViewModels.Auth
                 return;
             }
 
-            var user = _databaseService.GetUserByCredentials(Username, Password);
+            var user = _userService.GetUserByCredentials(Username, Password);
 
             if (user == null)
             {
