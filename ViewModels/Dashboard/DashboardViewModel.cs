@@ -148,7 +148,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task LoadDataAsync()
         {
-            var budgets = await _databaseService.GetBudgetsAsync(UserId);
+            var budgets = await _budgetService.GetBudgetsAsync(UserId);
             var transactions = await _databaseService.GetTransactionsAsync(UserId);
             var savings = await _databaseService.GetSavingsAsync(UserId);
             var savingGoals = await _databaseService.GetSavingGoalsAsync(UserId);
