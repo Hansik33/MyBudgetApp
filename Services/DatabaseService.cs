@@ -92,6 +92,19 @@ namespace MyBudgetApp.Services
                       }).ToListAsync();
         }
 
+        public async Task<List<Category>> GetCategoriesAsync(int userId)
+        {
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
+                .Options;
+
+            using var appDbContext = new AppDbContext(options);
+
+            return await appDbContext.Categories
+                .Where(category => category.UserId == userId)
+                .ToListAsync();
+        }
+
         public async Task<List<Transaction>> GetTransactionsAsync(int userId)
         {
             var options = new DbContextOptionsBuilder<AppDbContext>()

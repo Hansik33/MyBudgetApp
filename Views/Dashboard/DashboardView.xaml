@@ -37,6 +37,18 @@
                     HorizontalAlignment="Center" Margin="0,10,0,0" />
             <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />
 
+            <TextBlock Text="Kategorie" FontWeight="Bold" FontSize="16" />
+            <ItemsControl ItemsSource="{Binding Categories}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="viewmodels:CategoryViewModel">
+                        <dashboardControls:CategoryCard />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Content="Dodaj kategorię" Command="{Binding AddTransactionCommand}" 
+                    HorizontalAlignment="Center" Margin="0,10,0,0" />
+            <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />
+
             <TextBlock Text="Transakcje" FontWeight="Bold" FontSize="16" />
             <ItemsControl ItemsSource="{Binding Transactions}">
                 <ItemsControl.ItemTemplate>

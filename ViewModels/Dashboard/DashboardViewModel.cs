@@ -14,6 +14,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
     public partial class DashboardViewModel : BaseViewModel
     {
         private readonly IBudgetService _budgetService;
+        private readonly ICategoryService _categoryService;
         private readonly ITransactionService _transactionService;
         private readonly ISavingService _savingService;
         private readonly ISavingGoalService _savingGoalService;
@@ -23,6 +24,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private readonly INavigationService _navigationService;
 
         public ObservableCollection<BudgetViewModel> Budgets { get; } = [];
+        public ObservableCollection<CategoryViewModel> Categories { get; } = [];
         public ObservableCollection<TransactionViewModel> Transactions { get; } = [];
         public ObservableCollection<SavingViewModel> Savings { get; } = [];
         public ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = [];
@@ -36,6 +38,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         public DashboardViewModel(IBudgetService budgetService,
                                   ITransactionService transactionService,
+                                  ICategoryService categoryService,
                                   ISavingService savingService,
                                   ISavingGoalService savingGoalService,
                                   IUserContext userContext,
@@ -43,6 +46,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
                                   INavigationService navigationService)
         {
             _budgetService = budgetService;
+            _categoryService = categoryService;
             _transactionService = transactionService;
             _savingService = savingService;
             _savingGoalService = savingGoalService;
@@ -156,9 +160,14 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private async Task LoadDataAsync()
         {
             var budgets = await _budgetService.GetBudgetsAsync(UserId);
+            var categories = await _categoryService.GetCategoriesAsync(UserId);
             var transactions = await _transactionService.GetTransactionsAsync(UserId);
             var savings = await _savingService.GetSavingsAsync(UserId);
             var savingGoals = await _savingGoalService.GetSavingGoalsAsync(UserId);
+
+            Categories.Clear();
+            foreach (var category in categories)
+                Categories.Add(new CategoryViewModel(category));
 
             Budgets.Clear();
             foreach (var budget in budgets)

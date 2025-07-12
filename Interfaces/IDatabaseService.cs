@@ -12,6 +12,7 @@ namespace MyBudgetApp.Interfaces
         User? GetUserByCredentials(string username, string plainPassword);
 
         Task<List<Budget>> GetBudgetsAsync(int userId);
+        Task<List<Category>> GetCategoriesAsync(int userId);
         Task<List<Transaction>> GetTransactionsAsync(int userId);
         Task<List<Saving>> GetSavingsAsync(int userId);
         Task<List<SavingGoal>> GetSavingGoalsAsync(int userId);
