@@ -8,7 +8,7 @@ namespace MyBudgetApp.Services.Dashboard
 {
     public class TransactionService(IDatabaseService databaseService) : ITransactionService
     {
-        public async Task<List<Transaction>> GetTransactionsAsync(int userId) => 
+        public async Task<List<Transaction>> GetTransactionsAsync(int userId) =>
             await databaseService.GetTransactionsAsync(userId);
         public async Task DeleteTransactionAsync(int transactionId) =>
             await databaseService.DeleteTransactionAsync(transactionId);

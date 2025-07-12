@@ -213,7 +213,7 @@ namespace MyBudgetApp.Services
 
             using var appDbContext = new AppDbContext(options);
 
-            var savingGoal = await appDbContext.SavingGoals.FirstOrDefaultAsync(goal => goal.Id == savingGoalId);
+            var savingGoal = await appDbContext.SavingGoals.FirstOrDefaultAsync(savingGoal => savingGoal.Id == savingGoalId);
             if (savingGoal is null) return;
 
             appDbContext.SavingGoals.Remove(savingGoal);

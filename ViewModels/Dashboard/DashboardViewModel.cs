@@ -18,7 +18,6 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private readonly ISavingGoalService _savingGoalService;
 
         private readonly IUserContext _userContext;
-        private readonly IDatabaseService _databaseService;
         private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
 
@@ -39,7 +38,6 @@ namespace MyBudgetApp.ViewModels.Dashboard
                                   ISavingService savingService,
                                   ISavingGoalService savingGoalService,
                                   IUserContext userContext,
-                                  IDatabaseService databaseService,
                                   IDialogService dialogService,
                                   INavigationService navigationService)
         {
@@ -49,7 +47,6 @@ namespace MyBudgetApp.ViewModels.Dashboard
             _savingGoalService = savingGoalService;
 
             _userContext = userContext;
-            _databaseService = databaseService;
             _dialogService = dialogService;
             _navigationService = navigationService;
 
@@ -151,7 +148,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
             var budgets = await _budgetService.GetBudgetsAsync(UserId);
             var transactions = await _transactionService.GetTransactionsAsync(UserId);
             var savings = await _savingService.GetSavingsAsync(UserId);
-            var savingGoals = await _databaseService.GetSavingGoalsAsync(UserId);
+            var savingGoals = await _savingGoalService.GetSavingGoalsAsync(UserId);
 
             Budgets.Clear();
             foreach (var budget in budgets)
