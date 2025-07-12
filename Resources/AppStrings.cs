@@ -31,6 +31,7 @@
             {
                 public const string ConfirmDelete = "Czy na pewno chcesz usunąć tę kategorię?";
                 public const string DeletedSuccess = "Kategoria została usunięta.";
+                public const string DeletionNotAllowed = "Kategoria jest używana i nie może zostać usunięta!";
             }
 
             public static class Transaction

@@ -19,6 +19,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         };
 
         public string Category => transaction.Category?.Name ?? string.Empty;
+        public int CategoryId => transaction.CategoryId;
         public decimal Amount => transaction.Amount;
         public string PaymentMethod => transaction.PaymentMethod;
         public string Description => transaction.Description;

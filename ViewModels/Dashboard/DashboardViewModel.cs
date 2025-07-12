@@ -106,14 +106,23 @@ namespace MyBudgetApp.ViewModels.Dashboard
             if (!confirmed)
                 return;
 
-            await _budgetService.DeleteBudgetAsync(category.Id);
-            Categories.Remove(category);
+            if (CategoryValidator.IsDeletionAllowed(category, Budgets, Transactions))
+            {
+                await _categoryService.DeleteCategoryAsync(category.Id);
+                Categories.Remove(category);
 
-            await _dialogService.ShowMessageAsync(
-                AppStrings.Dialogs.Category.DeletedSuccess,
-                DialogType.Success);
+                await _dialogService.ShowMessageAsync(
+                    AppStrings.Dialogs.Category.DeletedSuccess,
+                    DialogType.Success);
 
-            await LoadDataAsync();
+                await LoadDataAsync();
+            }
+            else
+            {
+                await _dialogService.ShowMessageAsync(
+                    AppStrings.Dialogs.Category.DeletionNotAllowed,
+                    DialogType.Error);
+            }
         }
 
         private async Task DeleteTransaction(TransactionViewModel transaction)
