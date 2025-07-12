@@ -9,6 +9,6 @@
         public required int Year { get; set; }
         public required decimal LimitAmount { get; set; }
 
-        public required string CategoryName { get; set; }
+        public Category Category { get; set; } = null!;
     }
 }

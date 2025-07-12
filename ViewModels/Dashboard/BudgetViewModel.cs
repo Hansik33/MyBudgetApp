@@ -16,7 +16,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public int Id => budget.Id;
         public int UserId => budget.UserId;
         public int CategoryId => budget.CategoryId;
-        public string Category => budget.CategoryName;
+        public string Category => budget.Category?.Name ?? string.Empty;
         public int Year => budget.Year;
         public int MonthNumber => budget.MonthNumber;
 
@@ -24,12 +24,13 @@ namespace MyBudgetApp.ViewModels.Dashboard
             new DateTime(Year, MonthNumber, 1).ToString("MMMM", Culture));
 
         public decimal LimitAmount => budget.LimitAmount;
+
         public decimal UsedAmount { get; } = transactions
-                .Where(transaction => transaction.Type == TransactionType.Expense &&
-                            transaction.CategoryId == budget.CategoryId &&
-                            transaction.Date.Year == budget.Year &&
-                            transaction.Date.Month == budget.MonthNumber)
-                .Sum(transaction => transaction.Amount);
+            .Where(transaction => transaction.Type == TransactionType.Expense &&
+                                  transaction.CategoryId == budget.CategoryId &&
+                                  transaction.Date.Year == budget.Year &&
+                                  transaction.Date.Month == budget.MonthNumber)
+            .Sum(transaction => transaction.Amount);
 
         public double UsedAmountDouble => (double)UsedAmount;
         public double LimitAmountDouble => (double)LimitAmount;
@@ -40,22 +41,13 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public string UsagePercent => $"{UsagePercentNumber:0.00}%";
         public string UsageLimit => $"{UsedAmount:0.00} / {LimitAmount:0.00} zł";
 
-        public SolidColorBrush UsageBrush
-        {
-            get
+        public SolidColorBrush UsageBrush =>
+            LimitAmount == 0 ? new SolidColorBrush(Colors.Gray)
+            : UsagePercentNumber switch
             {
-                if (LimitAmount == 0)
-                    return new SolidColorBrush(Colors.Gray);
-
-                double usage = UsagePercentNumber / 100.0;
-
-                return usage switch
-                {
-                    <= 0.5 => new SolidColorBrush(Colors.Green),
-                    <= 1.0 => new SolidColorBrush(Colors.Orange),
-                    _ => new SolidColorBrush(Colors.Red)
-                };
-            }
-        }
+                <= 50 => new SolidColorBrush(Colors.Green),
+                <= 100 => new SolidColorBrush(Colors.Orange),
+                _ => new SolidColorBrush(Colors.Red)
+            };
     }
 }

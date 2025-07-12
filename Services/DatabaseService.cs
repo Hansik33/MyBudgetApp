@@ -76,20 +76,9 @@ namespace MyBudgetApp.Services
             using var appDbContext = new AppDbContext(options);
 
             return await appDbContext.Budgets
+                .Include(budget => budget.Category)
                 .Where(budget => budget.UserId == userId)
-                .Join(appDbContext.Categories,
-                      budget => budget.CategoryId,
-                      category => category.Id,
-                      (budget, category) => new Budget
-                      {
-                          Id = budget.Id,
-                          UserId = budget.UserId,
-                          CategoryId = budget.CategoryId,
-                          Year = budget.Year,
-                          MonthNumber = budget.MonthNumber,
-                          LimitAmount = budget.LimitAmount,
-                          CategoryName = category.Name
-                      }).ToListAsync();
+                .ToListAsync();
         }
 
         public async Task<List<Category>> GetCategoriesAsync(int userId)
