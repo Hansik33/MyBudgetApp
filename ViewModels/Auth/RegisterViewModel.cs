@@ -62,9 +62,9 @@ namespace MyBudgetApp.ViewModels.Auth
                 var firstError = errors.First();
                 var message = firstError switch
                 {
-                    "UsernameEmpty" => AppStrings.Dialogs.UserEmpty,
-                    "PasswordEmpty" => AppStrings.Dialogs.PasswordEmpty,
-                    "PasswordMismatch" => AppStrings.Dialogs.PasswordMismatch,
+                    "UsernameEmpty" => AppStrings.Dialogs.Auth.UserEmpty,
+                    "PasswordEmpty" => AppStrings.Dialogs.Auth.PasswordEmpty,
+                    "PasswordMismatch" => AppStrings.Dialogs.Auth.PasswordMismatch,
                     _ => throw new System.NotImplementedException()
                 };
 
@@ -76,11 +76,11 @@ namespace MyBudgetApp.ViewModels.Auth
 
             if (!success)
             {
-                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.UserExists, DialogType.Warning);
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Auth.UserExists, DialogType.Warning);
                 return;
             }
 
-            await _dialogService.ShowMessageAsync(AppStrings.Dialogs.RegisterSuccess, DialogType.Success);
+            await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Auth.RegisterSuccess, DialogType.Success);
             _navigationService.GoToLogin();
         }
     }

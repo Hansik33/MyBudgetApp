@@ -58,8 +58,8 @@ namespace MyBudgetApp.ViewModels.Auth
                 var firstError = errors.First();
                 var message = firstError switch
                 {
-                    "UsernameEmpty" => AppStrings.Dialogs.UserEmpty,
-                    "PasswordEmpty" => AppStrings.Dialogs.PasswordEmpty,
+                    "UsernameEmpty" => AppStrings.Dialogs.Auth.UserEmpty,
+                    "PasswordEmpty" => AppStrings.Dialogs.Auth.PasswordEmpty,
                     _ => throw new System.NotImplementedException()
                 };
 
@@ -71,11 +71,12 @@ namespace MyBudgetApp.ViewModels.Auth
 
             if (user == null)
             {
-                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.UserNotFound, DialogType.Error);
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Auth.UserNotFound, DialogType.Error);
                 return;
             }
 
-            await _dialogService.ShowMessageAsync(string.Format(AppStrings.Dialogs.LoginSuccess, user.Username), DialogType.Info);
+            await _dialogService.ShowMessageAsync(string.Format(AppStrings.Dialogs.Auth.LoginSuccess, user.Username), 
+                DialogType.Info);
 
             _userContext.UserId = user.Id;
             _userContext.Username = user.Username;

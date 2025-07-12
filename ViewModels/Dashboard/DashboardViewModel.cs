@@ -95,7 +95,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task Logout()
         {
-            await _dialogService.ShowMessageAsync(AppStrings.Dialogs.UserLoggedOut, DialogType.Info);
+            await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Auth.UserLoggedOut, DialogType.Info);
             _userContext.Clear();
             _navigationService.GoToLogin();
         }
