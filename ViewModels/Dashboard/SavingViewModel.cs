@@ -20,12 +20,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
         }
 
         public int Id => _saving.Id;
-
         public decimal Amount => _saving.Amount;
-
         public string Date => _saving.Date.ToString("dd.MM.yyyy", Culture);
-        public string Time => _saving.Date.ToString("HH:mm", Culture);
-
         public string Goal { get; }
     }
 }

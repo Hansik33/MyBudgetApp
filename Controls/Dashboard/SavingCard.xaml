@@ -28,10 +28,6 @@
             <Run Text="Data:" FontWeight="Bold"/>
             <Run Text="{Binding Date}" />
             </TextBlock>
-            <TextBlock>
-            <Run Text="Godzina:" FontWeight="Bold"/>
-            <Run Text="{Binding Time}" />
-            </TextBlock>
         </StackPanel>
     </Border>
 
