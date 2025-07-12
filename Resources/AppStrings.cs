@@ -17,7 +17,7 @@
                 public const string UserExists = "Taki użytkownik już istnieje!";
                 public const string UserNotFound = "Nieprawidłowa nazwa użytkownika lub hasło!";
                 public const string RegisterSuccess = "Rejestracja zakończona pomyślnie.";
-                public const string LoginSuccess = "Zalogowano jako: {0}";
+                public const string LoginSuccess = "Zalogowano jako: {0}.";
                 public const string UserLoggedOut = "Wylogowano pomyślnie.";
             }
 
@@ -31,6 +31,7 @@
             {
                 public const string ConfirmDelete = "Czy na pewno chcesz usunąć tę transakcję?";
                 public const string DeletedSuccess = "Transakcja została usunięta.";
+                public const string DeletionNotAllowed = "Nie można usunąć tej transakcji, ponieważ spowodowałoby to ujemne saldo!";
             }
 
             public static class Saving
