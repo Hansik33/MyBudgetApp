@@ -11,6 +11,9 @@
     d:DataContext="{d:DesignInstance Type=viewmodels:BudgetViewModel}">
 
     <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
+        <Border.Background>
+            <AcrylicBrush TintColor="#1E1E1E" TintOpacity="0.2" FallbackColor="#1E1E1E" />
+        </Border.Background>
         <StackPanel Orientation="Vertical" Spacing="4">
             <local:DeleteIconButton
                 Command="{x:Bind DeleteCommand, Mode=OneWay}"
