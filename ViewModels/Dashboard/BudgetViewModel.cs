@@ -38,7 +38,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public double UsagePercentNumber =>
             LimitAmount == 0 ? 0 : Math.Min((double)(UsedAmount / LimitAmount) * 100.0, 999.0);
 
-        public string UsagePercent => $"{UsagePercentNumber:0.00}%";
+        public string UsagePercent => $"{UsagePercentNumber:0}%";
         public string UsageLimit => $"{UsedAmount:0.00} / {LimitAmount:0.00} zł";
 
         public SolidColorBrush UsageBrush =>
