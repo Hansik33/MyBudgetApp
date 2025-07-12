@@ -13,6 +13,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
     public partial class DashboardViewModel : BaseViewModel
     {
         private readonly IBudgetService _budgetService;
+        private readonly ITransactionService _transactionService;
         private readonly IUserContext _userContext;
         private readonly IDatabaseService _databaseService;
         private readonly IDialogService _dialogService;
@@ -25,14 +26,17 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         public ICommand LogoutCommand { get; }
         public ICommand DeleteBudgetCommand { get; }
+        public ICommand DeleteTransactionCommand { get; }
 
         public DashboardViewModel(IBudgetService budgetService,
+                                  ITransactionService transactionService,
                                   IUserContext userContext,
                                   IDatabaseService databaseService,
                                   IDialogService dialogService,
                                   INavigationService navigationService)
         {
             _budgetService = budgetService;
+            _transactionService = transactionService;
             _userContext = userContext;
             _databaseService = databaseService;
             _dialogService = dialogService;
@@ -40,6 +44,9 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
             LogoutCommand = new RelayCommand(async () => await Logout());
             DeleteBudgetCommand = new RelayCommand<BudgetViewModel>(async budget => await DeleteBudget(budget));
+            DeleteTransactionCommand = new RelayCommand<TransactionViewModel>(async transaction =>
+            await DeleteTransaction(transaction));
+
             _ = LoadDataAsync();
         }
 
@@ -70,8 +77,26 @@ namespace MyBudgetApp.ViewModels.Dashboard
                 AppStrings.Dialogs.Budget.DeletedSuccess,
                 DialogType.Success);
 
-            OnPropertyChanged(nameof(BalanceNumber));
-            OnPropertyChanged(nameof(Balance));
+            await _budgetService.DeleteBudgetAsync(budget.Id);
+            await LoadDataAsync();
+        }
+
+        private async Task DeleteTransaction(TransactionViewModel transaction)
+        {
+            var confirmed = await _dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Transactions.ConfirmDelete);
+
+            if (!confirmed)
+                return;
+
+            await _transactionService.DeleteTransactionAsync(transaction.Id);
+            Transactions.Remove(transaction);
+
+            await _dialogService.ShowMessageAsync(
+                AppStrings.Dialogs.Transactions.DeletedSuccess,
+                DialogType.Success);
+
+            await _transactionService.DeleteTransactionAsync(transaction.Id);
+            await LoadDataAsync();
         }
 
         private async Task LoadDataAsync()

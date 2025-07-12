@@ -39,8 +39,9 @@
             <TextBlock Text="Transakcje" FontWeight="Bold" FontSize="16" />
             <ItemsControl ItemsSource="{Binding Transactions}">
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <dashboardControls:TransactionCard />
+                    <DataTemplate x:DataType="viewmodels:TransactionViewModel">
+                        <dashboardControls:TransactionCard Transaction="{x:Bind}" 
+                                   DeleteCommand="{Binding DataContext.DeleteTransactionCommand, ElementName=Root}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

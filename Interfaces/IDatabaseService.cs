@@ -15,6 +15,6 @@ namespace MyBudgetApp.Interfaces
         Task<List<Saving>> GetSavingsAsync(int userId);
         Task<List<SavingGoal>> GetSavingGoalsAsync(int userId);
         Task DeleteBudgetAsync(int budgetId);
-
+        Task DeleteTransactionAsync(int transactionId);
     }
 }

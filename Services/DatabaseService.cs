@@ -134,7 +134,6 @@ namespace MyBudgetApp.Services
             return result;
         }
 
-
         public async Task<List<Saving>> GetSavingsAsync(int userId)
         {
             var options = new DbContextOptionsBuilder<AppDbContext>()
@@ -173,6 +172,21 @@ namespace MyBudgetApp.Services
             if (budget is null) return;
 
             ctx.Budgets.Remove(budget);
+            await ctx.SaveChangesAsync();
+        }
+
+        public async Task DeleteTransactionAsync(int transactionId)
+        {
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
+                .Options;
+
+            using var ctx = new AppDbContext(options);
+
+            var transaction = await ctx.Transactions.FirstOrDefaultAsync(transaction => transaction.Id == transactionId);
+            if (transaction is null) return;
+
+            ctx.Transactions.Remove(transaction);
             await ctx.SaveChangesAsync();
         }
     }

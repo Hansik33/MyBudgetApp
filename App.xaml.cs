@@ -29,6 +29,7 @@ namespace MyBudgetApp
         private static void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IBudgetService, BudgetService>();
+            services.AddSingleton<ITransactionService, TransactionService>();
             services.AddSingleton<IUserContext, UserContextService>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IDatabaseService, DatabaseService>();
