@@ -150,7 +150,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         {
             var budgets = await _budgetService.GetBudgetsAsync(UserId);
             var transactions = await _transactionService.GetTransactionsAsync(UserId);
-            var savings = await _databaseService.GetSavingsAsync(UserId);
+            var savings = await _savingService.GetSavingsAsync(UserId);
             var savingGoals = await _databaseService.GetSavingGoalsAsync(UserId);
 
             Budgets.Clear();
