@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Interfaces.Dashboard;
@@ -38,6 +39,8 @@ namespace MyBudgetApp
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IDatabaseService, DatabaseService>();
+            services.AddSingleton<IConfiguration>(new ConfigurationBuilder().SetBasePath(AppContext.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false).Build());
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<IPasswordHashService, PasswordHashService>();
             services.AddSingleton<AppStartupService>();

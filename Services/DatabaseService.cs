@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MyBudgetApp.Data;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Models;
@@ -10,31 +11,29 @@ using System.Threading.Tasks;
 
 namespace MyBudgetApp.Services
 {
-    public class DatabaseService(IPasswordHashService passwordHashService) : IDatabaseService
+    public class DatabaseService(IPasswordHashService passwordHashService, IConfiguration configuration) : IDatabaseService
     {
-        private const string ConnectionString =
-            "server=localhost;port=3306;database=mybudgetapp;user=root;password=qwertyz1234!";
+        private readonly string _connectionString =
+            configuration.GetConnectionString("Default")
+            ?? throw new InvalidOperationException("Connection string 'Default' is missing.");
+
+
+        private DbContextOptions<AppDbContext> CreateOptions() =>
+            new DbContextOptionsBuilder<AppDbContext>()
+                .UseMySql(_connectionString, ServerVersion.AutoDetect(_connectionString))
+                .Options;
 
         public bool TryConnect()
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
-                .Options;
-
-            using var appDbContext = new AppDbContext(options);
+            using var appDbContext = new AppDbContext(CreateOptions());
             bool connected = appDbContext.Database.CanConnect();
-
             Debug.WriteLine($"Database connection: {connected}");
             return connected;
         }
 
         public bool InsertUser(string username, string plainPassword)
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
-                .Options;
-
-            using var appDbContext = new AppDbContext(options);
+            using var appDbContext = new AppDbContext(CreateOptions());
 
             if (appDbContext.Users.Any(user => user.Username == username))
                 return false;
@@ -53,11 +52,7 @@ namespace MyBudgetApp.Services
 
         public User? GetUserByCredentials(string username, string plainPassword)
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
-                .Options;
-
-            using var appDbContext = new AppDbContext(options);
+            using var appDbContext = new AppDbContext(CreateOptions());
 
             var user = appDbContext.Users.FirstOrDefault(user => user.Username == username);
             if (user == null)
@@ -68,11 +63,7 @@ namespace MyBudgetApp.Services
 
         public async Task<List<Budget>> GetBudgetsAsync(int userId)
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
-                .Options;
-
-            using var appDbContext = new AppDbContext(options);
+            using var appDbContext = new AppDbContext(CreateOptions());
 
             return await appDbContext.Budgets
                 .Include(budget => budget.Category)
@@ -82,11 +73,7 @@ namespace MyBudgetApp.Services
 
         public async Task<List<Category>> GetCategoriesAsync(int userId)
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
-                .Options;
-
-            using var appDbContext = new AppDbContext(options);
+            using var appDbContext = new AppDbContext(CreateOptions());
 
             return await appDbContext.Categories
                 .Where(category => category.UserId == userId)
@@ -95,11 +82,7 @@ namespace MyBudgetApp.Services
 
         public async Task<List<Transaction>> GetTransactionsAsync(int userId)
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
-                .Options;
-
-            using var appDbContext = new AppDbContext(options);
+            using var appDbContext = new AppDbContext(CreateOptions());
 
             return await appDbContext.Transactions
                 .Include(transaction => transaction.Category)
@@ -109,11 +92,7 @@ namespace MyBudgetApp.Services
 
         public async Task<List<Saving>> GetSavingsAsync(int userId)
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
-                .Options;
-
-            using var appDbContext = new AppDbContext(options);
+            using var appDbContext = new AppDbContext(CreateOptions());
 
             return await appDbContext.Savings
                 .Where(saving => saving.UserId == userId)
@@ -122,11 +101,7 @@ namespace MyBudgetApp.Services
 
         public async Task<List<SavingGoal>> GetSavingGoalsAsync(int userId)
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
-                .Options;
-
-            using var appDbContext = new AppDbContext(options);
+            using var appDbContext = new AppDbContext(CreateOptions());
 
             return await appDbContext.SavingGoals
                 .Where(savingGoal => savingGoal.UserId == userId)
@@ -135,13 +110,9 @@ namespace MyBudgetApp.Services
 
         public async Task DeleteBudgetAsync(int budgetId)
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
-                .Options;
+            using var appDbContext = new AppDbContext(CreateOptions());
 
-            using var appDbContext = new AppDbContext(options);
-
-            var budget = await appDbContext.Budgets.FirstOrDefaultAsync(budget => budget.Id == budgetId);
+            var budget = await appDbContext.Budgets.FirstOrDefaultAsync(b => b.Id == budgetId);
             if (budget is null) return;
 
             appDbContext.Budgets.Remove(budget);
@@ -150,13 +121,9 @@ namespace MyBudgetApp.Services
 
         public async Task DeleteCategoryAsync(int categoryId)
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
-                .Options;
+            using var appDbContext = new AppDbContext(CreateOptions());
 
-            using var appDbContext = new AppDbContext(options);
-
-            var category = await appDbContext.Categories.FirstOrDefaultAsync(category => category.Id == categoryId);
+            var category = await appDbContext.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
             if (category is null) return;
 
             appDbContext.Categories.Remove(category);
@@ -165,14 +132,9 @@ namespace MyBudgetApp.Services
 
         public async Task DeleteTransactionAsync(int transactionId)
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
-                .Options;
+            using var appDbContext = new AppDbContext(CreateOptions());
 
-            using var appDbContext = new AppDbContext(options);
-
-            var transaction = await appDbContext.Transactions.FirstOrDefaultAsync(transaction =>
-            transaction.Id == transactionId);
+            var transaction = await appDbContext.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId);
             if (transaction is null) return;
 
             appDbContext.Transactions.Remove(transaction);
@@ -181,13 +143,9 @@ namespace MyBudgetApp.Services
 
         public async Task DeleteSavingAsync(int savingId)
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
-                .Options;
+            using var appDbContext = new AppDbContext(CreateOptions());
 
-            using var appDbContext = new AppDbContext(options);
-
-            var saving = await appDbContext.Savings.FirstOrDefaultAsync(saving => saving.Id == savingId);
+            var saving = await appDbContext.Savings.FirstOrDefaultAsync(s => s.Id == savingId);
             if (saving is null) return;
 
             appDbContext.Savings.Remove(saving);
@@ -196,13 +154,9 @@ namespace MyBudgetApp.Services
 
         public async Task DeleteSavingGoalAsync(int savingGoalId)
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString))
-                .Options;
+            using var appDbContext = new AppDbContext(CreateOptions());
 
-            using var appDbContext = new AppDbContext(options);
-
-            var savingGoal = await appDbContext.SavingGoals.FirstOrDefaultAsync(savingGoal => savingGoal.Id == savingGoalId);
+            var savingGoal = await appDbContext.SavingGoals.FirstOrDefaultAsync(sg => sg.Id == savingGoalId);
             if (savingGoal is null) return;
 
             appDbContext.SavingGoals.Remove(savingGoal);
