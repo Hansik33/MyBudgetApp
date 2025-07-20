@@ -3,6 +3,8 @@ using Microsoft.UI.Xaml.Controls;
 using MyBudgetApp.Enums;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Resources;
+using MyBudgetApp.ViewModels.Dashboard.Dialogs;
+using MyBudgetApp.Views.Dashboard.Dialogs;
 using System;
 using System.Threading.Tasks;
 
@@ -63,6 +65,23 @@ namespace MyBudgetApp.Services
             _isDialogOpen = false;
 
             return result == ContentDialogResult.Primary;
+        }
+
+        public async Task<string?> ShowAddCategoryDialogAsync()
+        {
+            var viewModel = new AddCategoryDialogViewModel();
+            var dialog = new AddCategoryDialog
+            {
+                DataContext = viewModel,
+                XamlRoot = _xamlRoot
+            };
+
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+                return viewModel.CategoryName;
+
+            return null;
         }
     }
 }

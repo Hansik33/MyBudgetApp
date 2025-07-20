@@ -31,6 +31,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         public ICommand LogoutCommand { get; }
 
+        public ICommand AddCategoryCommand { get; }
+
         public ICommand DeleteBudgetCommand { get; }
         public ICommand DeleteTransactionCommand { get; }
         public ICommand DeleteCategoryCommand { get; }
@@ -57,6 +59,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
             _navigationService = navigationService;
 
             LogoutCommand = new RelayCommand(async () => await Logout());
+
+            AddCategoryCommand = new RelayCommand(async () => await AddCategory());
 
             DeleteBudgetCommand = new RelayCommand<BudgetViewModel>(async budget => await DeleteBudget(budget));
             DeleteCategoryCommand = new RelayCommand<CategoryViewModel>(async category => await DeleteCategory(category));
@@ -97,6 +101,13 @@ namespace MyBudgetApp.ViewModels.Dashboard
                 DialogType.Success);
 
             await LoadDataAsync();
+        }
+
+        private async Task AddCategory()
+        {
+            var category = await _dialogService.ShowAddCategoryDialogAsync();
+            if (category != null)
+                await _dialogService.ShowMessageAsync(category, DialogType.Success);
         }
 
         private async Task DeleteCategory(CategoryViewModel category)
