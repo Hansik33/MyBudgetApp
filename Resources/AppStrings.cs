@@ -29,9 +29,13 @@
 
             public static class Category
             {
+                public const string NameEmpty = "Nazwa kategorii nie może być pusta!";
+                public const string NameTooLong = "Nazwa kategorii nie może przekraczać 30 znaków!";
+                public const string NameExists = "Kategoria o tej nazwie już istnieje!";
+                public const string CreatedSuccess = "Kategoria została utworzona.";
                 public const string ConfirmDelete = "Czy na pewno chcesz usunąć tę kategorię?";
-                public const string DeletedSuccess = "Kategoria została usunięta.";
                 public const string DeletionNotAllowed = "Kategoria jest używana i nie może zostać usunięta!";
+                public const string DeletedSuccess = "Kategoria została usunięta.";
             }
 
             public static class Transaction

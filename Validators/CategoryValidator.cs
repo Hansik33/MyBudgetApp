@@ -1,4 +1,6 @@
-﻿using MyBudgetApp.ViewModels.Dashboard;
+﻿using MyBudgetApp.Enums;
+using MyBudgetApp.ViewModels.Dashboard;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,6 +8,17 @@ namespace MyBudgetApp.Validators
 {
     public static class CategoryValidator
     {
+        public static CategoryNameValidationResult ValidateName(string categoryName, IEnumerable<CategoryViewModel> categories)
+        {
+            if (string.IsNullOrWhiteSpace(categoryName))
+                return CategoryNameValidationResult.Empty;
+            if (categoryName.Length > 30)
+                return CategoryNameValidationResult.TooLong;
+            if (categories.Any(category => category.Name.Equals(categoryName.Trim(), StringComparison.OrdinalIgnoreCase)))
+                return CategoryNameValidationResult.NotUnique;
+            return CategoryNameValidationResult.Success;
+        }
+
         public static bool IsDeletionAllowed(CategoryViewModel category,
                                               IEnumerable<BudgetViewModel> budgets,
                                               IEnumerable<TransactionViewModel> transactions)

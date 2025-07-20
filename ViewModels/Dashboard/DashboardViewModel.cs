@@ -58,8 +58,6 @@ namespace MyBudgetApp.ViewModels.Dashboard
             _dialogService = dialogService;
             _navigationService = navigationService;
 
-            LogoutCommand = new RelayCommand(async () => await Logout());
-
             AddCategoryCommand = new RelayCommand(async () => await AddCategory());
 
             DeleteBudgetCommand = new RelayCommand<BudgetViewModel>(async budget => await DeleteBudget(budget));
@@ -69,6 +67,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
             DeleteSavingCommand = new RelayCommand<SavingViewModel>(async saving => await DeleteSaving(saving));
             DeleteSavingGoalCommand = new RelayCommand<SavingGoalViewModel>(async savingGoal =>
             await DeleteSavingGoal(savingGoal));
+
+            LogoutCommand = new RelayCommand(async () => await Logout());
 
             _ = LoadDataAsync();
         }
@@ -96,18 +96,35 @@ namespace MyBudgetApp.ViewModels.Dashboard
             await _budgetService.DeleteBudgetAsync(budget.Id);
             Budgets.Remove(budget);
 
-            await _dialogService.ShowMessageAsync(
-                AppStrings.Dialogs.Budget.DeletedSuccess,
-                DialogType.Success);
+            await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Budget.DeletedSuccess, DialogType.Success);
 
             await LoadDataAsync();
         }
 
         private async Task AddCategory()
         {
-            var category = await _dialogService.ShowAddCategoryDialogAsync();
-            if (category != null)
-                await _dialogService.ShowMessageAsync(category, DialogType.Success);
+            var categoryName = await _dialogService.ShowAddCategoryDialogAsync();
+
+            if (categoryName != null)
+            {
+                var result = CategoryValidator.ValidateName(categoryName, Categories);
+
+                switch (result)
+                {
+                    case CategoryNameValidationResult.Success:
+                        await _dialogService.ShowMessageAsync(categoryName, DialogType.Info);
+                        break;
+                    case CategoryNameValidationResult.Empty:
+                        await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.NameEmpty, DialogType.Error);
+                        break;
+                    case CategoryNameValidationResult.TooLong:
+                        await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.NameTooLong, DialogType.Error);
+                        break;
+                    case CategoryNameValidationResult.NotUnique:
+                        await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.NameExists, DialogType.Error);
+                        break;
+                }
+            }
         }
 
         private async Task DeleteCategory(CategoryViewModel category)
@@ -122,18 +139,12 @@ namespace MyBudgetApp.ViewModels.Dashboard
                 await _categoryService.DeleteCategoryAsync(category.Id);
                 Categories.Remove(category);
 
-                await _dialogService.ShowMessageAsync(
-                    AppStrings.Dialogs.Category.DeletedSuccess,
-                    DialogType.Success);
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.DeletedSuccess, DialogType.Success);
 
                 await LoadDataAsync();
             }
             else
-            {
-                await _dialogService.ShowMessageAsync(
-                    AppStrings.Dialogs.Category.DeletionNotAllowed,
-                    DialogType.Error);
-            }
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.DeletionNotAllowed, DialogType.Error);
         }
 
         private async Task DeleteTransaction(TransactionViewModel transaction)
@@ -148,18 +159,12 @@ namespace MyBudgetApp.ViewModels.Dashboard
                 await _transactionService.DeleteTransactionAsync(transaction.Id);
                 Transactions.Remove(transaction);
 
-                await _dialogService.ShowMessageAsync(
-                    AppStrings.Dialogs.Transaction.DeletedSuccess,
-                    DialogType.Success);
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Transaction.DeletedSuccess, DialogType.Success);
 
                 await LoadDataAsync();
             }
             else
-            {
-                await _dialogService.ShowMessageAsync(
-                    AppStrings.Dialogs.Transaction.DeletionNotAllowed,
-                    DialogType.Error);
-            }
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Transaction.DeletionNotAllowed, DialogType.Error);
         }
 
         private async Task DeleteSaving(SavingViewModel saving)
@@ -172,9 +177,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
             await _savingService.DeleteSavingAsync(saving.Id);
             Savings.Remove(saving);
 
-            await _dialogService.ShowMessageAsync(
-                AppStrings.Dialogs.Saving.DeletedSuccess,
-                DialogType.Success);
+            await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Saving.DeletedSuccess, DialogType.Success);
 
             await LoadDataAsync();
         }
@@ -189,9 +192,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
             await _savingGoalService.DeleteSavingGoalAsync(savingGoal.Id);
             SavingGoals.Remove(savingGoal);
 
-            await _dialogService.ShowMessageAsync(
-                AppStrings.Dialogs.SavingGoal.DeletedSuccess,
-                DialogType.Success);
+            await _dialogService.ShowMessageAsync(AppStrings.Dialogs.SavingGoal.DeletedSuccess, DialogType.Success);
 
             await LoadDataAsync();
         }
