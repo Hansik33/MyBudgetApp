@@ -112,7 +112,9 @@ namespace MyBudgetApp.ViewModels.Dashboard
                 switch (result)
                 {
                     case CategoryNameValidationResult.Success:
-                        await _dialogService.ShowMessageAsync(categoryName, DialogType.Info);
+                        await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.CreatedSuccess, DialogType.Success);
+                        var newCategory = await _categoryService.AddCategoryAsync(categoryName, UserId);
+                        Categories.Add(new CategoryViewModel(newCategory));
                         break;
                     case CategoryNameValidationResult.Empty:
                         await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.NameEmpty, DialogType.Error);

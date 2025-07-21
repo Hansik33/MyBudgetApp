@@ -10,7 +10,7 @@ namespace MyBudgetApp.Data.Configurations
         {
             builder.ToTable("categories");
             builder.HasKey(categorie => categorie.Id);
-            builder.Property(categorie => categorie.Id).HasColumnName("id");
+            builder.Property(categorie => categorie.Id).HasColumnName("id").ValueGeneratedOnAdd();
             builder.Property(categorie => categorie.Name).HasColumnName("name");
             builder.Property(categorie => categorie.UserId).HasColumnName("user_id");
         }

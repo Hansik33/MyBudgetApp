@@ -108,6 +108,16 @@ namespace MyBudgetApp.Services
                 .ToListAsync();
         }
 
+        public async Task<Category> AddCategoryAsync(Category category)
+        {
+            using var appDbContext = new AppDbContext(CreateOptions());
+
+            appDbContext.Categories.Add(category);
+            await appDbContext.SaveChangesAsync();
+
+            return category;
+        }
+
         public async Task DeleteBudgetAsync(int budgetId)
         {
             using var appDbContext = new AppDbContext(CreateOptions());
