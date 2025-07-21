@@ -72,7 +72,7 @@ namespace MyBudgetApp.ViewModels.Auth
                 return;
             }
 
-            var success = _userService.InsertUser(Username, Password);
+            var success = _userService.AddUser(Username, Password);
 
             if (!success)
             {

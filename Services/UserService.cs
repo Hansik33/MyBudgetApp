@@ -5,8 +5,8 @@ namespace MyBudgetApp.Services
 {
     public class UserService(IDatabaseService databaseService) : IUserService
     {
-        public bool InsertUser(string username, string plainPassword) =>
-            databaseService.InsertUser(username, plainPassword);
+        public bool AddUser(string username, string plainPassword) =>
+            databaseService.AddUser(username, plainPassword);
         public User? GetUserByCredentials(string username, string plainPassword) =>
             databaseService.GetUserByCredentials(username, plainPassword);
     }

@@ -31,7 +31,7 @@ namespace MyBudgetApp.Services
             return connected;
         }
 
-        public bool InsertUser(string username, string plainPassword)
+        public bool AddUser(string username, string plainPassword)
         {
             using var appDbContext = new AppDbContext(CreateOptions());
 

@@ -8,7 +8,7 @@ namespace MyBudgetApp.Interfaces
     {
         bool TryConnect();
 
-        bool InsertUser(string username, string passwordHash);
+        bool AddUser(string username, string passwordHash);
         User? GetUserByCredentials(string username, string plainPassword);
 
         Task<List<Budget>> GetBudgetsAsync(int userId);
