@@ -3,9 +3,11 @@ using Microsoft.UI.Xaml.Controls;
 using MyBudgetApp.Enums;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Resources;
+using MyBudgetApp.ViewModels.Dashboard;
 using MyBudgetApp.ViewModels.Dashboard.Dialogs;
 using MyBudgetApp.Views.Dashboard.Dialogs;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MyBudgetApp.Services
@@ -82,6 +84,19 @@ namespace MyBudgetApp.Services
                 return viewModel.CategoryName;
 
             return null;
+        }
+
+
+        public async Task ShowAddBudgetDialogAsync(IEnumerable<CategoryViewModel> categories)
+        {
+            var viewModel = new AddBudgetDialogViewModel(categories);
+            var dialog = new AddBudgetDialog
+            {
+                DataContext = viewModel,
+                XamlRoot = _xamlRoot
+            };
+
+            var result = await dialog.ShowAsync();
         }
     }
 }

@@ -59,6 +59,12 @@
     <Page Update="Views\DashboardView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Update="Views\Dashboard\Dialogs\AddBudgetDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Dashboard\Dialogs\AddBudgetDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\RegisterView.xaml">

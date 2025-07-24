@@ -31,6 +31,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         public ICommand LogoutCommand { get; }
 
+        public ICommand AddBudgetCommand { get; }
         public ICommand AddCategoryCommand { get; }
 
         public ICommand DeleteBudgetCommand { get; }
@@ -58,6 +59,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
             _dialogService = dialogService;
             _navigationService = navigationService;
 
+            AddBudgetCommand = new RelayCommand(async () => await AddBudget());
             AddCategoryCommand = new RelayCommand(async () => await AddCategory());
 
             DeleteBudgetCommand = new RelayCommand<BudgetViewModel>(async budget => await DeleteBudget(budget));
@@ -85,6 +87,11 @@ namespace MyBudgetApp.ViewModels.Dashboard
         - SavingAmountTotal;
 
         public string Balance => $"{BalanceNumber:0.00} zł";
+
+        private async Task AddBudget()
+        {
+            await _dialogService.ShowAddBudgetDialogAsync(Categories);
+        }
 
         private async Task DeleteBudget(BudgetViewModel budget)
         {
