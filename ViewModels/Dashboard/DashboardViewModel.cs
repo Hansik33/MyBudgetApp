@@ -90,7 +90,15 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task AddBudget()
         {
-            await _dialogService.ShowAddBudgetDialogAsync(Categories);
+            var budget = await _dialogService.ShowAddBudgetDialogAsync(Categories);
+
+            if (budget != null)
+            {
+                budget.UserId = UserId;
+                await _budgetService.AddBudgetAsync(budget);
+            }
+
+            await LoadDataAsync();
         }
 
         private async Task DeleteBudget(BudgetViewModel budget)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
 {
@@ -14,6 +15,16 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
             get => _selectedCategory;
             set => SetProperty(ref _selectedCategory, value, nameof(SelectedCategory));
         }
+        public int SelectedCategoryId
+        {
+            get => SelectedCategory?.Id ?? 0;
+            set
+            {
+                if (SelectedCategory != null && SelectedCategory.Id != value)
+                    SelectedCategory = Categories.FirstOrDefault(category => category.Id == value);
+
+            }
+        }
 
         public ObservableCollection<string> Months { get; }
 
@@ -22,6 +33,15 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
         {
             get => _selectedMonth;
             set => SetProperty(ref _selectedMonth, value, nameof(SelectedMonth));
+        }
+        public int SelectedMonthNumber
+        {
+            get => Months.IndexOf(SelectedMonth ?? string.Empty) + 1;
+            set
+            {
+                if (value < 1 || value > 12) return;
+                SelectedMonth = Months[value - 1];
+            }
         }
 
         public ObservableCollection<int> Years { get; }
@@ -32,6 +52,15 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
             get => _selectedYear;
             set => SetProperty(ref _selectedYear, value, nameof(SelectedYear));
         }
+        public int SelectedYearNumber
+        {
+            get => SelectedYear;
+            set
+            {
+                if (value < Years.Min() || value > Years.Max()) return;
+                SelectedYear = value;
+            }
+        }
 
         private string _limitAmount = string.Empty;
         public string LimitAmount
@@ -39,18 +68,28 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
             get => _limitAmount;
             set => SetProperty(ref _limitAmount, value, nameof(LimitAmount));
         }
+        public decimal LimitAmountDecimal
+        {
+            get
+            {
+                if (decimal.TryParse(LimitAmount, out var amount))
+                    return amount;
+                return 0m;
+            }
+            set => LimitAmount = value.ToString("0.00");
+        }
 
         public AddBudgetDialogViewModel(IEnumerable<CategoryViewModel> categories)
         {
             Categories = new ObservableCollection<CategoryViewModel>(categories);
 
-            Months = new ObservableCollection<string>
-            {
+            Months =
+            [
                 "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
                 "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"
-            };
+            ];
 
-            Years = new ObservableCollection<int>();
+            Years = [];
             int currentYear = DateTime.Now.Year;
             for (int y = currentYear - 2; y <= currentYear + 5; y++)
                 Years.Add(y);

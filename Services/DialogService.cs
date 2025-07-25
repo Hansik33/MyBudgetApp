@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using MyBudgetApp.Enums;
 using MyBudgetApp.Interfaces;
+using MyBudgetApp.Models;
 using MyBudgetApp.Resources;
 using MyBudgetApp.ViewModels.Dashboard;
 using MyBudgetApp.ViewModels.Dashboard.Dialogs;
@@ -87,7 +88,7 @@ namespace MyBudgetApp.Services
         }
 
 
-        public async Task ShowAddBudgetDialogAsync(IEnumerable<CategoryViewModel> categories)
+        public async Task<Budget?> ShowAddBudgetDialogAsync(IEnumerable<CategoryViewModel> categories)
         {
             var viewModel = new AddBudgetDialogViewModel(categories);
             var dialog = new AddBudgetDialog
@@ -97,6 +98,18 @@ namespace MyBudgetApp.Services
             };
 
             var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                return new Budget
+                {
+                    CategoryId = viewModel.SelectedCategory?.Id ?? 0,
+                    MonthNumber = viewModel.SelectedMonthNumber,
+                    Year = viewModel.SelectedYearNumber,
+                    LimitAmount = viewModel.LimitAmountDecimal
+                };
+            }
+            return null;
         }
     }
 }
