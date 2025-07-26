@@ -7,6 +7,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
 {
     public class TransactionViewModel(Transaction transaction)
     {
+        public Transaction Model => transaction;
+
         public int Id => transaction.Id;
 
         public TransactionType TypeEnum => transaction.Type;

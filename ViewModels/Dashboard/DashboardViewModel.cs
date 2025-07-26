@@ -2,8 +2,10 @@
 using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Interfaces.Dashboard;
+using MyBudgetApp.Models;
 using MyBudgetApp.Resources;
 using MyBudgetApp.Validators;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -65,10 +67,10 @@ namespace MyBudgetApp.ViewModels.Dashboard
             DeleteBudgetCommand = new RelayCommand<BudgetViewModel>(async budget => await DeleteBudget(budget));
             DeleteCategoryCommand = new RelayCommand<CategoryViewModel>(async category => await DeleteCategory(category));
             DeleteTransactionCommand = new RelayCommand<TransactionViewModel>(async transaction =>
-            await DeleteTransaction(transaction));
+                await DeleteTransaction(transaction));
             DeleteSavingCommand = new RelayCommand<SavingViewModel>(async saving => await DeleteSaving(saving));
             DeleteSavingGoalCommand = new RelayCommand<SavingGoalViewModel>(async savingGoal =>
-            await DeleteSavingGoal(savingGoal));
+                await DeleteSavingGoal(savingGoal));
 
             LogoutCommand = new RelayCommand(async () => await Logout());
 
@@ -80,11 +82,11 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private decimal SavingAmountTotal => Savings.Sum(saving => saving.Amount);
         private decimal BalanceNumber =>
-        Transactions.Where(transaction =>
-        transaction.TypeEnum == TransactionType.Income).Sum(transaction => transaction.Amount)
-        - Transactions.Where(transaction =>
-        transaction.TypeEnum == TransactionType.Expense).Sum(transaction => transaction.Amount)
-        - SavingAmountTotal;
+            Transactions.Where(transaction =>
+                transaction.TypeEnum == TransactionType.Income).Sum(transaction => transaction.Amount)
+            - Transactions.Where(transaction =>
+                transaction.TypeEnum == TransactionType.Expense).Sum(transaction => transaction.Amount)
+            - SavingAmountTotal;
 
         public string Balance => $"{BalanceNumber:0.00} zł";
 
@@ -95,7 +97,13 @@ namespace MyBudgetApp.ViewModels.Dashboard
             if (budget != null)
             {
                 budget.UserId = UserId;
+
                 var newBudget = await _budgetService.AddBudgetAsync(budget);
+
+                var category = Categories.FirstOrDefault(category => category.Id == newBudget.CategoryId);
+                if (category != null)
+                    newBudget.Category = category.Model;
+
                 Budgets.Add(new BudgetViewModel(newBudget, Transactions));
             }
         }
@@ -111,8 +119,6 @@ namespace MyBudgetApp.ViewModels.Dashboard
             Budgets.Remove(budget);
 
             await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Budget.DeletedSuccess, DialogType.Success);
-
-            await LoadDataAsync();
         }
 
         private async Task AddCategory()
@@ -140,8 +146,6 @@ namespace MyBudgetApp.ViewModels.Dashboard
                 Categories.Remove(category);
 
                 await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.DeletedSuccess, DialogType.Success);
-
-                await LoadDataAsync();
             }
             else
                 await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.DeletionNotAllowed, DialogType.Error);
@@ -161,7 +165,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
                 await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Transaction.DeletedSuccess, DialogType.Success);
 
-                await LoadDataAsync();
+                RefreshBudgets();
+                UpdateUi();
             }
             else
                 await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Transaction.DeletionNotAllowed, DialogType.Error);
@@ -179,7 +184,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
             await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Saving.DeletedSuccess, DialogType.Success);
 
-            await LoadDataAsync();
+            UpdateUi();
         }
 
         private async Task DeleteSavingGoal(SavingGoalViewModel savingGoal)
@@ -193,41 +198,83 @@ namespace MyBudgetApp.ViewModels.Dashboard
             SavingGoals.Remove(savingGoal);
 
             await _dialogService.ShowMessageAsync(AppStrings.Dialogs.SavingGoal.DeletedSuccess, DialogType.Success);
+        }
 
-            await LoadDataAsync();
+        private void RefreshBudgets()
+        {
+            var budgetModels = Budgets.Select(budget => budget.Model).ToList();
+            Budgets.Clear();
+            foreach (var budget in budgetModels)
+                Budgets.Add(new BudgetViewModel(budget, Transactions));
+        }
+
+        private async Task<List<Budget>> LoadBudgetsAsync() => await _budgetService.GetBudgetsAsync(UserId);
+
+        private async Task<List<Category>> LoadCategoriesAsync() => await _categoryService.GetCategoriesAsync(UserId);
+
+        private async Task<List<Transaction>> LoadTransactionsAsync() => await _transactionService.GetTransactionsAsync(UserId);
+
+        private async Task<List<Saving>> LoadSavingsAsync() => await _savingService.GetSavingsAsync(UserId);
+
+        private async Task<List<SavingGoal>> LoadSavingGoalsAsync() => await _savingGoalService.GetSavingGoalsAsync(UserId);
+
+        private void PopulateCategories(IEnumerable<Category> categories)
+        {
+            Categories.Clear();
+            foreach (var category in categories)
+                Categories.Add(new CategoryViewModel(category));
+        }
+
+        private void PopulateTransactions(IEnumerable<Transaction> transactions)
+        {
+            Transactions.Clear();
+            foreach (var transaction in transactions)
+                Transactions.Add(new TransactionViewModel(transaction));
+        }
+
+        private void PopulateBudgets(IEnumerable<Budget> budgets)
+        {
+            Budgets.Clear();
+            foreach (var budget in budgets)
+                Budgets.Add(new BudgetViewModel(budget, Transactions));
+        }
+
+        private void PopulateSavings(IEnumerable<Saving> savings, IEnumerable<SavingGoal> savingGoals)
+        {
+            Savings.Clear();
+            foreach (var saving in savings)
+                Savings.Add(new SavingViewModel(saving, savingGoals));
+        }
+
+        private void PopulateSavingGoals(IEnumerable<SavingGoal> savingGoals, IEnumerable<Saving> savings)
+        {
+            SavingGoals.Clear();
+            foreach (var savingGoal in savingGoals)
+                SavingGoals.Add(new SavingGoalViewModel(savingGoal, savings));
+        }
+
+        private void UpdateUi()
+        {
+            OnPropertyChanged(nameof(SavingAmountTotal));
+            OnPropertyChanged(nameof(BalanceNumber));
+            OnPropertyChanged(nameof(Balance));
         }
 
         private async Task LoadDataAsync()
         {
-            var budgets = await _budgetService.GetBudgetsAsync(UserId);
-            var categories = await _categoryService.GetCategoriesAsync(UserId);
-            var transactions = await _transactionService.GetTransactionsAsync(UserId);
-            var savings = await _savingService.GetSavingsAsync(UserId);
-            var savingGoals = await _savingGoalService.GetSavingGoalsAsync(UserId);
+            var budgets = await LoadBudgetsAsync();
+            var categories = await LoadCategoriesAsync();
+            var transactions = await LoadTransactionsAsync();
+            var savings = await LoadSavingsAsync();
+            var savingGoals = await LoadSavingGoalsAsync();
 
-            Categories.Clear();
-            foreach (var category in categories)
-                Categories.Add(new CategoryViewModel(category));
+            PopulateCategories(categories);
+            PopulateTransactions(transactions);
+            PopulateBudgets(budgets);
+            PopulateSavings(savings, savingGoals);
+            PopulateSavingGoals(savingGoals, savings);
 
-            Transactions.Clear();
-            foreach (var transaction in transactions)
-                Transactions.Add(new TransactionViewModel(transaction));
-
-            Budgets.Clear();
-            foreach (var budget in budgets)
-                Budgets.Add(new BudgetViewModel(budget, Transactions));
-
-            Savings.Clear();
-            foreach (var saving in savings)
-                Savings.Add(new SavingViewModel(saving, savingGoals));
-
-            SavingGoals.Clear();
-            foreach (var savingGoal in savingGoals)
-                SavingGoals.Add(new SavingGoalViewModel(savingGoal, savings));
-
-            OnPropertyChanged(nameof(SavingAmountTotal));
-            OnPropertyChanged(nameof(BalanceNumber));
-            OnPropertyChanged(nameof(Balance));
+            UpdateUi();
         }
 
         private async Task Logout()

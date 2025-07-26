@@ -13,6 +13,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
     {
         private static readonly CultureInfo Culture = new("pl-PL");
 
+        public Budget Model => budget;
+
         public int Id => budget.Id;
         public int UserId => budget.UserId;
         public int CategoryId => budget.CategoryId;

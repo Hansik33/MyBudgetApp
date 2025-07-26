@@ -12,6 +12,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
     {
         private static readonly CultureInfo Culture = new("pl-PL");
 
+        public SavingGoal Model => savingGoal;
+
         public int Id => savingGoal.Id;
         public string Goal => savingGoal.Name;
 
