@@ -4,6 +4,7 @@ using MyBudgetApp.Enums;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Models;
 using MyBudgetApp.Resources;
+using MyBudgetApp.Validators;
 using MyBudgetApp.ViewModels.Dashboard;
 using MyBudgetApp.ViewModels.Dashboard.Dialogs;
 using MyBudgetApp.Views.Dashboard.Dialogs;
@@ -87,6 +88,34 @@ namespace MyBudgetApp.Services
             return null;
         }
 
+        private async Task<BudgetLimitValidationResult> ShowBudgetLimitValidationDialog(string limitAmount)
+        {
+            var result = BudgetValidator.ValidateLimit(limitAmount);
+
+            switch (result)
+            {
+                case BudgetLimitValidationResult.Empty:
+                    await ShowMessageAsync(AppStrings.Dialogs.Budget.LimitEmpty, DialogType.Error);
+                    break;
+                case BudgetLimitValidationResult.NotANumber:
+                    await ShowMessageAsync(AppStrings.Dialogs.Budget.LimitNotANumber, DialogType.Error);
+                    break;
+                case BudgetLimitValidationResult.Negative:
+                    await ShowMessageAsync(AppStrings.Dialogs.Budget.LimitNegative, DialogType.Error);
+                    break;
+                case BudgetLimitValidationResult.Zero:
+                    await ShowMessageAsync(AppStrings.Dialogs.Budget.LimitZero, DialogType.Error);
+                    break;
+                case BudgetLimitValidationResult.TooLarge:
+                    await ShowMessageAsync(AppStrings.Dialogs.Budget.LimitTooTooLarge, DialogType.Error);
+                    break;
+                case BudgetLimitValidationResult.Success:
+                    await ShowMessageAsync(AppStrings.Dialogs.Budget.CreatedSuccess, DialogType.Success);
+                    break;
+            }
+
+            return result;
+        }
 
         public async Task<Budget?> ShowAddBudgetDialogAsync(IEnumerable<CategoryViewModel> categories)
         {
@@ -101,14 +130,18 @@ namespace MyBudgetApp.Services
 
             if (result == ContentDialogResult.Primary)
             {
-                return new Budget
+                if (await ShowBudgetLimitValidationDialog(viewModel.LimitAmount) == BudgetLimitValidationResult.Success)
                 {
-                    CategoryId = viewModel.SelectedCategory?.Id ?? 0,
-                    MonthNumber = viewModel.SelectedMonthNumber,
-                    Year = viewModel.SelectedYearNumber,
-                    LimitAmount = viewModel.LimitAmountDecimal
-                };
+                    return new Budget
+                    {
+                        CategoryId = viewModel.SelectedCategory?.Id ?? 0,
+                        MonthNumber = viewModel.SelectedMonthNumber,
+                        Year = viewModel.SelectedYearNumber,
+                        LimitAmount = decimal.TryParse(viewModel.LimitAmount, out var limit) ? limit : 0
+                    };
+                }
             }
+
             return null;
         }
     }

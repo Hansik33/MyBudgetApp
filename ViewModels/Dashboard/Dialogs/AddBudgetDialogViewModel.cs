@@ -94,6 +94,7 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
             for (int y = currentYear - 2; y <= currentYear + 5; y++)
                 Years.Add(y);
 
+            SelectedCategory = Categories.FirstOrDefault();
             SelectedMonth = Months[DateTime.Now.Month - 1];
             SelectedYear = currentYear;
         }

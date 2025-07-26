@@ -23,6 +23,13 @@
 
             public static class Budget
             {
+                public const string LimitEmpty = "Limit budżetu nie może być pusty!";
+                public const string LimitNotANumber = "Limit budżetu musi być liczbą!";
+                public const string LimitNegative = "Limit budżetu nie może być ujemny!";
+                public const string LimitZero = "Limit budżetu musi być dodatni!";
+                public const string LimitTooTooLarge = "Limit budżetu nie może przekraczać 1 miliona!";
+
+                public const string CreatedSuccess = "Budżet został utworzony.";
                 public const string ConfirmDelete = "Czy na pewno chcesz usunąć ten budżet?";
                 public const string DeletedSuccess = "Budżet został usunięty.";
             }
