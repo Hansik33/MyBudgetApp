@@ -78,8 +78,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public int UserId => _userContext.UserId;
         public string Username => _userContext.Username;
 
-        public decimal SavingAmountTotal => Savings.Sum(saving => saving.Amount);
-        public decimal BalanceNumber =>
+        private decimal SavingAmountTotal => Savings.Sum(saving => saving.Amount);
+        private decimal BalanceNumber =>
         Transactions.Where(transaction =>
         transaction.TypeEnum == TransactionType.Income).Sum(transaction => transaction.Amount)
         - Transactions.Where(transaction =>
@@ -118,29 +118,13 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task AddCategory()
         {
-            var categoryName = await _dialogService.ShowAddCategoryDialogAsync();
+            var category = await _dialogService.ShowAddCategoryDialogAsync(Categories);
 
-            if (categoryName != null)
+            if (category != null)
             {
-                var result = CategoryValidator.ValidateName(categoryName, Categories);
-
-                switch (result)
-                {
-                    case CategoryNameValidationResult.Success:
-                        await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.CreatedSuccess, DialogType.Success);
-                        var newCategory = await _categoryService.AddCategoryAsync(categoryName, UserId);
-                        Categories.Add(new CategoryViewModel(newCategory));
-                        break;
-                    case CategoryNameValidationResult.Empty:
-                        await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.NameEmpty, DialogType.Error);
-                        break;
-                    case CategoryNameValidationResult.TooLong:
-                        await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.NameTooLong, DialogType.Error);
-                        break;
-                    case CategoryNameValidationResult.NotUnique:
-                        await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.NameExists, DialogType.Error);
-                        break;
-                }
+                category.UserId = UserId;
+                var newCategory = await _categoryService.AddCategoryAsync(category);
+                Categories.Add(new CategoryViewModel(newCategory));
             }
         }
 

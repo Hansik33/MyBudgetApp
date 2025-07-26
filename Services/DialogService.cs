@@ -71,23 +71,6 @@ namespace MyBudgetApp.Services
             return result == ContentDialogResult.Primary;
         }
 
-        public async Task<string?> ShowAddCategoryDialogAsync()
-        {
-            var viewModel = new AddCategoryDialogViewModel();
-            var dialog = new AddCategoryDialog
-            {
-                DataContext = viewModel,
-                XamlRoot = _xamlRoot
-            };
-
-            var result = await dialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
-                return viewModel.CategoryName;
-
-            return null;
-        }
-
         private async Task<BudgetLimitValidationResult> ShowBudgetLimitValidationDialog(string limitAmount)
         {
             var result = BudgetValidator.ValidateLimit(limitAmount);
@@ -140,6 +123,51 @@ namespace MyBudgetApp.Services
                         LimitAmount = decimal.TryParse(viewModel.LimitAmount, out var limit) ? limit : 0
                     };
                 }
+            }
+
+            return null;
+        }
+
+        private async Task<CategoryNameValidationResult>
+            ShowCategoryNameValidationDialog(string categoryName, IEnumerable<CategoryViewModel> categories)
+        {
+            var result = CategoryValidator.ValidateName(categoryName, categories);
+
+            switch (result)
+            {
+                case CategoryNameValidationResult.Success:
+                    await ShowMessageAsync(AppStrings.Dialogs.Category.CreatedSuccess, DialogType.Success);
+                    break;
+                case CategoryNameValidationResult.Empty:
+                    await ShowMessageAsync(AppStrings.Dialogs.Category.NameEmpty, DialogType.Error);
+                    break;
+                case CategoryNameValidationResult.TooLong:
+                    await ShowMessageAsync(AppStrings.Dialogs.Category.NameTooLong, DialogType.Error);
+                    break;
+                case CategoryNameValidationResult.NotUnique:
+                    await ShowMessageAsync(AppStrings.Dialogs.Category.NameExists, DialogType.Error);
+                    break;
+            }
+
+            return result;
+        }
+
+        public async Task<Category?> ShowAddCategoryDialogAsync(IEnumerable<CategoryViewModel> categories)
+        {
+            var viewModel = new AddCategoryDialogViewModel();
+            var dialog = new AddCategoryDialog
+            {
+                DataContext = viewModel,
+                XamlRoot = _xamlRoot
+            };
+
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                if (await ShowCategoryNameValidationDialog(viewModel.CategoryName,
+                                                           categories) == CategoryNameValidationResult.Success)
+                    return new Category { Name = viewModel.CategoryName.Trim() };
             }
 
             return null;

@@ -14,7 +14,7 @@ namespace MyBudgetApp.Interfaces
         Task ShowMessageAsync(string message, DialogType dialogType = DialogType.Info);
         Task<bool> ShowConfirmationAsync(string message);
 
-        Task<string?> ShowAddCategoryDialogAsync();
         Task<Budget?> ShowAddBudgetDialogAsync(IEnumerable<CategoryViewModel> categories);
+        Task<Category?> ShowAddCategoryDialogAsync(IEnumerable<CategoryViewModel> categories);
     }
 }
