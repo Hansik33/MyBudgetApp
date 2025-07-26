@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace MyBudgetApp.ViewModels.Dashboard
 {
-    public partial class BudgetViewModel(Budget budget, IEnumerable<Transaction> transactions) : BaseViewModel
+    public partial class BudgetViewModel(Budget budget, IEnumerable<TransactionViewModel> transactions) : BaseViewModel
     {
         private static readonly CultureInfo Culture = new("pl-PL");
 
@@ -26,7 +26,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public decimal LimitAmount => budget.LimitAmount;
 
         public decimal UsedAmount { get; } = transactions
-            .Where(transaction => transaction.Type == TransactionType.Expense &&
+            .Where(transaction => transaction.TypeEnum == TransactionType.Expense &&
                                   transaction.CategoryId == budget.CategoryId &&
                                   transaction.Date.Year == budget.Year &&
                                   transaction.Date.Month == budget.MonthNumber)

@@ -9,7 +9,7 @@ namespace MyBudgetApp.Services.Dashboard
     public class BudgetService(IDatabaseService databaseService) : IBudgetService
     {
         public async Task<List<Budget>> GetBudgetsAsync(int userId) => await databaseService.GetBudgetsAsync(userId);
-        public async Task AddBudgetAsync(Budget budget) => await databaseService.AddBudgetAsync(budget);
+        public async Task<Budget> AddBudgetAsync(Budget budget) => await databaseService.AddBudgetAsync(budget);
         public async Task DeleteBudgetAsync(int budgetId) => await databaseService.DeleteBudgetAsync(budgetId);
     }
 }

@@ -95,10 +95,9 @@ namespace MyBudgetApp.ViewModels.Dashboard
             if (budget != null)
             {
                 budget.UserId = UserId;
-                await _budgetService.AddBudgetAsync(budget);
+                var newBudget = await _budgetService.AddBudgetAsync(budget);
+                Budgets.Add(new BudgetViewModel(newBudget, Transactions));
             }
-
-            await LoadDataAsync();
         }
 
         private async Task DeleteBudget(BudgetViewModel budget)
@@ -210,13 +209,13 @@ namespace MyBudgetApp.ViewModels.Dashboard
             foreach (var category in categories)
                 Categories.Add(new CategoryViewModel(category));
 
-            Budgets.Clear();
-            foreach (var budget in budgets)
-                Budgets.Add(new BudgetViewModel(budget, transactions));
-
             Transactions.Clear();
             foreach (var transaction in transactions)
                 Transactions.Add(new TransactionViewModel(transaction));
+
+            Budgets.Clear();
+            foreach (var budget in budgets)
+                Budgets.Add(new BudgetViewModel(budget, Transactions));
 
             Savings.Clear();
             foreach (var saving in savings)

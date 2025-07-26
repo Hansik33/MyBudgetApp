@@ -7,7 +7,7 @@ namespace MyBudgetApp.Interfaces.Dashboard
     public interface IBudgetService
     {
         Task<List<Budget>> GetBudgetsAsync(int userId);
-        Task AddBudgetAsync(Budget budget);
+        Task<Budget> AddBudgetAsync(Budget budget);
         Task DeleteBudgetAsync(int budgetId);
     }
 }
