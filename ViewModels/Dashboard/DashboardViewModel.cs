@@ -7,6 +7,7 @@ using MyBudgetApp.Resources;
 using MyBudgetApp.Validators;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -25,7 +26,10 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
 
-        public ObservableCollection<BudgetViewModel> Budgets { get; } = [];
+        private ObservableCollection<BudgetViewModel> Budgets { get; } = [];
+        public IEnumerable<BudgetViewModel> SortedBudgets => Budgets
+            .OrderBy(budget => budget.Year).ThenBy(budget => budget.MonthNumber);
+
         public ObservableCollection<CategoryViewModel> Categories { get; } = [];
         public ObservableCollection<TransactionViewModel> Transactions { get; } = [];
         public ObservableCollection<SavingViewModel> Savings { get; } = [];
@@ -73,6 +77,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
                 await DeleteSavingGoal(savingGoal));
 
             LogoutCommand = new RelayCommand(async () => await Logout());
+
+            Budgets.CollectionChanged += Budgets_CollectionChanged;
 
             _ = LoadDataAsync();
         }
@@ -209,6 +215,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
         }
 
         private async Task<List<Budget>> LoadBudgetsAsync() => await _budgetService.GetBudgetsAsync(UserId);
+        private void Budgets_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+            => OnPropertyChanged(nameof(SortedBudgets));
 
         private async Task<List<Category>> LoadCategoriesAsync() => await _categoryService.GetCategoriesAsync(UserId);
 

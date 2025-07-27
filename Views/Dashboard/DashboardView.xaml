@@ -23,7 +23,7 @@
             </TextBlock>
             
             <TextBlock Text="Budżety" FontWeight="Bold" FontSize="16" />
-            <ItemsControl ItemsSource="{Binding Budgets}">
+            <ItemsControl ItemsSource="{Binding SortedBudgets}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:BudgetViewModel">
                         <dashboardControls:BudgetCard Budget="{x:Bind}"
