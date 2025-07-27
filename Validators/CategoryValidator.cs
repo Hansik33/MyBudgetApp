@@ -14,7 +14,7 @@ namespace MyBudgetApp.Validators
                 return CategoryNameValidationResult.Empty;
             if (categoryName.Length > 30)
                 return CategoryNameValidationResult.TooLong;
-            if (categories.Any(category => category.Name.Equals(categoryName.Trim(), StringComparison.OrdinalIgnoreCase)))
+            if (categories.Any(category => category.Name.Equals(categoryName, StringComparison.OrdinalIgnoreCase)))
                 return CategoryNameValidationResult.NotUnique;
             return CategoryNameValidationResult.Success;
         }
