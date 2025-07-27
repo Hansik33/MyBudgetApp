@@ -30,7 +30,10 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public IEnumerable<BudgetViewModel> SortedBudgets => Budgets
             .OrderBy(budget => budget.Year).ThenBy(budget => budget.MonthNumber);
 
-        public ObservableCollection<CategoryViewModel> Categories { get; } = [];
+        private ObservableCollection<CategoryViewModel> Categories { get; } = [];
+        public IEnumerable<CategoryViewModel> SortedCategories => Categories
+            .OrderBy(category => category.Name);
+
         public ObservableCollection<TransactionViewModel> Transactions { get; } = [];
         public ObservableCollection<SavingViewModel> Savings { get; } = [];
         public ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = [];
@@ -79,6 +82,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
             LogoutCommand = new RelayCommand(async () => await Logout());
 
             Budgets.CollectionChanged += Budgets_CollectionChanged;
+            Categories.CollectionChanged += Categories_CollectionChanged;
 
             _ = LoadDataAsync();
         }
@@ -219,6 +223,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
             => OnPropertyChanged(nameof(SortedBudgets));
 
         private async Task<List<Category>> LoadCategoriesAsync() => await _categoryService.GetCategoriesAsync(UserId);
+        private void Categories_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+            => OnPropertyChanged(nameof(SortedCategories));
 
         private async Task<List<Transaction>> LoadTransactionsAsync() => await _transactionService.GetTransactionsAsync(UserId);
 
