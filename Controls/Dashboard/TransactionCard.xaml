@@ -40,12 +40,8 @@
             <Run Text="{Binding Description}" />
             </TextBlock>
             <TextBlock>
-            <Run Text="Miesiąc:" FontWeight="Bold" />
-            <Run Text="{Binding Month}" />
-            </TextBlock>
-            <TextBlock>
-            <Run Text="Rok:" FontWeight="Bold" />
-            <Run Text="{Binding Year}" />
+            <Run Text="Data:" FontWeight="Bold" />
+            <Run Text="{Binding Date}" />
             </TextBlock>
         </StackPanel>
     </Border>

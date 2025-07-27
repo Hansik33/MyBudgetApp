@@ -25,10 +25,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public decimal Amount => transaction.Amount;
         public string PaymentMethod => transaction.PaymentMethod;
         public string Description => transaction.Description;
-        public DateTime Date => transaction.Date;
-        public int Year => transaction.Date.Year;
-
-        public string Month => new CultureInfo("pl-PL")
-            .TextInfo.ToTitleCase(transaction.Date.ToString("MMMM", new CultureInfo("pl-PL")));
+        public DateTime RawDate => transaction.Date;
+        public string Date => RawDate.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
     }
 }

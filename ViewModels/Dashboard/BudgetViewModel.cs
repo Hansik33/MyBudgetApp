@@ -30,8 +30,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public decimal UsedAmount { get; } = transactions
             .Where(transaction => transaction.TypeEnum == TransactionType.Expense &&
                                   transaction.CategoryId == budget.CategoryId &&
-                                  transaction.Date.Year == budget.Year &&
-                                  transaction.Date.Month == budget.MonthNumber)
+                                  transaction.RawDate.Year == budget.Year &&
+                                  transaction.RawDate.Month == budget.MonthNumber)
             .Sum(transaction => transaction.Amount);
 
         public double UsedAmountDouble => (double)UsedAmount;
