@@ -37,6 +37,7 @@
             public static class Category
             {
                 public const string NameEmpty = "Nazwa kategorii nie może być pusta!";
+                public const string NameTooShort = "Nazwa kategorii musi mieć co najmniej 2 znaki!";
                 public const string NameTooLong = "Nazwa kategorii nie może przekraczać 30 znaków!";
                 public const string NameExists = "Kategoria o tej nazwie już istnieje!";
                 public const string CreatedSuccess = "Kategoria została utworzona.";

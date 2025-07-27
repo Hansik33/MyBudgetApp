@@ -12,6 +12,8 @@ namespace MyBudgetApp.Validators
         {
             if (string.IsNullOrWhiteSpace(categoryName))
                 return CategoryNameValidationResult.Empty;
+            if (categoryName.Length < 2)
+                return CategoryNameValidationResult.TooShort;
             if (categoryName.Length > 30)
                 return CategoryNameValidationResult.TooLong;
             if (categories.Any(category => category.Name.Equals(categoryName, StringComparison.OrdinalIgnoreCase)))

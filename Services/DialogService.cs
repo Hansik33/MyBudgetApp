@@ -141,6 +141,9 @@ namespace MyBudgetApp.Services
                 case CategoryNameValidationResult.Empty:
                     await ShowMessageAsync(AppStrings.Dialogs.Category.NameEmpty, DialogType.Error);
                     break;
+                case CategoryNameValidationResult.TooShort:
+                    await ShowMessageAsync(AppStrings.Dialogs.Category.NameTooShort, DialogType.Error);
+                    break;
                 case CategoryNameValidationResult.TooLong:
                     await ShowMessageAsync(AppStrings.Dialogs.Category.NameTooLong, DialogType.Error);
                     break;

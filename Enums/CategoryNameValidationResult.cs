@@ -4,6 +4,7 @@
     {
         Success,
         Empty,
+        TooShort,
         TooLong,
         NotUnique
     }
