@@ -15,8 +15,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         public string Type => TypeEnum switch
         {
-            TransactionType.Expense => "Wydatek",
             TransactionType.Income => "Przychód",
+            TransactionType.Expense => "Wydatek",
             _ => throw new NotImplementedException()
         };
 
