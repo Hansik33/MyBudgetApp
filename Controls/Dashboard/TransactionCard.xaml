@@ -33,7 +33,7 @@
             </TextBlock>
             <TextBlock>
             <Run Text="Metoda płatności:" FontWeight="Bold" />
-            <Run Text="{Binding PaymentMethod}" />
+            <Run Text="{Binding Method}" />
             </TextBlock>
             <TextBlock>
             <Run Text="Opis:" FontWeight="Bold" />

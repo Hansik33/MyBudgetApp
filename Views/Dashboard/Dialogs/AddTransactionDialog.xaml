@@ -18,7 +18,8 @@
 
         <ComboBox Header="Typ"
                   ItemsSource="{Binding Types}"
-                  SelectedItem="{Binding SelectedTransactionType, Mode=TwoWay}" />
+                  SelectedItem="{Binding SelectedType, Mode=TwoWay}"
+                  PlaceholderText="Wybierz typ transakcji"/>
 
         <ComboBox Header="Kategoria"
                   ItemsSource="{Binding Categories}"
@@ -32,8 +33,8 @@
                  PlaceholderText="Wpisz kwotę..." />
 
         <ComboBox Header="Metoda płatności"
-                  ItemsSource="{Binding PaymentMethods}"
-                  SelectedItem="{Binding SelectedPaymentMethod, Mode=TwoWay}" 
+                  ItemsSource="{Binding Methods}"
+                  SelectedItem="{Binding SelectedMethod, Mode=TwoWay}"
                   PlaceholderText="Wybierz metodę płatności" />
 
         <TextBox Header="Opis"

@@ -9,13 +9,13 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
     {
         public ObservableCollection<CategoryViewModel> Categories { get; }
         public ObservableCollection<string> Types { get; }
-        public ObservableCollection<string> PaymentMethods { get; }
+        public ObservableCollection<string> Methods { get; }
 
-        private string? _selectedTransactionType;
-        public string? SelectedTransactionType
+        private string _selectedType = string.Empty;
+        public string SelectedType
         {
-            get => _selectedTransactionType;
-            set => SetProperty(ref _selectedTransactionType, value);
+            get => _selectedType;
+            set => SetProperty(ref _selectedType, value);
         }
 
         private CategoryViewModel? _selectedCategory;
@@ -32,11 +32,11 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
             set => SetProperty(ref _amount, value);
         }
 
-        private string? _selectedPaymentMethod;
-        public string? SelectedPaymentMethod
+        private string _selectedMethod = string.Empty;
+        public string SelectedMethod
         {
-            get => _selectedPaymentMethod;
-            set => SetProperty(ref _selectedPaymentMethod, value);
+            get => _selectedMethod;
+            set => SetProperty(ref _selectedMethod, value);
         }
 
         private string _description = string.Empty;
@@ -56,12 +56,13 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
         public AddTransactionDialogViewModel(IEnumerable<CategoryViewModel> categories)
         {
             Categories = new ObservableCollection<CategoryViewModel>(categories);
-            Types = new ObservableCollection<string> { "Wydatek", "Przychód" };
-            PaymentMethods = new ObservableCollection<string> { "Gotówka", "Przelew", "Karta" };
 
-            SelectedTransactionType = Types.FirstOrDefault();
+            Types = new ObservableCollection<string> { "Przychód", "Wydatek" };
+            Methods = new ObservableCollection<string> { "Gotówka", "Przelew", "Karta", "Płatność mobilna", "Inne" };
+
+            SelectedType = Types.FirstOrDefault() ?? string.Empty;
             SelectedCategory = Categories.FirstOrDefault();
-            SelectedPaymentMethod = PaymentMethods.FirstOrDefault();
+            SelectedMethod = Methods.FirstOrDefault() ?? string.Empty;
             SelectedDate = DateTime.Today;
         }
     }

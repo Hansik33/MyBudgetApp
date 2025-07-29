@@ -95,9 +95,9 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private decimal SavingAmountTotal => Savings.Sum(saving => saving.Amount);
         private decimal BalanceNumber =>
             Transactions.Where(transaction =>
-                transaction.TypeEnum == TransactionType.Income).Sum(transaction => transaction.Amount)
+                transaction.TransactionType == TransactionType.Income).Sum(transaction => transaction.Amount)
             - Transactions.Where(transaction =>
-                transaction.TypeEnum == TransactionType.Expense).Sum(transaction => transaction.Amount)
+                transaction.TransactionType == TransactionType.Expense).Sum(transaction => transaction.Amount)
             - SavingAmountTotal;
 
         public string Balance => $"{BalanceNumber:0.00} zł";

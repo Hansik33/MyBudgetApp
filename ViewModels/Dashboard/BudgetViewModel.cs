@@ -28,7 +28,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public decimal LimitAmount => budget.LimitAmount;
 
         public decimal UsedAmount { get; } = transactions
-            .Where(transaction => transaction.TypeEnum == TransactionType.Expense &&
+            .Where(transaction => transaction.TransactionType == TransactionType.Expense &&
                                   transaction.CategoryId == budget.CategoryId &&
                                   transaction.RawDate.Year == budget.Year &&
                                   transaction.RawDate.Month == budget.MonthNumber)
