@@ -175,5 +175,19 @@ namespace MyBudgetApp.Services
 
             return null;
         }
+
+        public async Task<Transaction?> ShowAddTransactionDialogAsync(IEnumerable<CategoryViewModel> categories)
+        {
+            var viewModel = new AddTransactionDialogViewModel(categories);
+            var dialog = new AddTransactionDialog
+            {
+                DataContext = viewModel,
+                XamlRoot = _xamlRoot
+            };
+
+            var result = await dialog.ShowAsync();
+
+            return null;
+        }
     }
 }

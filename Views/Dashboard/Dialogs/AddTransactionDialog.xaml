@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentDialog
+    x:Class="MyBudgetApp.Views.Dashboard.Dialogs.AddTransactionDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyBudgetApp.Views.Dashboard.Dialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:MyBudgetApp.ViewModels.Dashboard.Dialogs"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=viewmodels:AddTransactionDialogViewModel}"
+    Title="Dodaj transakcję"
+    PrimaryButtonText="Dodaj"
+    CloseButtonText="Anuluj"
+    DefaultButton="Primary">
+
+    <StackPanel Spacing="12" Padding="8">
+
+        <ComboBox Header="Typ"
+                  ItemsSource="{Binding Types}"
+                  SelectedItem="{Binding SelectedTransactionType, Mode=TwoWay}" />
+
+        <ComboBox Header="Kategoria"
+                  ItemsSource="{Binding Categories}"
+                  SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+                  DisplayMemberPath="Name"
+                  PlaceholderText="Wybierz kategorię" />
+
+        <TextBox Header="Kwota"
+                 InputScope="Number"
+                 Text="{Binding Amount, Mode=TwoWay}" 
+                 PlaceholderText="Wpisz kwotę..." />
+
+        <ComboBox Header="Metoda płatności"
+                  ItemsSource="{Binding PaymentMethods}"
+                  SelectedItem="{Binding SelectedPaymentMethod, Mode=TwoWay}" 
+                  PlaceholderText="Wybierz metodę płatności" />
+
+        <TextBox Header="Opis"
+                 Text="{Binding Description, Mode=TwoWay}" 
+                 PlaceholderText="Wpisz opis..." />
+
+        <DatePicker x:Name="DatePickerControl"
+                    Header="Data"
+                    SelectedDate="{Binding SelectedDate, Mode=TwoWay}" />
+
+    </StackPanel>
+
+</ContentDialog>
