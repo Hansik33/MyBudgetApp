@@ -32,7 +32,7 @@
                   PlaceholderText="Wybierz rok" />
 
         <TextBlock Text="Kwota do wydania:"/>
-        <TextBox Text="{Binding LimitAmount, Mode=TwoWay}" InputScope="Number" PlaceholderText="Kwota" />
+        <TextBox Text="{Binding LimitAmount, Mode=TwoWay}" InputScope="Number" PlaceholderText="Wpisz kwotę..." />
     </StackPanel>
 
 </ContentDialog>
