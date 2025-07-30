@@ -46,8 +46,8 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
             set => SetProperty(ref _description, value);
         }
 
-        private DateTime _selectedDate = DateTime.Today;
-        public DateTime SelectedDate
+        private DateTimeOffset? _selectedDate = DateTimeOffset.Now;
+        public DateTimeOffset? SelectedDate
         {
             get => _selectedDate;
             set => SetProperty(ref _selectedDate, value);
@@ -63,7 +63,7 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
             SelectedType = Types.FirstOrDefault() ?? string.Empty;
             SelectedCategory = Categories.FirstOrDefault();
             SelectedMethod = Methods.FirstOrDefault() ?? string.Empty;
-            SelectedDate = DateTime.Today;
+            SelectedDate = DateTimeOffset.Now;
         }
     }
 }

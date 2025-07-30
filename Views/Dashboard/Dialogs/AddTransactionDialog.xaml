@@ -41,8 +41,7 @@
                  Text="{Binding Description, Mode=TwoWay}" 
                  PlaceholderText="Wpisz opis..." />
 
-        <DatePicker x:Name="DatePickerControl"
-                    Header="Data"
+        <DatePicker Header="Data"
                     SelectedDate="{Binding SelectedDate, Mode=TwoWay}" />
 
     </StackPanel>
