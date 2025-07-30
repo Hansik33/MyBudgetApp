@@ -21,6 +21,7 @@
                 <Run Text="Saldo:" FontWeight="Bold" />
                 <Run Text="{Binding Balance}" />
             </TextBlock>
+            <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />
             
             <TextBlock Text="Budżety" FontWeight="Bold" FontSize="16" />
             <ItemsControl ItemsSource="{Binding SortedBudgets}">
