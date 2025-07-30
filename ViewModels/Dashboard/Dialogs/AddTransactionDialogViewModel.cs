@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyBudgetApp.Enums;
+using MyBudgetApp.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -8,11 +10,11 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
     public partial class AddTransactionDialogViewModel : BaseViewModel
     {
         public ObservableCollection<CategoryViewModel> Categories { get; }
-        public ObservableCollection<string> Types { get; }
-        public ObservableCollection<string> Methods { get; }
+        public ObservableCollection<EnumDisplay<TransactionType>> Types { get; }
+        public ObservableCollection<EnumDisplay<PaymentMethod>> Methods { get; }
 
-        private string _selectedType = string.Empty;
-        public string SelectedType
+        private EnumDisplay<TransactionType>? _selectedType;
+        public EnumDisplay<TransactionType>? SelectedType
         {
             get => _selectedType;
             set => SetProperty(ref _selectedType, value);
@@ -32,8 +34,8 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
             set => SetProperty(ref _amount, value);
         }
 
-        private string _selectedMethod = string.Empty;
-        public string SelectedMethod
+        private EnumDisplay<PaymentMethod>? _selectedMethod;
+        public EnumDisplay<PaymentMethod>? SelectedMethod
         {
             get => _selectedMethod;
             set => SetProperty(ref _selectedMethod, value);
@@ -57,12 +59,24 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
         {
             Categories = new ObservableCollection<CategoryViewModel>(categories);
 
-            Types = new ObservableCollection<string> { "Przychód", "Wydatek" };
-            Methods = new ObservableCollection<string> { "Gotówka", "Przelew", "Karta", "Płatność mobilna", "Inne" };
+            Types = new ObservableCollection<EnumDisplay<TransactionType>>
+            {
+                new EnumDisplay<TransactionType>(TransactionType.Income, "Przychód"),
+                new EnumDisplay<TransactionType>(TransactionType.Expense, "Wydatek")
+            };
 
-            SelectedType = Types.FirstOrDefault() ?? string.Empty;
+            Methods = new ObservableCollection<EnumDisplay<PaymentMethod>>
+            {
+                new EnumDisplay<PaymentMethod>(PaymentMethod.Cash, "Gotówka"),
+                new EnumDisplay<PaymentMethod>(PaymentMethod.Transfer, "Przelew"),
+                new EnumDisplay<PaymentMethod>(PaymentMethod.Card, "Karta"),
+                new EnumDisplay<PaymentMethod>(PaymentMethod.Mobile, "Płatność mobilna"),
+                new EnumDisplay<PaymentMethod>(PaymentMethod.Other, "Inne")
+            };
+
+            SelectedType = Types.FirstOrDefault();
             SelectedCategory = Categories.FirstOrDefault();
-            SelectedMethod = Methods.FirstOrDefault() ?? string.Empty;
+            SelectedMethod = Methods.FirstOrDefault();
             SelectedDate = DateTimeOffset.Now;
         }
     }
