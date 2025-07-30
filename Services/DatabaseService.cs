@@ -133,7 +133,7 @@ namespace MyBudgetApp.Services
         {
             using var appDbContext = new AppDbContext(CreateOptions());
 
-            var budget = await appDbContext.Budgets.FirstOrDefaultAsync(b => b.Id == budgetId);
+            var budget = await appDbContext.Budgets.FirstOrDefaultAsync(budget => budget.Id == budgetId);
             if (budget is null) return;
 
             appDbContext.Budgets.Remove(budget);
@@ -144,7 +144,7 @@ namespace MyBudgetApp.Services
         {
             using var appDbContext = new AppDbContext(CreateOptions());
 
-            var category = await appDbContext.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
+            var category = await appDbContext.Categories.FirstOrDefaultAsync(ccategory => ccategory.Id == categoryId);
             if (category is null) return;
 
             appDbContext.Categories.Remove(category);
@@ -155,7 +155,8 @@ namespace MyBudgetApp.Services
         {
             using var appDbContext = new AppDbContext(CreateOptions());
 
-            var transaction = await appDbContext.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId);
+            var transaction = await appDbContext.Transactions.FirstOrDefaultAsync(transaction =>
+            transaction.Id == transactionId);
             if (transaction is null) return;
 
             appDbContext.Transactions.Remove(transaction);
@@ -166,7 +167,7 @@ namespace MyBudgetApp.Services
         {
             using var appDbContext = new AppDbContext(CreateOptions());
 
-            var saving = await appDbContext.Savings.FirstOrDefaultAsync(s => s.Id == savingId);
+            var saving = await appDbContext.Savings.FirstOrDefaultAsync(saving => saving.Id == savingId);
             if (saving is null) return;
 
             appDbContext.Savings.Remove(saving);
@@ -177,7 +178,8 @@ namespace MyBudgetApp.Services
         {
             using var appDbContext = new AppDbContext(CreateOptions());
 
-            var savingGoal = await appDbContext.SavingGoals.FirstOrDefaultAsync(sg => sg.Id == savingGoalId);
+            var savingGoal = await appDbContext.SavingGoals.FirstOrDefaultAsync(savingGoal =>
+            savingGoal.Id == savingGoalId);
             if (savingGoal is null) return;
 
             appDbContext.SavingGoals.Remove(savingGoal);

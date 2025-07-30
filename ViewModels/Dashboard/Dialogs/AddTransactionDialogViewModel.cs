@@ -59,20 +59,20 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
         {
             Categories = new ObservableCollection<CategoryViewModel>(categories);
 
-            Types = new ObservableCollection<EnumDisplay<TransactionType>>
-            {
-                new EnumDisplay<TransactionType>(TransactionType.Income, "Przychód"),
-                new EnumDisplay<TransactionType>(TransactionType.Expense, "Wydatek")
-            };
+            Types =
+            [
+                new(TransactionType.Income, "Przychód"),
+                new(TransactionType.Expense, "Wydatek")
+            ];
 
-            Methods = new ObservableCollection<EnumDisplay<PaymentMethod>>
-            {
-                new EnumDisplay<PaymentMethod>(PaymentMethod.Cash, "Gotówka"),
-                new EnumDisplay<PaymentMethod>(PaymentMethod.Transfer, "Przelew"),
-                new EnumDisplay<PaymentMethod>(PaymentMethod.Card, "Karta"),
-                new EnumDisplay<PaymentMethod>(PaymentMethod.Mobile, "Płatność mobilna"),
-                new EnumDisplay<PaymentMethod>(PaymentMethod.Other, "Inne")
-            };
+            Methods =
+            [
+                new(PaymentMethod.Cash, "Gotówka"),
+                new(PaymentMethod.Transfer, "Przelew"),
+                new(PaymentMethod.Card, "Karta"),
+                new(PaymentMethod.Mobile, "Płatność mobilna"),
+                new(PaymentMethod.Other, "Inne")
+            ];
 
             SelectedType = Types.FirstOrDefault();
             SelectedCategory = Categories.FirstOrDefault();

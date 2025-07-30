@@ -170,7 +170,7 @@ namespace MyBudgetApp.Services
             {
                 if (await ShowCategoryNameValidationDialog(viewModel.CategoryName,
                                                            categories) == CategoryNameValidationResult.Success)
-                    return new Category { Name = viewModel.CategoryName.Trim() };
+                    return new Category { Name = viewModel.CategoryName };
             }
 
             return null;
@@ -185,7 +185,7 @@ namespace MyBudgetApp.Services
                 XamlRoot = _xamlRoot
             };
 
-            var result = await dialog.ShowAsync();
+            _ = await dialog.ShowAsync();
 
             return null;
         }

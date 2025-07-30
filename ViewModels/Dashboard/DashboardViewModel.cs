@@ -165,7 +165,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task AddTransaction()
         {
-            var transaction = await _dialogService.ShowAddTransactionDialogAsync(Categories);
+            _ = await _dialogService.ShowAddTransactionDialogAsync(Categories);
         }
 
         private async Task DeleteTransaction(TransactionViewModel transaction)

@@ -16,7 +16,7 @@ namespace MyBudgetApp.Helpers
             var viewAssembly = Assembly.GetExecutingAssembly();
 
             var viewType = viewAssembly.GetTypes()
-                .FirstOrDefault(t => t.FullName == viewName)
+                .FirstOrDefault(viewType => viewType.FullName == viewName)
                 ?? throw new InvalidOperationException($"No View found for ViewModel: {viewModelType.Name}");
 
             return viewType;
