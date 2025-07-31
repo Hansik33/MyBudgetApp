@@ -96,36 +96,40 @@ namespace MyBudgetApp.Services
                     await ShowMessageAsync(AppStrings.Dialogs.Budget.CreatedSuccess, DialogType.Success);
                     break;
             }
-
             return result;
         }
 
         public async Task<Budget?> ShowAddBudgetDialogAsync(IEnumerable<CategoryViewModel> categories)
         {
             var viewModel = new AddBudgetDialogViewModel(categories);
-            var dialog = new AddBudgetDialog
-            {
-                DataContext = viewModel,
-                XamlRoot = _xamlRoot
-            };
 
-            var result = await dialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
+            while (true)
             {
-                if (await ShowBudgetLimitValidationDialog(viewModel.LimitAmount) == BudgetLimitValidationResult.Success)
+                var dialog = new AddBudgetDialog
                 {
-                    return new Budget
-                    {
-                        CategoryId = viewModel.SelectedCategory?.Id ?? 0,
-                        MonthNumber = viewModel.SelectedMonthNumber,
-                        Year = viewModel.SelectedYearNumber,
-                        LimitAmount = decimal.TryParse(viewModel.LimitAmount, out var limit) ? limit : 0
-                    };
-                }
-            }
+                    DataContext = viewModel,
+                    XamlRoot = _xamlRoot
+                };
 
-            return null;
+                var result = await dialog.ShowAsync();
+
+                if (result == ContentDialogResult.Primary)
+                {
+                    var validationResult = await ShowBudgetLimitValidationDialog(viewModel.LimitAmount);
+                    if (validationResult == BudgetLimitValidationResult.Success)
+                    {
+                        return new Budget
+                        {
+                            CategoryId = viewModel.SelectedCategory?.Id ?? 0,
+                            MonthNumber = viewModel.SelectedMonthNumber,
+                            Year = viewModel.SelectedYearNumber,
+                            LimitAmount = decimal.TryParse(viewModel.LimitAmount, out var limit) ? limit : 0
+                        };
+                    }
+                    continue;
+                }
+                return null;
+            }
         }
 
         private async Task<CategoryNameValidationResult>

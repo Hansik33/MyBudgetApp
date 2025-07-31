@@ -12,7 +12,8 @@
     Title="Dodaj budżet"
     PrimaryButtonText="Dodaj"
     CloseButtonText="Anuluj"
-    DefaultButton="Primary">
+    DefaultButton="Primary"
+    Loaded="ContentDialog_Loaded">
 
     <StackPanel Spacing="12">
         <TextBlock Text="Kategoria:"/>
@@ -32,7 +33,10 @@
                   PlaceholderText="Wybierz rok" />
 
         <TextBlock Text="Kwota do wydania:"/>
-        <TextBox Text="{Binding LimitAmount, Mode=TwoWay}" InputScope="Number" PlaceholderText="Wpisz kwotę..." />
+        <TextBox x:Name="LimitAmountTextBox"
+                 Text="{Binding LimitAmount, Mode=TwoWay}" 
+                 InputScope="Number"  
+                 PlaceholderText="Wpisz kwotę..." />
     </StackPanel>
 
 </ContentDialog>
