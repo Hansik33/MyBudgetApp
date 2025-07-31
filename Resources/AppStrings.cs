@@ -12,10 +12,12 @@
             public static class Auth
             {
                 public const string UserEmpty = "Wprowadź nazwę użytkownika!";
-                public const string PasswordEmpty = "Wprowadź hasło!";
-                public const string PasswordMismatch = "Hasła nie są identyczne!";
                 public const string UserExists = "Taki użytkownik już istnieje!";
                 public const string UserNotFound = "Nieprawidłowa nazwa użytkownika lub hasło!";
+
+                public const string PasswordEmpty = "Wprowadź hasło!";
+                public const string PasswordMismatch = "Hasła nie są identyczne!";
+                
                 public const string RegisterSuccess = "Rejestracja zakończona pomyślnie.";
                 public const string LoginSuccess = "Zalogowano jako: {0}.";
                 public const string UserLoggedOut = "Wylogowano pomyślnie.";
@@ -40,6 +42,7 @@
                 public const string NameTooShort = "Nazwa kategorii musi mieć co najmniej 2 znaki!";
                 public const string NameTooLong = "Nazwa kategorii nie może przekraczać 30 znaków!";
                 public const string NameExists = "Kategoria o tej nazwie już istnieje!";
+
                 public const string CreatedSuccess = "Kategoria została utworzona.";
                 public const string ConfirmDelete = "Czy na pewno chcesz usunąć tę kategorię?";
                 public const string DeletionNotAllowed = "Kategoria jest używana i nie może zostać usunięta!";
