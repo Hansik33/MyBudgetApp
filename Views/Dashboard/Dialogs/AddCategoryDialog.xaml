@@ -16,7 +16,7 @@
 
     <StackPanel Spacing="16">
         <TextBox 
-            PlaceholderText="Wpisz nazwę kategorii" 
+            PlaceholderText="Wpisz nazwę kategorii..." 
             Text="{Binding CategoryName, Mode=TwoWay}" />
     </StackPanel>
 
