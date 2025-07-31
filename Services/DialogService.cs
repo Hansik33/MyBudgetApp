@@ -155,29 +155,32 @@ namespace MyBudgetApp.Services
                     await ShowMessageAsync(AppStrings.Dialogs.Category.NameExists, DialogType.Error);
                     break;
             }
-
             return result;
         }
 
         public async Task<Category?> ShowAddCategoryDialogAsync(IEnumerable<CategoryViewModel> categories)
         {
             var viewModel = new AddCategoryDialogViewModel();
-            var dialog = new AddCategoryDialog
-            {
-                DataContext = viewModel,
-                XamlRoot = _xamlRoot
-            };
 
-            var result = await dialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
+            while (true)
             {
-                if (await ShowCategoryNameValidationDialog(viewModel.CategoryName,
-                                                           categories) == CategoryNameValidationResult.Success)
-                    return new Category { Name = viewModel.CategoryName };
+                var dialog = new AddCategoryDialog
+                {
+                    DataContext = viewModel,
+                    XamlRoot = _xamlRoot
+                };
+
+                var result = await dialog.ShowAsync();
+
+                if (result == ContentDialogResult.Primary)
+                {
+                    var validationResult = await ShowCategoryNameValidationDialog(viewModel.CategoryName, categories);
+                    if (validationResult == CategoryNameValidationResult.Success)
+                        return new Category { Name = viewModel.CategoryName };
+                    continue;
+                }
+                return null;
             }
-
-            return null;
         }
 
         public async Task<Transaction?> ShowAddTransactionDialogAsync(IEnumerable<CategoryViewModel> categories)

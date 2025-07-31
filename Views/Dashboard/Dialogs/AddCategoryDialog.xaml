@@ -12,12 +12,13 @@
     Title="Dodaj kategorię"
     PrimaryButtonText="Dodaj"
     CloseButtonText="Anuluj"
-    DefaultButton="Primary">
+    DefaultButton="Primary"
+    Loaded="ContentDialog_Loaded">
 
     <StackPanel Spacing="16">
-        <TextBox 
-            PlaceholderText="Wpisz nazwę kategorii..." 
-            Text="{Binding CategoryName, Mode=TwoWay}" />
+        <TextBox x:Name="CategoryNameTextBox"
+            Text="{Binding CategoryName, Mode=TwoWay}"
+            PlaceholderText="Wpisz nazwę kategorii..." />
     </StackPanel>
 
 </ContentDialog>
