@@ -1,12 +1,13 @@
 ﻿namespace MyBudgetApp.Enums
 {
-    public enum BudgetLimitValidationResult
+    public enum BudgetValidationResult
     {
         Success,
         Empty,
         NotANumber,
         Negative,
         Zero,
-        TooLarge
+        TooLarge,
+        CategoryNotSelected
     }
 }

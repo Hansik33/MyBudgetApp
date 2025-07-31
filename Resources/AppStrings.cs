@@ -17,7 +17,7 @@
 
                 public const string PasswordEmpty = "Wprowadź hasło!";
                 public const string PasswordMismatch = "Hasła nie są identyczne!";
-                
+
                 public const string RegisterSuccess = "Rejestracja zakończona pomyślnie.";
                 public const string LoginSuccess = "Zalogowano jako: {0}.";
                 public const string UserLoggedOut = "Wylogowano pomyślnie.";
@@ -30,6 +30,7 @@
                 public const string LimitNegative = "Limit budżetu nie może być ujemny!";
                 public const string LimitZero = "Limit budżetu musi być dodatni!";
                 public const string LimitTooTooLarge = "Limit budżetu nie może przekraczać 1 miliona!";
+                public const string CategoryNotSelected = "Wybierz kategorię dla budżetu!";
 
                 public const string CreatedSuccess = "Budżet został utworzony.";
                 public const string ConfirmDelete = "Czy na pewno chcesz usunąć ten budżet?";

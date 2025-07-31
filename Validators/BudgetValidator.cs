@@ -1,22 +1,27 @@
 ﻿using MyBudgetApp.Enums;
+using MyBudgetApp.ViewModels.Dashboard;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyBudgetApp.Validators
 {
     public static class BudgetValidator
     {
-        public static BudgetLimitValidationResult ValidateLimit(string limitAmount)
+        public static BudgetValidationResult Validate(string limitAmount, IEnumerable<CategoryViewModel> categories)
         {
             if (string.IsNullOrEmpty(limitAmount))
-                return BudgetLimitValidationResult.Empty;
+                return BudgetValidationResult.Empty;
             if (!decimal.TryParse(limitAmount, out var amount))
-                return BudgetLimitValidationResult.NotANumber;
+                return BudgetValidationResult.NotANumber;
             if (amount < 0)
-                return BudgetLimitValidationResult.Negative;
+                return BudgetValidationResult.Negative;
             if (amount == 0)
-                return BudgetLimitValidationResult.Zero;
+                return BudgetValidationResult.Zero;
             if (amount > 1000000)
-                return BudgetLimitValidationResult.TooLarge;
-            return BudgetLimitValidationResult.Success;
+                return BudgetValidationResult.TooLarge;
+            if (!categories.Any())
+                return BudgetValidationResult.CategoryNotSelected;
+            return BudgetValidationResult.Success;
         }
     }
 }

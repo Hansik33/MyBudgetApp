@@ -71,28 +71,32 @@ namespace MyBudgetApp.Services
             return result == ContentDialogResult.Primary;
         }
 
-        private async Task<BudgetLimitValidationResult> ShowBudgetLimitValidationDialog(string limitAmount)
+        private async Task<BudgetValidationResult> ShowBudgetValidationDialog(string limitAmount,
+                                                                                   IEnumerable<CategoryViewModel> categories)
         {
-            var result = BudgetValidator.ValidateLimit(limitAmount);
+            var result = BudgetValidator.Validate(limitAmount, categories);
 
             switch (result)
             {
-                case BudgetLimitValidationResult.Empty:
+                case BudgetValidationResult.Empty:
                     await ShowMessageAsync(AppStrings.Dialogs.Budget.LimitEmpty, DialogType.Error);
                     break;
-                case BudgetLimitValidationResult.NotANumber:
+                case BudgetValidationResult.NotANumber:
                     await ShowMessageAsync(AppStrings.Dialogs.Budget.LimitNotANumber, DialogType.Error);
                     break;
-                case BudgetLimitValidationResult.Negative:
+                case BudgetValidationResult.Negative:
                     await ShowMessageAsync(AppStrings.Dialogs.Budget.LimitNegative, DialogType.Error);
                     break;
-                case BudgetLimitValidationResult.Zero:
+                case BudgetValidationResult.Zero:
                     await ShowMessageAsync(AppStrings.Dialogs.Budget.LimitZero, DialogType.Error);
                     break;
-                case BudgetLimitValidationResult.TooLarge:
+                case BudgetValidationResult.TooLarge:
                     await ShowMessageAsync(AppStrings.Dialogs.Budget.LimitTooTooLarge, DialogType.Error);
                     break;
-                case BudgetLimitValidationResult.Success:
+                case BudgetValidationResult.CategoryNotSelected:
+                    await ShowMessageAsync(AppStrings.Dialogs.Budget.CategoryNotSelected, DialogType.Error);
+                    break;
+                case BudgetValidationResult.Success:
                     await ShowMessageAsync(AppStrings.Dialogs.Budget.CreatedSuccess, DialogType.Success);
                     break;
             }
@@ -115,8 +119,8 @@ namespace MyBudgetApp.Services
 
                 if (result == ContentDialogResult.Primary)
                 {
-                    var validationResult = await ShowBudgetLimitValidationDialog(viewModel.LimitAmount);
-                    if (validationResult == BudgetLimitValidationResult.Success)
+                    var validationResult = await ShowBudgetValidationDialog(viewModel.LimitAmount, categories);
+                    if (validationResult == BudgetValidationResult.Success)
                     {
                         return new Budget
                         {
