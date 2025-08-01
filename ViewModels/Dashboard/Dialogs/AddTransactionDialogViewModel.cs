@@ -48,12 +48,13 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
             set => SetProperty(ref _description, value);
         }
 
-        private DateTimeOffset? _selectedDate = DateTimeOffset.Now;
-        public DateTimeOffset? SelectedDate
+        private DateTimeOffset _selectedDate = DateTimeOffset.Now;
+        public DateTimeOffset SelectedDate
         {
             get => _selectedDate;
             set => SetProperty(ref _selectedDate, value);
         }
+        public DateTime SelectedDateAsDateTime => SelectedDate.DateTime;
 
         public AddTransactionDialogViewModel(IEnumerable<CategoryViewModel> categories)
         {

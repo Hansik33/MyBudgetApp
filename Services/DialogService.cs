@@ -187,18 +187,74 @@ namespace MyBudgetApp.Services
             }
         }
 
+        private async Task<TransactionValidationResult>
+            ShowTransactionValidationDialog(string transactionAmount,
+                                            string description,
+                                            DateTime transactionDate,
+                                            IEnumerable<CategoryViewModel> categories)
+        {
+            var result = TransactionValidator.Validate(transactionAmount, description, transactionDate, categories);
+            switch (result)
+            {
+                case TransactionValidationResult.AmountEmpty:
+                    await ShowMessageAsync(AppStrings.Dialogs.Transaction.AmountEmpty, DialogType.Error);
+                    break;
+                case TransactionValidationResult.AmountNotANumber:
+                    await ShowMessageAsync(AppStrings.Dialogs.Transaction.AmountNotANumber, DialogType.Error);
+                    break;
+                case TransactionValidationResult.AmountNegative:
+                    await ShowMessageAsync(AppStrings.Dialogs.Transaction.AmountNegative, DialogType.Error);
+                    break;
+                case TransactionValidationResult.AmountZero:
+                    await ShowMessageAsync(AppStrings.Dialogs.Transaction.AmountZero, DialogType.Error);
+                    break;
+                case TransactionValidationResult.AmountTooLarge:
+                    await ShowMessageAsync(AppStrings.Dialogs.Transaction.AmountTooLarge, DialogType.Error);
+                    break;
+                case TransactionValidationResult.DescriptionTooShort:
+                    await ShowMessageAsync(AppStrings.Dialogs.Transaction.DescriptionTooShort, DialogType.Error);
+                    break;
+                case TransactionValidationResult.DescriptionTooLong:
+                    await ShowMessageAsync(AppStrings.Dialogs.Transaction.DescriptionTooLong, DialogType.Error);
+                    break;
+                case TransactionValidationResult.DateInvalid:
+                    await ShowMessageAsync(AppStrings.Dialogs.Transaction.DateInvalid, DialogType.Error);
+                    break;
+                case TransactionValidationResult.CategoryNotSelected:
+                    await ShowMessageAsync(AppStrings.Dialogs.Transaction.CategoryNotSelected, DialogType.Error);
+                    break;
+                case TransactionValidationResult.Success:
+                    await ShowMessageAsync(AppStrings.Dialogs.Transaction.CreatedSuccess, DialogType.Success);
+                    break;
+            }
+            return result;
+        }
+
         public async Task<Transaction?> ShowAddTransactionDialogAsync(IEnumerable<CategoryViewModel> categories)
         {
             var viewModel = new AddTransactionDialogViewModel(categories);
-            var dialog = new AddTransactionDialog
+
+            while (true)
             {
-                DataContext = viewModel,
-                XamlRoot = _xamlRoot
-            };
+                var dialog = new AddTransactionDialog
+                {
+                    DataContext = viewModel,
+                    XamlRoot = _xamlRoot
+                };
 
-            _ = await dialog.ShowAsync();
+                var result = await dialog.ShowAsync();
 
-            return null;
+                if (result == ContentDialogResult.Primary)
+                {
+                    var validationResult = await ShowTransactionValidationDialog(
+                        viewModel.Amount,
+                        viewModel.Description,
+                        viewModel.SelectedDateAsDateTime,
+                        categories);
+                    continue;
+                }
+                return null;
+            }
         }
     }
 }

@@ -30,6 +30,7 @@
                 public const string LimitNegative = "Limit budżetu nie może być ujemny!";
                 public const string LimitZero = "Limit budżetu musi być dodatni!";
                 public const string LimitTooTooLarge = "Limit budżetu nie może przekraczać 1 miliona!";
+
                 public const string CategoryNotSelected = "Wybierz kategorię dla budżetu!";
 
                 public const string CreatedSuccess = "Budżet został utworzony.";
@@ -52,6 +53,20 @@
 
             public static class Transaction
             {
+                public const string AmountEmpty = "Kwota transakcji nie może być pusta!";
+                public const string AmountNotANumber = "Kwota transakcji musi być liczbą!";
+                public const string AmountNegative = "Kwota transakcji nie może być ujemna!";
+                public const string AmountZero = "Kwota transakcji musi być dodatnia!";
+                public const string AmountTooLarge = "Kwota transakcji nie może przekraczać 1 miliona!";
+
+                public const string DescriptionTooShort = "Opis transakcji musi mieć co najmniej 3 znaki!";
+                public const string DescriptionTooLong = "Opis transakcji nie może przekraczać 30 znaków!";
+
+                public const string DateInvalid = "Data transakcji musi być w bieżącym roku lub przyszłym roku!";
+
+                public const string CategoryNotSelected = "Wybierz kategorię dla transakcji!";
+
+                public const string CreatedSuccess = "Transakcja została utworzona.";
                 public const string ConfirmDelete = "Czy na pewno chcesz usunąć tę transakcję?";
                 public const string DeletedSuccess = "Transakcja została usunięta.";
                 public const string DeletionNotAllowed = "Nie można usunąć tej transakcji, ponieważ spowodowałoby to ujemne saldo!";
