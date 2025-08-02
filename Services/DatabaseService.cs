@@ -129,6 +129,16 @@ namespace MyBudgetApp.Services
             return category;
         }
 
+        public async Task<Transaction> AddTransactionAsync(Transaction transaction)
+        {
+            using var appDbContext = new AppDbContext(CreateOptions());
+
+            appDbContext.Transactions.Add(transaction);
+            await appDbContext.SaveChangesAsync();
+
+            return transaction;
+        }
+
         public async Task DeleteBudgetAsync(int budgetId)
         {
             using var appDbContext = new AppDbContext(CreateOptions());

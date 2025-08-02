@@ -19,6 +19,7 @@ namespace MyBudgetApp.Interfaces
 
         Task<Budget> AddBudgetAsync(Budget budget);
         Task<Category> AddCategoryAsync(Category category);
+        Task<Transaction> AddTransactionAsync(Transaction transaction);
 
         Task DeleteBudgetAsync(int budgetId);
         Task DeleteCategoryAsync(int categoryId);

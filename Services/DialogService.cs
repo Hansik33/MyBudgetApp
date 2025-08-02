@@ -251,6 +251,18 @@ namespace MyBudgetApp.Services
                         viewModel.Description,
                         viewModel.SelectedDateAsDateTime,
                         categories);
+                    if (validationResult == TransactionValidationResult.Success)
+                    {
+                        return new Transaction
+                        {
+                            Type = viewModel.SelectedType?.Value ?? TransactionType.Expense,
+                            CategoryId = viewModel.SelectedCategory?.Id ?? 0,
+                            Amount = decimal.TryParse(viewModel.Amount, out var amount) ? amount : 0,
+                            Method = viewModel.SelectedMethod?.Value ?? PaymentMethod.Cash,
+                            Description = viewModel.Description == string.Empty ? "Brak" : viewModel.Description,
+                            Date = viewModel.SelectedDateAsDateTime
+                        };
+                    }
                     continue;
                 }
                 return null;

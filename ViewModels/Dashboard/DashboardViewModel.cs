@@ -111,10 +111,9 @@ namespace MyBudgetApp.ViewModels.Dashboard
                 budget.UserId = UserId;
 
                 var newBudget = await _budgetService.AddBudgetAsync(budget);
-
-                var category = Categories.FirstOrDefault(category => category.Id == newBudget.CategoryId);
+                var category = Categories.FirstOrDefault(category => category.Id == budget.CategoryId);
                 if (category != null)
-                    newBudget.Category = category.Model;
+                    budget.Category = category.Model;
 
                 Budgets.Add(new BudgetViewModel(newBudget, Transactions));
             }
@@ -165,7 +164,21 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task AddTransaction()
         {
-            _ = await _dialogService.ShowAddTransactionDialogAsync(Categories);
+            var transaction = await _dialogService.ShowAddTransactionDialogAsync(Categories);
+
+            if (transaction != null)
+            {
+                transaction.UserId = UserId;
+
+                var newTransaction = await _transactionService.AddTransactionAsync(transaction);
+                var category = Categories.FirstOrDefault(category => category.Id == transaction.CategoryId);
+                if (category != null)
+                    transaction.Category = category.Model;
+
+                Transactions.Add(new TransactionViewModel(newTransaction));
+            }
+            RefreshBudgets();
+            UpdateUi();
         }
 
         private async Task DeleteTransaction(TransactionViewModel transaction)
