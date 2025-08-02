@@ -17,12 +17,12 @@
 
     <StackPanel Spacing="12" Padding="8">
 
-        <ComboBox Header="Typ"
+        <ComboBox Header="Typ transakcji:"
                   ItemsSource="{Binding Types}"
                   SelectedItem="{Binding SelectedType, Mode=TwoWay}"
                   PlaceholderText="Wybierz typ transakcji"/>
 
-        <ComboBox Header="Kategoria"
+        <ComboBox Header="Kategoria:"
                   ItemsSource="{Binding Categories}"
                   SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
                   DisplayMemberPath="Name"
@@ -30,20 +30,20 @@
 
         <TextBox x:Name="AmountTextBox"
                  Text="{Binding Amount, Mode=TwoWay}" 
-                 Header="Kwota"
+                 Header="Kwota:"
                  InputScope="Number"
                  PlaceholderText="Wpisz kwotę..." />
 
-        <ComboBox Header="Metoda płatności"
+        <ComboBox Header="Metoda płatności:"
                   ItemsSource="{Binding Methods}"
                   SelectedItem="{Binding SelectedMethod, Mode=TwoWay}"
                   PlaceholderText="Wybierz metodę płatności" />
 
-        <TextBox Header="Opis"
+        <TextBox Header="Opis (opcjonalnie):"
                  Text="{Binding Description, Mode=TwoWay}" 
                  PlaceholderText="Wpisz opis..." />
 
-        <DatePicker Header="Data"
+        <DatePicker Header="Data:"
                     SelectedDate="{Binding SelectedDate, Mode=TwoWay}" />
 
     </StackPanel>
