@@ -12,7 +12,8 @@
     Title="Dodaj transakcję"
     PrimaryButtonText="Dodaj"
     CloseButtonText="Anuluj"
-    DefaultButton="Primary">
+    DefaultButton="Primary"
+    Loaded="ContentDialog_Loaded">
 
     <StackPanel Spacing="12" Padding="8">
 
@@ -27,9 +28,10 @@
                   DisplayMemberPath="Name"
                   PlaceholderText="Wybierz kategorię" />
 
-        <TextBox Header="Kwota"
-                 InputScope="Number"
+        <TextBox x:Name="AmountTextBox"
                  Text="{Binding Amount, Mode=TwoWay}" 
+                 Header="Kwota"
+                 InputScope="Number"
                  PlaceholderText="Wpisz kwotę..." />
 
         <ComboBox Header="Metoda płatności"
