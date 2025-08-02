@@ -62,7 +62,7 @@
                 public const string DescriptionTooShort = "Opis transakcji musi mieć co najmniej 3 znaki!";
                 public const string DescriptionTooLong = "Opis transakcji nie może przekraczać 30 znaków!";
 
-                public const string DateInvalid = "Data transakcji musi być w bieżącym roku lub przyszłym roku!";
+                public const string DateInvalid = "Data transakcji musi być w bieżącym lub przyszłym roku!";
 
                 public const string CategoryNotSelected = "Wybierz kategorię dla transakcji!";
 
