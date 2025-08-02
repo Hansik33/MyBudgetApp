@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using MyBudgetApp.Enums;
+using MyBudgetApp.Enums.ValidationResults;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Models;
 using MyBudgetApp.Resources;

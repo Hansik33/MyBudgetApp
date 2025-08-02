@@ -1,4 +1,4 @@
-﻿namespace MyBudgetApp.Enums
+﻿namespace MyBudgetApp.Enums.ValidationResults
 {
     public enum CategoryNameValidationResult
     {
