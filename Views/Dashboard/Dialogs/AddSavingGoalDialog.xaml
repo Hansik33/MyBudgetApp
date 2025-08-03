@@ -16,20 +16,18 @@
     Loaded="ContentDialog_Loaded">
 
     <StackPanel Spacing="12" Padding="8">
-
         <TextBox Header="Nazwa celu:"
-         Text="{Binding SavingGoalName, Mode=TwoWay}" 
-         PlaceholderText="Wpisz nazwę celu..." />
+                 Text="{Binding SavingGoalName, Mode=TwoWay}"
+                 PlaceholderText="Wpisz nazwę celu..." />
 
         <TextBox x:Name="AmountTextBox"
-                 Header="Kwota:"
+                 Header="Kwota do zaoszczędzenia:"
                  Text="{Binding Amount, Mode=TwoWay}" 
                  InputScope="Number"
                  PlaceholderText="Wpisz kwotę..." />
 
         <DatePicker Header="Termin ostateczny:"
                     SelectedDate="{Binding SelectedDeadline, Mode=TwoWay}" />
-
     </StackPanel>
-
+    
 </ContentDialog>

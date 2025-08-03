@@ -16,24 +16,24 @@
     Loaded="ContentDialog_Loaded">
 
     <StackPanel Spacing="12">
-        <TextBlock Text="Kategoria:"/>
-        <ComboBox ItemsSource="{Binding Categories}"
+        <ComboBox Header="Kategoria:"
+                  ItemsSource="{Binding Categories}"
                   SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
                   DisplayMemberPath="Name"
                   PlaceholderText="Wybierz kategorię" />
 
-        <TextBlock Text="Miesiąc:"/>
-        <ComboBox ItemsSource="{Binding Months}"
+        <ComboBox Header="Miesiąc:"
+                  ItemsSource="{Binding Months}"
                   SelectedItem="{Binding SelectedMonth, Mode=TwoWay}"
                   PlaceholderText="Wybierz miesiąc" />
 
-        <TextBlock Text="Rok:"/>
-        <ComboBox ItemsSource="{Binding Years}"
+        <ComboBox Header="Rok:"
+                  ItemsSource="{Binding Years}"
                   SelectedItem="{Binding SelectedYear, Mode=TwoWay}"
                   PlaceholderText="Wybierz rok" />
 
-        <TextBlock Text="Kwota do wydania:"/>
         <TextBox x:Name="LimitAmountTextBox"
+                 Header="Kwota do wydania:"
                  Text="{Binding LimitAmount, Mode=TwoWay}" 
                  InputScope="Number"  
                  PlaceholderText="Wpisz kwotę..." />

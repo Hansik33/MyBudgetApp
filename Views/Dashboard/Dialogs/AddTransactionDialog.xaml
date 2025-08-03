@@ -16,7 +16,6 @@
     Loaded="ContentDialog_Loaded">
 
     <StackPanel Spacing="12" Padding="8">
-
         <ComboBox Header="Typ transakcji:"
                   ItemsSource="{Binding Types}"
                   SelectedItem="{Binding SelectedType, Mode=TwoWay}"
@@ -29,8 +28,8 @@
                   PlaceholderText="Wybierz kategorię" />
 
         <TextBox x:Name="AmountTextBox"
-                 Text="{Binding Amount, Mode=TwoWay}" 
                  Header="Kwota:"
+                 Text="{Binding Amount, Mode=TwoWay}" 
                  InputScope="Number"
                  PlaceholderText="Wpisz kwotę..." />
 
@@ -45,7 +44,6 @@
 
         <DatePicker Header="Data:"
                     SelectedDate="{Binding SelectedDate, Mode=TwoWay}" />
-
     </StackPanel>
 
 </ContentDialog>
