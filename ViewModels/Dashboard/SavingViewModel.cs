@@ -1,29 +1,37 @@
 ﻿using MyBudgetApp.Models;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 
 namespace MyBudgetApp.ViewModels.Dashboard
 {
-    public class SavingViewModel
+    public partial class SavingViewModel(Saving saving, IEnumerable<SavingGoalViewModel> allGoals) : BaseViewModel
     {
         private static readonly CultureInfo Culture = new("pl-PL");
 
-        private readonly Saving _saving;
+        private ObservableCollection<SavingGoalViewModel> _allGoals = new(allGoals);
 
-        public SavingViewModel(Saving saving, IEnumerable<SavingGoal> allGoals)
+        public Saving Model => saving;
+
+        public int Id => saving.Id;
+
+        public int GoalId => saving.GoalId;
+
+        private string _goal = string.Empty;
+        public string Goal
         {
-            _saving = saving;
-
-            var goal = allGoals.FirstOrDefault(savingGoal => savingGoal.Id == saving.GoalId);
-            Goal = goal?.Name ?? "Nieznany cel";
+            get => _goal;
+            set => SetProperty(ref _goal, value);
         }
 
-        public Saving Model => _saving;
+        public decimal Amount => saving.Amount;
+        public string Date => saving.Date.ToString("dd.MM.yyyy", Culture);
 
-        public int Id => _saving.Id;
-        public decimal Amount => _saving.Amount;
-        public string Date => _saving.Date.ToString("dd.MM.yyyy", Culture);
-        public string Goal { get; }
+        public void UpdateSavingGoalsReference(ObservableCollection<SavingGoalViewModel> savingGoals)
+        {
+            _allGoals = savingGoals;
+            Goal = _allGoals.FirstOrDefault(goal => goal.Id == saving.GoalId)?.Goal ?? string.Empty;
+        }
     }
 }

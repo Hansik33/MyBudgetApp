@@ -14,7 +14,6 @@ namespace MyBudgetApp.Data.Configurations
             builder.Property(savingGoal => savingGoal.UserId).HasColumnName("user_id");
             builder.Property(savingGoal => savingGoal.Name).HasColumnName("name");
             builder.Property(savingGoal => savingGoal.TargetAmount).HasColumnName("target_amount");
-            builder.Property(savingGoal => savingGoal.SavedAmount).HasColumnName("saved_amount");
             builder.Property(savingGoal => savingGoal.Deadline).HasColumnName("deadline");
         }
     }

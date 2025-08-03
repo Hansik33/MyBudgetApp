@@ -14,6 +14,31 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
         public ObservableCollection<EnumDisplay<TransactionType>> Types { get; }
         public ObservableCollection<EnumDisplay<PaymentMethod>> Methods { get; }
 
+        public AddTransactionDialogViewModel(IEnumerable<CategoryViewModel> categories)
+        {
+            Categories = new ObservableCollection<CategoryViewModel>(categories);
+
+            Types =
+            [
+                new(TransactionType.Income, "Przychód"),
+                new(TransactionType.Expense, "Wydatek")
+            ];
+
+            Methods =
+            [
+                new(PaymentMethod.Cash, "Gotówka"),
+                new(PaymentMethod.Transfer, "Przelew"),
+                new(PaymentMethod.Card, "Karta"),
+                new(PaymentMethod.Mobile, "Płatność mobilna"),
+                new(PaymentMethod.Other, "Inne")
+            ];
+
+            SelectedType = Types.FirstOrDefault();
+            SelectedCategory = Categories.FirstOrDefault();
+            SelectedMethod = Methods.FirstOrDefault();
+            SelectedDate = DateTimeOffset.Now;
+        }
+
         private EnumDisplay<TransactionType>? _selectedType;
         public EnumDisplay<TransactionType>? SelectedType
         {
@@ -56,30 +81,5 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
             set => SetProperty(ref _selectedDate, value);
         }
         public DateTime SelectedDateAsDateTime => SelectedDate.DateTime;
-
-        public AddTransactionDialogViewModel(IEnumerable<CategoryViewModel> categories)
-        {
-            Categories = new ObservableCollection<CategoryViewModel>(categories);
-
-            Types =
-            [
-                new(TransactionType.Income, "Przychód"),
-                new(TransactionType.Expense, "Wydatek")
-            ];
-
-            Methods =
-            [
-                new(PaymentMethod.Cash, "Gotówka"),
-                new(PaymentMethod.Transfer, "Przelew"),
-                new(PaymentMethod.Card, "Karta"),
-                new(PaymentMethod.Mobile, "Płatność mobilna"),
-                new(PaymentMethod.Other, "Inne")
-            ];
-
-            SelectedType = Types.FirstOrDefault();
-            SelectedCategory = Categories.FirstOrDefault();
-            SelectedMethod = Methods.FirstOrDefault();
-            SelectedDate = DateTimeOffset.Now;
-        }
     }
 }

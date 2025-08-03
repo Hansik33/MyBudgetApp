@@ -9,6 +9,27 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
     {
         public ObservableCollection<CategoryViewModel> Categories { get; }
 
+        public AddBudgetDialogViewModel(IEnumerable<CategoryViewModel> categories)
+        {
+            Categories = new ObservableCollection<CategoryViewModel>(categories);
+
+            Months =
+            [
+                "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
+                "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"
+            ];
+
+            Years = [];
+            int currentYear = DateTime.Now.Year;
+            Years.Add(currentYear);
+            int nextYear = currentYear + 1;
+            Years.Add(nextYear);
+
+            SelectedCategory = Categories.FirstOrDefault();
+            SelectedMonth = Months[DateTime.Now.Month - 1];
+            SelectedYear = currentYear;
+        }
+
         private CategoryViewModel? _selectedCategory;
         public CategoryViewModel? SelectedCategory
         {
@@ -67,37 +88,6 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
         {
             get => _limitAmount;
             set => SetProperty(ref _limitAmount, value, nameof(LimitAmount));
-        }
-        public decimal LimitAmountDecimal
-        {
-            get
-            {
-                if (decimal.TryParse(LimitAmount, out var amount))
-                    return amount;
-                return 0m;
-            }
-            set => LimitAmount = value.ToString("0.00");
-        }
-
-        public AddBudgetDialogViewModel(IEnumerable<CategoryViewModel> categories)
-        {
-            Categories = new ObservableCollection<CategoryViewModel>(categories);
-
-            Months =
-            [
-                "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
-                "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"
-            ];
-
-            Years = [];
-            int currentYear = DateTime.Now.Year;
-            Years.Add(currentYear);
-            int nextYear = currentYear + 1;
-            Years.Add(nextYear);
-
-            SelectedCategory = Categories.FirstOrDefault();
-            SelectedMonth = Months[DateTime.Now.Month - 1];
-            SelectedYear = currentYear;
         }
     }
 }

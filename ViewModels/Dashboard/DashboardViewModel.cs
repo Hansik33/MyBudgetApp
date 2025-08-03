@@ -38,8 +38,6 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public ObservableCollection<SavingViewModel> Savings { get; } = [];
         public ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = [];
 
-        public ICommand LogoutCommand { get; }
-
         public ICommand AddBudgetCommand { get; }
         public ICommand AddCategoryCommand { get; }
         public ICommand AddTransactionCommand { get; }
@@ -50,6 +48,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public ICommand DeleteCategoryCommand { get; }
         public ICommand DeleteSavingCommand { get; }
         public ICommand DeleteSavingGoalCommand { get; }
+
+        public ICommand LogoutCommand { get; }
 
         public DashboardViewModel(IBudgetService budgetService,
                                   ITransactionService transactionService,
@@ -259,6 +259,13 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task<List<SavingGoal>> LoadSavingGoalsAsync() => await _savingGoalService.GetSavingGoalsAsync(UserId);
 
+        private void PopulateBudgets(IEnumerable<Budget> budgets)
+        {
+            Budgets.Clear();
+            foreach (var budget in budgets)
+                Budgets.Add(new BudgetViewModel(budget, Transactions));
+        }
+
         private void PopulateCategories(IEnumerable<Category> categories)
         {
             Categories.Clear();
@@ -273,25 +280,27 @@ namespace MyBudgetApp.ViewModels.Dashboard
                 Transactions.Add(new TransactionViewModel(transaction));
         }
 
-        private void PopulateBudgets(IEnumerable<Budget> budgets)
-        {
-            Budgets.Clear();
-            foreach (var budget in budgets)
-                Budgets.Add(new BudgetViewModel(budget, Transactions));
-        }
-
-        private void PopulateSavings(IEnumerable<Saving> savings, IEnumerable<SavingGoal> savingGoals)
+        private void PopulateSavings(IEnumerable<Saving> savings)
         {
             Savings.Clear();
             foreach (var saving in savings)
-                Savings.Add(new SavingViewModel(saving, savingGoals));
+                Savings.Add(new SavingViewModel(saving, SavingGoals));
         }
 
-        private void PopulateSavingGoals(IEnumerable<SavingGoal> savingGoals, IEnumerable<Saving> savings)
+        private void PopulateSavingGoals(IEnumerable<SavingGoal> savingGoals)
         {
             SavingGoals.Clear();
             foreach (var savingGoal in savingGoals)
-                SavingGoals.Add(new SavingGoalViewModel(savingGoal, savings));
+                SavingGoals.Add(new SavingGoalViewModel(savingGoal, Savings));
+        }
+
+        private void UpdateSavingReferences()
+        {
+            foreach (var saving in Savings)
+                saving.UpdateSavingGoalsReference(SavingGoals);
+
+            foreach (var savingGoal in SavingGoals)
+                savingGoal.UpdateSavingsReference(Savings);
         }
 
         private void UpdateUi()
@@ -312,8 +321,10 @@ namespace MyBudgetApp.ViewModels.Dashboard
             PopulateCategories(categories);
             PopulateTransactions(transactions);
             PopulateBudgets(budgets);
-            PopulateSavings(savings, savingGoals);
-            PopulateSavingGoals(savingGoals, savings);
+
+            PopulateSavings(savings);
+            PopulateSavingGoals(savingGoals);
+            UpdateSavingReferences();
 
             UpdateUi();
         }
