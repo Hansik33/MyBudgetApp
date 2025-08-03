@@ -43,6 +43,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public ICommand AddBudgetCommand { get; }
         public ICommand AddCategoryCommand { get; }
         public ICommand AddTransactionCommand { get; }
+        public ICommand AddSavingGoalCommand { get; }
 
         public ICommand DeleteBudgetCommand { get; }
         public ICommand DeleteTransactionCommand { get; }
@@ -72,6 +73,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
             AddBudgetCommand = new RelayCommand(async () => await AddBudget());
             AddCategoryCommand = new RelayCommand(async () => await AddCategory());
             AddTransactionCommand = new RelayCommand(async () => await AddTransaction());
+            AddSavingGoalCommand = new RelayCommand(async () => await AddSavingGoal());
 
             DeleteBudgetCommand = new RelayCommand<BudgetViewModel>(async budget => await DeleteBudget(budget));
             DeleteCategoryCommand = new RelayCommand<CategoryViewModel>(async category => await DeleteCategory(category));
@@ -215,6 +217,11 @@ namespace MyBudgetApp.ViewModels.Dashboard
             await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Saving.DeletedSuccess, DialogType.Success);
 
             UpdateUi();
+        }
+
+        private async Task AddSavingGoal()
+        {
+            _ = await _dialogService.ShowAddSavingGoalDialogAsync();
         }
 
         private async Task DeleteSavingGoal(SavingGoalViewModel savingGoal)

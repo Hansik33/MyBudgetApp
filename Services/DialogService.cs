@@ -269,5 +269,23 @@ namespace MyBudgetApp.Services
                 return null;
             }
         }
+
+        public async Task<SavingGoal?> ShowAddSavingGoalDialogAsync()
+        {
+            var viewModel = new AddSavingGoalDialogViewModel();
+
+            while (true)
+            {
+                var dialog = new AddSavingGoalDialog
+                {
+                    DataContext = viewModel,
+                    XamlRoot = _xamlRoot
+                };
+
+                _ = await dialog.ShowAsync();
+
+                return null;
+            }
+        }
     }
 }

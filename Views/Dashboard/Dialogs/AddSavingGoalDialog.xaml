@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentDialog
+    x:Class="MyBudgetApp.Views.Dashboard.Dialogs.AddSavingGoalDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyBudgetApp.Views.Dashboard.Dialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:MyBudgetApp.ViewModels.Dashboard.Dialogs"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=viewmodels:AddSavingGoalDialogViewModel}"
+    Title="Dodaj cel oszczędnościowy"
+    PrimaryButtonText="Dodaj"
+    CloseButtonText="Anuluj"
+    DefaultButton="Primary"
+    Loaded="ContentDialog_Loaded">
+
+    <StackPanel Spacing="12" Padding="8">
+
+        <TextBox Header="Nazwa celu:"
+         Text="{Binding SavingGoalName, Mode=TwoWay}" 
+         PlaceholderText="Wpisz nazwę celu..." />
+
+        <TextBox x:Name="AmountTextBox"
+                 Header="Kwota:"
+                 Text="{Binding Amount, Mode=TwoWay}" 
+                 InputScope="Number"
+                 PlaceholderText="Wpisz kwotę..." />
+
+        <DatePicker Header="Termin ostateczny:"
+                    SelectedDate="{Binding SelectedDeadline, Mode=TwoWay}" />
+
+    </StackPanel>
+
+</ContentDialog>

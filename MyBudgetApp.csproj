@@ -65,6 +65,9 @@
     <Page Update="Views\Dashboard\Dialogs\AddBudgetDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\Dashboard\Dialogs\AddSavingGoalDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\Dashboard\Dialogs\AddTransactionDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
