@@ -10,11 +10,15 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type=viewmodels:BudgetViewModel}">
 
-    <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
+    <Border BorderThickness="1" BorderBrush="DarkGray" 
+            Padding="6" Margin="0,4,0,4" 
+            CornerRadius="4">
         <Border.Background>
-            <AcrylicBrush TintColor="#1E1E1E" TintOpacity="0.2" FallbackColor="#1E1E1E" />
+            <AcrylicBrush TintColor="#1E1E1E" TintOpacity="0.2" 
+                          FallbackColor="#1E1E1E" />
         </Border.Background>
-        <StackPanel Orientation="Vertical" Spacing="4">
+        <StackPanel Orientation="Vertical" 
+                    Spacing="4">
             <local:DeleteIconButton
                 Command="{x:Bind DeleteCommand, Mode=OneWay}"
                 CommandParameter="{x:Bind Budget, Mode=OneWay}" />
@@ -32,12 +36,16 @@
             </TextBlock>
 
             <TextBlock Text="Limit:" FontWeight="Bold" />
-            <TextBlock Text="{Binding UsagePercent}" HorizontalAlignment="Center" />
+            <TextBlock Text="{Binding UsagePercent}" 
+                       HorizontalAlignment="Center" />
             <ProgressBar Minimum="0"
                          Maximum="{Binding LimitAmountDouble}"
                          Value="{Binding UsedAmountDouble}"
-                         Foreground="{Binding UsageBrush}" Height="8" />
-            <TextBlock Text="{Binding UsageLimit}" HorizontalAlignment="Center" />
+                         Foreground="{Binding UsageBrush}" 
+                         Height="8" />
+            <TextBlock Text="{Binding UsageLimit}" 
+                       HorizontalAlignment="Center" />
         </StackPanel>
     </Border>
+    
 </UserControl>

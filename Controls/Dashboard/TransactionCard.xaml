@@ -10,11 +10,15 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type=viewmodels:TransactionViewModel}">
 
-    <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
+    <Border BorderThickness="1" BorderBrush="DarkGray" 
+            Padding="6" Margin="0,4,0,4" 
+            CornerRadius="4">
         <Border.Background>
-            <AcrylicBrush TintColor="#1E1E1E" TintOpacity="0.2" FallbackColor="#1E1E1E" />
+            <AcrylicBrush TintColor="#1E1E1E" TintOpacity="0.2" 
+                          FallbackColor="#1E1E1E" />
         </Border.Background>
-        <StackPanel Orientation="Vertical" Spacing="2">
+        <StackPanel Orientation="Vertical" 
+                    Spacing="2">
             <local:DeleteIconButton
                 Command="{x:Bind DeleteCommand, Mode=OneWay}"
                 CommandParameter="{x:Bind Transaction, Mode=OneWay}" />
@@ -45,5 +49,5 @@
             </TextBlock>
         </StackPanel>
     </Border>
-    
+
 </UserControl>

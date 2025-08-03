@@ -10,11 +10,15 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type=viewmodels:SavingGoalViewModel}">
 
-    <Border BorderThickness="1" BorderBrush="DarkGray" Padding="6" Margin="0,4,0,4" CornerRadius="4">
+    <Border BorderThickness="1" BorderBrush="DarkGray" 
+            Padding="6" Margin="0,4,0,4" 
+            CornerRadius="4">
         <Border.Background>
-            <AcrylicBrush TintColor="#1E1E1E" TintOpacity="0.2" FallbackColor="#1E1E1E" />
+            <AcrylicBrush TintColor="#1E1E1E" TintOpacity="0.2" 
+                          FallbackColor="#1E1E1E" />
         </Border.Background>
-        <StackPanel Orientation="Vertical" Spacing="4">
+        <StackPanel Orientation="Vertical" 
+                    Spacing="4">
             <local:DeleteIconButton
                 Command="{x:Bind DeleteCommand, Mode=OneWay}"
                 CommandParameter="{x:Bind SavingGoal, Mode=OneWay}" />
@@ -26,14 +30,18 @@
             <Run Text="Termin:" FontWeight="Bold" />
             <Run Text="{Binding Deadline}" />
             </TextBlock>
+
             <TextBlock Text="Postęp:" FontWeight="Bold" />
-            <TextBlock Text="{Binding ProgressPercent}" HorizontalAlignment="Center" />
+            <TextBlock Text="{Binding ProgressPercent}" 
+                       HorizontalAlignment="Center" />
             <ProgressBar Minimum="0"
-                     Maximum="{Binding TargetAmountDouble}" 
-                     Value="{Binding SavedAmountDouble}"
-                     Foreground="{Binding ProgressBrush}" Height="8" />
-            <TextBlock Text="{Binding ProgressAmount}" HorizontalAlignment="Center" />
+                         Maximum="{Binding TargetAmountDouble}" 
+                         Value="{Binding SavedAmountDouble}"
+                         Foreground="{Binding ProgressBrush}"
+                         Height="8" />
+            <TextBlock Text="{Binding ProgressAmount}" 
+                       HorizontalAlignment="Center" />
         </StackPanel>
     </Border>
-    
+
 </UserControl>
