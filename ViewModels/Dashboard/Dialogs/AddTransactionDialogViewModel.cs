@@ -1,5 +1,6 @@
 ﻿using MyBudgetApp.Enums;
 using MyBudgetApp.Helpers;
+using MyBudgetApp.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -45,7 +46,7 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
         public string Description
         {
             get => _description;
-            set => SetProperty(ref _description, value);
+            set => SetProperty(ref _description, StringFormatter.Format(value));
         }
 
         private DateTimeOffset _selectedDate = DateTimeOffset.Now;
