@@ -4,11 +4,11 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
 {
     public partial class AddCategoryDialogViewModel : BaseViewModel
     {
-        private string _categoryName = string.Empty;
-        public string CategoryName
+        private string _name = string.Empty;
+        public string Name
         {
-            get => _categoryName;
-            set => SetProperty(ref _categoryName, StringFormatter.Format(value));
+            get => _name;
+            set => SetProperty(ref _name, StringFormatter.Format(value));
         }
     }
 }

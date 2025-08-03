@@ -179,9 +179,9 @@ namespace MyBudgetApp.Services
 
                 if (result == ContentDialogResult.Primary)
                 {
-                    var validationResult = await ShowCategoryNameValidationDialog(viewModel.CategoryName, categories);
+                    var validationResult = await ShowCategoryNameValidationDialog(viewModel.Name, categories);
                     if (validationResult == CategoryNameValidationResult.Success)
-                        return new Category { Name = viewModel.CategoryName };
+                        return new Category { Name = viewModel.Name };
                     continue;
                 }
                 return null;

@@ -12,7 +12,7 @@ namespace MyBudgetApp.Data.Configurations
             builder.HasKey(user => user.Id);
             builder.Property(user => user.Id).HasColumnName("id");
             builder.Property(user => user.Username).HasColumnName("username");
-            builder.Property(user => user.Password_hash).HasColumnName("password_hash");
+            builder.Property(user => user.PasswordHash).HasColumnName("password_hash");
         }
     }
 }

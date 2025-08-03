@@ -5,18 +5,18 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
 {
     public partial class AddSavingGoalDialogViewModel : BaseViewModel
     {
-        private string _savingGoalName = string.Empty;
-        public string SavingGoalName
+        private string _name = string.Empty;
+        public string Name
         {
-            get => _savingGoalName;
-            set => SetProperty(ref _savingGoalName, StringFormatter.Format(value));
+            get => _name;
+            set => SetProperty(ref _name, StringFormatter.Format(value));
         }
 
-        private string _amount = string.Empty;
-        public string Amount
+        private string _targetAmount = string.Empty;
+        public string TargetAmount
         {
-            get => _amount;
-            set => SetProperty(ref _amount, value);
+            get => _targetAmount;
+            set => SetProperty(ref _targetAmount, value);
         }
 
         private DateTimeOffset _selectedDeadline = new(DateTime.Now.AddMonths(1));
