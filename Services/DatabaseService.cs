@@ -139,6 +139,16 @@ namespace MyBudgetApp.Services
             return transaction;
         }
 
+        public async Task<SavingGoal> AddSavingGoalAsync(SavingGoal savingGoal)
+        {
+            using var appDbContext = new AppDbContext(CreateOptions());
+
+            appDbContext.SavingGoals.Add(savingGoal);
+            await appDbContext.SaveChangesAsync();
+
+            return savingGoal;
+        }
+
         public async Task DeleteBudgetAsync(int budgetId)
         {
             using var appDbContext = new AppDbContext(CreateOptions());

@@ -338,7 +338,12 @@ namespace MyBudgetApp.Services
                                                                                 savingGoals);
                     if (validationResult == SavingGoalValidationResult.Success)
                     {
-
+                        return new SavingGoal
+                        {
+                            Name = viewModel.Name,
+                            TargetAmount = decimal.TryParse(viewModel.TargetAmount, out var amount) ? amount : 0,
+                            Deadline = viewModel.SelectedDeadlineAsDateTime
+                        };
                     }
                     continue;
                 }

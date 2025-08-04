@@ -10,6 +10,8 @@ namespace MyBudgetApp.Services.Dashboard
     {
         public async Task<List<SavingGoal>> GetSavingGoalsAsync(int userId) =>
             await databaseService.GetSavingGoalsAsync(userId);
+        public async Task<SavingGoal> AddSavingGoalAsync(SavingGoal savingGoal) =>
+            await databaseService.AddSavingGoalAsync(savingGoal);
         public async Task DeleteSavingGoalAsync(int savingGoalId) =>
             await databaseService.DeleteSavingGoalAsync(savingGoalId);
     }
