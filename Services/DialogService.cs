@@ -270,7 +270,53 @@ namespace MyBudgetApp.Services
             }
         }
 
-        public async Task<SavingGoal?> ShowAddSavingGoalDialogAsync()
+        private async Task<SavingGoalValidationResult>
+            ShowSavingGoalValidationDialog(string name,
+                                           string targetAmount,
+                                           DateTime deadline,
+                                           IEnumerable<SavingGoalViewModel> savingGoals)
+        {
+            var result = SavingGoalValidator.Validate(name, targetAmount, deadline, savingGoals);
+            switch (result)
+            {
+                case SavingGoalValidationResult.Success:
+                    await ShowMessageAsync(AppStrings.Dialogs.SavingGoal.CreatedSuccess, DialogType.Success);
+                    break;
+                case SavingGoalValidationResult.NameEmpty:
+                    await ShowMessageAsync(AppStrings.Dialogs.SavingGoal.NameEmpty, DialogType.Error);
+                    break;
+                case SavingGoalValidationResult.NameTooShort:
+                    await ShowMessageAsync(AppStrings.Dialogs.SavingGoal.NameTooShort, DialogType.Error);
+                    break;
+                case SavingGoalValidationResult.NameTooLong:
+                    await ShowMessageAsync(AppStrings.Dialogs.SavingGoal.NameTooLong, DialogType.Error);
+                    break;
+                case SavingGoalValidationResult.NameNotUnique:
+                    await ShowMessageAsync(AppStrings.Dialogs.SavingGoal.NameNotUnique, DialogType.Error);
+                    break;
+                case SavingGoalValidationResult.TargetAmountEmpty:
+                    await ShowMessageAsync(AppStrings.Dialogs.SavingGoal.TargetAmountEmpty, DialogType.Error);
+                    break;
+                case SavingGoalValidationResult.TargetAmountNotANumber:
+                    await ShowMessageAsync(AppStrings.Dialogs.SavingGoal.TargetAmountNotANumber, DialogType.Error);
+                    break;
+                case SavingGoalValidationResult.TargetAmountNegative:
+                    await ShowMessageAsync(AppStrings.Dialogs.SavingGoal.TargetAmountNegative, DialogType.Error);
+                    break;
+                case SavingGoalValidationResult.TargetAmountZero:
+                    await ShowMessageAsync(AppStrings.Dialogs.SavingGoal.TargetAmountZero, DialogType.Error);
+                    break;
+                case SavingGoalValidationResult.TargetAmountTooLarge:
+                    await ShowMessageAsync(AppStrings.Dialogs.SavingGoal.TargetAmountTooLarge, DialogType.Error);
+                    break;
+                case SavingGoalValidationResult.DeadlineInvalid:
+                    await ShowMessageAsync(AppStrings.Dialogs.SavingGoal.DeadlineInvalid, DialogType.Error);
+                    break;
+            }
+            return result;
+        }
+
+        public async Task<SavingGoal?> ShowAddSavingGoalDialogAsync(IEnumerable<SavingGoalViewModel> savingGoals)
         {
             var viewModel = new AddSavingGoalDialogViewModel();
 
@@ -282,8 +328,20 @@ namespace MyBudgetApp.Services
                     XamlRoot = _xamlRoot
                 };
 
-                _ = await dialog.ShowAsync();
+                var result = await dialog.ShowAsync();
 
+                if (result == ContentDialogResult.Primary)
+                {
+                    var validationResult = await ShowSavingGoalValidationDialog(viewModel.Name,
+                                                                                viewModel.TargetAmount,
+                                                                                viewModel.SelectedDeadlineAsDateTime,
+                                                                                savingGoals);
+                    if (validationResult == SavingGoalValidationResult.Success)
+                    {
+
+                    }
+                    continue;
+                }
                 return null;
             }
         }

@@ -221,7 +221,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task AddSavingGoal()
         {
-            _ = await _dialogService.ShowAddSavingGoalDialogAsync();
+            _ = await _dialogService.ShowAddSavingGoalDialogAsync(SavingGoals);
         }
 
         private async Task DeleteSavingGoal(SavingGoalViewModel savingGoal)

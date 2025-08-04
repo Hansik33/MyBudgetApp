@@ -80,6 +80,20 @@
 
             public static class SavingGoal
             {
+                public const string NameEmpty = "Nazwa celu oszczędnościowego nie może być pusta!";
+                public const string NameTooShort = "Nazwa celu oszczędnościowego musi mieć co najmniej 3 znaki!";
+                public const string NameTooLong = "Nazwa celu oszczędnościowego nie może przekraczać 30 znaków!";
+                public const string NameNotUnique = "Cel oszczędnościowy o tej nazwie już istnieje!";
+
+                public const string TargetAmountEmpty = "Kwota docelowa nie może być pusta!";
+                public const string TargetAmountNotANumber = "Kwota docelowa musi być liczbą!";
+                public const string TargetAmountNegative = "Kwota docelowa nie może być ujemna!";
+                public const string TargetAmountZero = "Kwota docelowa musi być dodatnia!";
+                public const string TargetAmountTooLarge = "Kwota docelowa nie może przekraczać 1 miliona!";
+
+                public const string DeadlineInvalid = "Termin celu oszczędnościowego musi być co najmniej miesiąc w przyszłość!";
+
+                public const string CreatedSuccess = "Cel oszczędnościowy został utworzony.";
                 public const string ConfirmDelete = "Czy na pewno chcesz usunąć ten cel oszczędnościowy?";
                 public const string DeletedSuccess = "Cel oszczędnościowy został usunięty.";
             }
