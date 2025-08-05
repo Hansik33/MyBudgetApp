@@ -16,12 +16,12 @@
     Loaded="ContentDialog_Loaded">
 
     <StackPanel Spacing="12" Padding="8">
-        <TextBox Header="Nazwa celu:"
+        <TextBox x:Name="NameTextBox"
+                 Header="Nazwa celu:"
                  Text="{Binding Name, Mode=TwoWay}"
                  PlaceholderText="Wpisz nazwę celu..." />
 
-        <TextBox x:Name="TargetAmountTextBox"
-                 Header="Kwota do zaoszczędzenia:"
+        <TextBox Header="Kwota do zaoszczędzenia:"
                  Text="{Binding TargetAmount, Mode=TwoWay}" 
                  InputScope="Number"
                  PlaceholderText="Wpisz kwotę..." />

@@ -9,9 +9,9 @@ namespace MyBudgetApp.Views.Dashboard.Dialogs
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
         {
-            TargetAmountTextBox.Focus(FocusState.Programmatic);
-            TargetAmountTextBox.SelectionStart = TargetAmountTextBox.Text.Length;
-            TargetAmountTextBox.SelectionLength = 0;
+            NameTextBox.Focus(FocusState.Programmatic);
+            NameTextBox.SelectionStart = NameTextBox.Text.Length;
+            NameTextBox.SelectionLength = 0;
         }
     }
 }
