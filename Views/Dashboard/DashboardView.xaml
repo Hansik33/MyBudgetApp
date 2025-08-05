@@ -88,7 +88,7 @@
 
             <TextBlock Text="Cele oszczędnościowe" 
                        FontWeight="Bold" FontSize="16" />
-            <ItemsControl ItemsSource="{Binding SavingGoals}">
+            <ItemsControl ItemsSource="{Binding SortedSavingGoals}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:SavingGoalViewModel">
                         <dashboardControls:SavingGoalCard SavingGoal="{x:Bind}" 

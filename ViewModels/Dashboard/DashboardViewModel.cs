@@ -40,7 +40,9 @@ namespace MyBudgetApp.ViewModels.Dashboard
             .ThenBy(transaction => transaction.TransactionType);
 
         public ObservableCollection<SavingViewModel> Savings { get; } = [];
-        public ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = [];
+        private ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = [];
+        public IEnumerable<SavingGoalViewModel> SortedSavingGoals => SavingGoals
+            .OrderBy(savingGoal => savingGoal.Goal);
 
         public ICommand AddBudgetCommand { get; }
         public ICommand AddCategoryCommand { get; }
@@ -92,6 +94,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
             Budgets.CollectionChanged += Budgets_CollectionChanged;
             Categories.CollectionChanged += Categories_CollectionChanged;
             Transactions.CollectionChanged += Transactions_CollectionChanged;
+            SavingGoals.CollectionChanged += SavingGoals_CollectionChanged;
 
             _ = LoadDataAsync();
         }
@@ -278,6 +281,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private async Task<List<Saving>> LoadSavingsAsync() => await _savingService.GetSavingsAsync(UserId);
 
         private async Task<List<SavingGoal>> LoadSavingGoalsAsync() => await _savingGoalService.GetSavingGoalsAsync(UserId);
+        private void SavingGoals_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+            => OnPropertyChanged(nameof(SortedSavingGoals));
 
         private void PopulateBudgets(IEnumerable<Budget> budgets)
         {
