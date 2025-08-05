@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MyBudgetApp.Validators
+namespace MyBudgetApp.Validators.Dashboard
 {
     public static class CategoryValidator
     {

@@ -4,7 +4,7 @@ using MyBudgetApp.Interfaces;
 using MyBudgetApp.Interfaces.Dashboard;
 using MyBudgetApp.Models;
 using MyBudgetApp.Resources;
-using MyBudgetApp.Validators;
+using MyBudgetApp.Validators.Dashboard;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;

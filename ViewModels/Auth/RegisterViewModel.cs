@@ -2,7 +2,7 @@
 using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Resources;
-using MyBudgetApp.Validators;
+using MyBudgetApp.Validators.Auth;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;

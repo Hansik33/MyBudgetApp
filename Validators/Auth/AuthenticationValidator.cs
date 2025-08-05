@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MyBudgetApp.Validators;
+namespace MyBudgetApp.Validators.Auth;
 
 public static class AuthenticationValidator
 {

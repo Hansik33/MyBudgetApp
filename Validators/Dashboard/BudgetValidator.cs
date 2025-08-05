@@ -3,7 +3,7 @@ using MyBudgetApp.ViewModels.Dashboard;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MyBudgetApp.Validators
+namespace MyBudgetApp.Validators.Dashboard
 {
     public static class BudgetValidator
     {

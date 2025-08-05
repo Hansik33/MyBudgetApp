@@ -5,7 +5,7 @@ using MyBudgetApp.Enums.ValidationResults;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Models;
 using MyBudgetApp.Resources;
-using MyBudgetApp.Validators;
+using MyBudgetApp.Validators.Dashboard;
 using MyBudgetApp.ViewModels.Dashboard;
 using MyBudgetApp.ViewModels.Dashboard.Dialogs;
 using MyBudgetApp.Views.Dashboard.Dialogs;
