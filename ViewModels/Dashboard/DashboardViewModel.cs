@@ -114,19 +114,10 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task AddBudget()
         {
-            var budget = await _dialogService.ShowAddBudgetDialogAsync(Budgets, Categories);
+            var budget = await _budgetService.AddBudgetAsync(UserId, Budgets, Categories);
 
             if (budget != null)
-            {
-                budget.UserId = UserId;
-
-                var newBudget = await _budgetService.AddBudgetAsync(budget);
-                var category = Categories.FirstOrDefault(category => category.Id == budget.CategoryId);
-                if (category != null)
-                    budget.Category = category.Model;
-
-                Budgets.Add(new BudgetViewModel(newBudget, Transactions));
-            }
+                Budgets.Add(new BudgetViewModel(budget, Transactions));
         }
 
         private async Task DeleteBudget(BudgetViewModel budget)

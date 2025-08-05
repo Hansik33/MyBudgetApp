@@ -111,8 +111,8 @@ namespace MyBudgetApp.Services
             return result;
         }
 
-        public async Task<Budget?> ShowAddBudgetDialogAsync(IEnumerable<BudgetViewModel> budgets,
-                                                            IEnumerable<CategoryViewModel> categories)
+        public async Task<AddBudgetDialogViewModel?> ShowAddBudgetDialogAsync(IEnumerable<BudgetViewModel> budgets,
+                                                                              IEnumerable<CategoryViewModel> categories)
         {
             var viewModel = new AddBudgetDialogViewModel(categories);
 
@@ -135,15 +135,7 @@ namespace MyBudgetApp.Services
                                                                             budgets,
                                                                             categories);
                     if (validationResult == BudgetValidationResult.Success)
-                    {
-                        return new Budget
-                        {
-                            CategoryId = viewModel.SelectedCategory?.Id ?? 0,
-                            MonthNumber = viewModel.SelectedMonthNumber,
-                            Year = viewModel.SelectedYearNumber,
-                            LimitAmount = decimal.TryParse(viewModel.LimitAmount, out var limit) ? limit : 0
-                        };
-                    }
+                        return viewModel;
                     continue;
                 }
                 return null;
