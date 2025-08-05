@@ -56,7 +56,7 @@
 
             <TextBlock Text="Transakcje" 
                        FontWeight="Bold" FontSize="16" />
-            <ItemsControl ItemsSource="{Binding Transactions}">
+            <ItemsControl ItemsSource="{Binding SortedTransactions}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:TransactionViewModel">
                         <dashboardControls:TransactionCard Transaction="{x:Bind}"

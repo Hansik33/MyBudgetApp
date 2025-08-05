@@ -34,7 +34,11 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public IEnumerable<CategoryViewModel> SortedCategories => Categories
             .OrderBy(category => category.Name);
 
-        public ObservableCollection<TransactionViewModel> Transactions { get; } = [];
+        private ObservableCollection<TransactionViewModel> Transactions { get; } = [];
+        public IEnumerable<TransactionViewModel> SortedTransactions => Transactions
+            .OrderByDescending(transaction => transaction.Date)
+            .ThenBy(transaction => transaction.TransactionType);
+
         public ObservableCollection<SavingViewModel> Savings { get; } = [];
         public ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = [];
 
@@ -87,6 +91,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
             Budgets.CollectionChanged += Budgets_CollectionChanged;
             Categories.CollectionChanged += Categories_CollectionChanged;
+            Transactions.CollectionChanged += Transactions_CollectionChanged;
 
             _ = LoadDataAsync();
         }
@@ -267,6 +272,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
             => OnPropertyChanged(nameof(SortedCategories));
 
         private async Task<List<Transaction>> LoadTransactionsAsync() => await _transactionService.GetTransactionsAsync(UserId);
+        private void Transactions_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+            => OnPropertyChanged(nameof(SortedTransactions));
 
         private async Task<List<Saving>> LoadSavingsAsync() => await _savingService.GetSavingsAsync(UserId);
 
