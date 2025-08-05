@@ -241,7 +241,13 @@ namespace MyBudgetApp.ViewModels.Dashboard
             await _savingGoalService.DeleteSavingGoalAsync(savingGoal.Id);
             SavingGoals.Remove(savingGoal);
 
+            var savingsToRemove = Savings.Where(saving => saving.GoalId == savingGoal.Id).ToList();
+            foreach (var saving in savingsToRemove)
+                Savings.Remove(saving);
+
             await _dialogService.ShowMessageAsync(AppStrings.Dialogs.SavingGoal.DeletedSuccess, DialogType.Success);
+
+            UpdateUi();
         }
 
         private void RefreshBudgets()
