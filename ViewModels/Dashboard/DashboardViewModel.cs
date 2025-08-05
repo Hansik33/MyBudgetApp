@@ -42,7 +42,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public ObservableCollection<SavingViewModel> Savings { get; } = [];
         private ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = [];
         public IEnumerable<SavingGoalViewModel> SortedSavingGoals => SavingGoals
-            .OrderBy(savingGoal => savingGoal.Goal);
+            .OrderBy(savingGoal => savingGoal.Name);
 
         public ICommand AddBudgetCommand { get; }
         public ICommand AddCategoryCommand { get; }

@@ -18,7 +18,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public SavingGoal Model => savingGoal;
 
         public int Id => savingGoal.Id;
-        public string Goal => savingGoal.Name;
+        public string Name => savingGoal.Name;
 
         public decimal TargetAmount => savingGoal.TargetAmount;
         public decimal SavedAmount => _savings

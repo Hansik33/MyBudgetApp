@@ -24,7 +24,7 @@
                 CommandParameter="{x:Bind SavingGoal, Mode=OneWay}" />
             <TextBlock>
             <Run Text="Cel:" FontWeight="Bold" />
-            <Run Text="{Binding Goal}" />
+            <Run Text="{Binding Name}" />
             </TextBlock>
             <TextBlock>
             <Run Text="Termin:" FontWeight="Bold" />

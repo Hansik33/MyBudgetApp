@@ -1,6 +1,6 @@
 ﻿namespace MyBudgetApp.Enums.ValidationResults
 {
-    public enum CategoryNameValidationResult
+    public enum CategoryValidationResult
     {
         Success,
         Empty,

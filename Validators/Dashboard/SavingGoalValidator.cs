@@ -19,24 +19,24 @@ namespace MyBudgetApp.Validators.Dashboard
                 return SavingGoalValidationResult.NameTooShort;
             if (name.Length > 30)
                 return SavingGoalValidationResult.NameTooLong;
-            if (savingGoals.Any(savingGoal => savingGoal.Goal.Equals(name, StringComparison.OrdinalIgnoreCase)))
+            if (savingGoals.Any(savingGoal => savingGoal.Name.Equals(name, StringComparison.OrdinalIgnoreCase)))
                 return SavingGoalValidationResult.NameNotUnique;
             if (string.IsNullOrEmpty(targetAmount))
                 return SavingGoalValidationResult.TargetAmountEmpty;
-            if (!decimal.TryParse(targetAmount, out var targetAmountValue))
+            if (!decimal.TryParse(targetAmount, out var amount))
                 return SavingGoalValidationResult.TargetAmountNotANumber;
-            if (targetAmountValue < 0)
+            if (amount < 0)
                 return SavingGoalValidationResult.TargetAmountNegative;
-            if (targetAmountValue == 0)
+            if (amount == 0)
                 return SavingGoalValidationResult.TargetAmountZero;
-            if (targetAmountValue > 1000000)
+            if (amount > 1000000)
                 return SavingGoalValidationResult.TargetAmountTooLarge;
-            if (!IsSavingGoalDeadlineValid(deadline))
+            if (!IsDeadlineValid(deadline))
                 return SavingGoalValidationResult.DeadlineInvalid;
             return SavingGoalValidationResult.Success;
         }
 
-        public static bool IsSavingGoalDeadlineValid(DateTime deadline)
+        public static bool IsDeadlineValid(DateTime deadline)
         {
             var minDate = DateTime.Today.AddMonths(1);
             return deadline.Date >= minDate;

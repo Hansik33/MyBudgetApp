@@ -11,7 +11,7 @@ namespace MyBudgetApp.Validators.Dashboard
     {
         public static TransactionValidationResult Validate(string transactionAmount,
                                                            string description,
-                                                           DateTime transactionDate,
+                                                           DateTime date,
                                                            IEnumerable<CategoryViewModel> categories)
         {
             if (string.IsNullOrEmpty(transactionAmount))
@@ -28,20 +28,20 @@ namespace MyBudgetApp.Validators.Dashboard
                 return TransactionValidationResult.DescriptionTooShort;
             if (!string.IsNullOrEmpty(description) && description.Length > 30)
                 return TransactionValidationResult.DescriptionTooLong;
-            if (!IsTransactionDateValid(transactionDate))
+            if (!IsDateValid(date))
                 return TransactionValidationResult.DateInvalid;
             if (!categories.Any())
                 return TransactionValidationResult.CategoryNotSelected;
             return TransactionValidationResult.Success;
         }
 
-        public static bool IsTransactionDateValid(DateTime transactionDate)
+        public static bool IsDateValid(DateTime date)
         {
             var now = DateTime.Now;
             var minDate = new DateTime(now.Year, 1, 1);
             var maxDate = new DateTime(now.Year + 1, 12, 31);
 
-            return transactionDate >= minDate && transactionDate <= maxDate;
+            return date >= minDate && date <= maxDate;
         }
 
         public static bool IsDeletionAllowed(TransactionViewModel transaction, decimal currentBalance) =>

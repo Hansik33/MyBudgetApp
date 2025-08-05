@@ -137,26 +137,26 @@ namespace MyBudgetApp.Services
             }
         }
 
-        private async Task<CategoryNameValidationResult>
+        private async Task<CategoryValidationResult>
             ShowCategoryNameValidationDialog(string categoryName, IEnumerable<CategoryViewModel> categories)
         {
             var result = CategoryValidator.ValidateName(categoryName, categories);
 
             switch (result)
             {
-                case CategoryNameValidationResult.Success:
+                case CategoryValidationResult.Success:
                     await ShowMessageAsync(AppStrings.Dialogs.Category.CreatedSuccess, DialogType.Success);
                     break;
-                case CategoryNameValidationResult.Empty:
+                case CategoryValidationResult.Empty:
                     await ShowMessageAsync(AppStrings.Dialogs.Category.NameEmpty, DialogType.Error);
                     break;
-                case CategoryNameValidationResult.TooShort:
+                case CategoryValidationResult.TooShort:
                     await ShowMessageAsync(AppStrings.Dialogs.Category.NameTooShort, DialogType.Error);
                     break;
-                case CategoryNameValidationResult.TooLong:
+                case CategoryValidationResult.TooLong:
                     await ShowMessageAsync(AppStrings.Dialogs.Category.NameTooLong, DialogType.Error);
                     break;
-                case CategoryNameValidationResult.NotUnique:
+                case CategoryValidationResult.NotUnique:
                     await ShowMessageAsync(AppStrings.Dialogs.Category.NameExists, DialogType.Error);
                     break;
             }
@@ -180,7 +180,7 @@ namespace MyBudgetApp.Services
                 if (result == ContentDialogResult.Primary)
                 {
                     var validationResult = await ShowCategoryNameValidationDialog(viewModel.Name, categories);
-                    if (validationResult == CategoryNameValidationResult.Success)
+                    if (validationResult == CategoryValidationResult.Success)
                         return new Category { Name = viewModel.Name };
                     continue;
                 }

@@ -31,7 +31,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public void UpdateSavingGoalsReference(ObservableCollection<SavingGoalViewModel> savingGoals)
         {
             _allGoals = savingGoals;
-            Goal = _allGoals.FirstOrDefault(goal => goal.Id == saving.GoalId)?.Goal ?? string.Empty;
+            Goal = _allGoals.FirstOrDefault(goal => goal.Id == saving.GoalId)?.Name ?? string.Empty;
         }
     }
 }

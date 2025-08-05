@@ -8,17 +8,17 @@ namespace MyBudgetApp.Validators.Dashboard
 {
     public static class CategoryValidator
     {
-        public static CategoryNameValidationResult ValidateName(string categoryName, IEnumerable<CategoryViewModel> categories)
+        public static CategoryValidationResult ValidateName(string name, IEnumerable<CategoryViewModel> categories)
         {
-            if (string.IsNullOrWhiteSpace(categoryName))
-                return CategoryNameValidationResult.Empty;
-            if (categoryName.Length < 2)
-                return CategoryNameValidationResult.TooShort;
-            if (categoryName.Length > 30)
-                return CategoryNameValidationResult.TooLong;
-            if (categories.Any(category => category.Name.Equals(categoryName, StringComparison.OrdinalIgnoreCase)))
-                return CategoryNameValidationResult.NotUnique;
-            return CategoryNameValidationResult.Success;
+            if (string.IsNullOrWhiteSpace(name))
+                return CategoryValidationResult.Empty;
+            if (name.Length < 2)
+                return CategoryValidationResult.TooShort;
+            if (name.Length > 30)
+                return CategoryValidationResult.TooLong;
+            if (categories.Any(category => category.Name.Equals(name, StringComparison.OrdinalIgnoreCase)))
+                return CategoryValidationResult.NotUnique;
+            return CategoryValidationResult.Success;
         }
 
         public static bool IsDeletionAllowed(CategoryViewModel category,
