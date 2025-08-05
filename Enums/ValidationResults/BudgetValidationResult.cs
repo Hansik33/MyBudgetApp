@@ -8,6 +8,7 @@
         Negative,
         Zero,
         TooLarge,
+        NotUnique,
         CategoryNotSelected
     }
 }

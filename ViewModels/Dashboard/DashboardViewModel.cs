@@ -114,7 +114,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task AddBudget()
         {
-            var budget = await _dialogService.ShowAddBudgetDialogAsync(Categories);
+            var budget = await _dialogService.ShowAddBudgetDialogAsync(Budgets, Categories);
 
             if (budget != null)
             {

@@ -73,9 +73,13 @@ namespace MyBudgetApp.Services
         }
 
         private async Task<BudgetValidationResult> ShowBudgetValidationDialog(string limitAmount,
-                                                                                   IEnumerable<CategoryViewModel> categories)
+                                                                              int selectedCategoryId,
+                                                                              int monthNumber,
+                                                                              int year,
+                                                                              IEnumerable<BudgetViewModel> budgets,
+                                                                              IEnumerable<CategoryViewModel> categories)
         {
-            var result = BudgetValidator.Validate(limitAmount, categories);
+            var result = BudgetValidator.Validate(limitAmount, selectedCategoryId, monthNumber, year, budgets, categories);
 
             switch (result)
             {
@@ -94,6 +98,9 @@ namespace MyBudgetApp.Services
                 case BudgetValidationResult.TooLarge:
                     await ShowMessageAsync(AppStrings.Dialogs.Budget.LimitTooTooLarge, DialogType.Error);
                     break;
+                case BudgetValidationResult.NotUnique:
+                    await ShowMessageAsync(AppStrings.Dialogs.Budget.NotUnique, DialogType.Error);
+                    break;
                 case BudgetValidationResult.CategoryNotSelected:
                     await ShowMessageAsync(AppStrings.Dialogs.Budget.CategoryNotSelected, DialogType.Error);
                     break;
@@ -104,7 +111,8 @@ namespace MyBudgetApp.Services
             return result;
         }
 
-        public async Task<Budget?> ShowAddBudgetDialogAsync(IEnumerable<CategoryViewModel> categories)
+        public async Task<Budget?> ShowAddBudgetDialogAsync(IEnumerable<BudgetViewModel> budgets,
+                                                            IEnumerable<CategoryViewModel> categories)
         {
             var viewModel = new AddBudgetDialogViewModel(categories);
 
@@ -120,7 +128,12 @@ namespace MyBudgetApp.Services
 
                 if (result == ContentDialogResult.Primary)
                 {
-                    var validationResult = await ShowBudgetValidationDialog(viewModel.LimitAmount, categories);
+                    var validationResult = await ShowBudgetValidationDialog(viewModel.LimitAmount,
+                                                                            viewModel.SelectedCategoryId,
+                                                                            viewModel.SelectedMonthNumber,
+                                                                            viewModel.SelectedYearNumber,
+                                                                            budgets,
+                                                                            categories);
                     if (validationResult == BudgetValidationResult.Success)
                     {
                         return new Budget

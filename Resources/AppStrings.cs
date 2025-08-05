@@ -31,6 +31,8 @@
                 public const string LimitZero = "Limit budżetu musi być dodatni!";
                 public const string LimitTooTooLarge = "Limit budżetu nie może przekraczać 1 miliona!";
 
+                public const string NotUnique = "Budżet na ten okres już istnieje!";
+
                 public const string CategoryNotSelected = "Wybierz kategorię dla budżetu!";
 
                 public const string CreatedSuccess = "Budżet został utworzony.";
