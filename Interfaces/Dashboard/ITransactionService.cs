@@ -9,6 +9,6 @@ namespace MyBudgetApp.Interfaces.Dashboard
     {
         Task<List<Transaction>> GetTransactionsAsync(int userId);
         Task<Transaction?> AddTransactionAsync(int userId, IEnumerable<CategoryViewModel> categories);
-        Task DeleteTransactionAsync(int transactionId);
+        Task<bool> DeleteTransactionAsync(TransactionViewModel transaction, decimal currentBalance);
     }
 }

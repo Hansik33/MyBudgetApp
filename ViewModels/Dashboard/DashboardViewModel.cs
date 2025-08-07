@@ -4,7 +4,6 @@ using MyBudgetApp.Interfaces;
 using MyBudgetApp.Interfaces.Dashboard;
 using MyBudgetApp.Models;
 using MyBudgetApp.Resources;
-using MyBudgetApp.Validators.Dashboard;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -171,23 +170,15 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task DeleteTransaction(TransactionViewModel transaction)
         {
-            var confirmed = await _dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Transaction.ConfirmDelete);
+            var success = await _transactionService.DeleteTransactionAsync(transaction, BalanceNumber);
 
-            if (!confirmed)
-                return;
-
-            if (TransactionValidator.IsDeletionAllowed(transaction, BalanceNumber))
+            if (success)
             {
-                await _transactionService.DeleteTransactionAsync(transaction.Id);
                 Transactions.Remove(transaction);
-
-                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Transaction.DeletedSuccess, DialogType.Success);
 
                 RefreshBudgets();
                 UpdateUi();
             }
-            else
-                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Transaction.DeletionNotAllowed, DialogType.Error);
         }
 
         private async Task DeleteSaving(SavingViewModel saving)

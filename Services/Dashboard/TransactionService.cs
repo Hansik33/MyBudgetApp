@@ -2,6 +2,8 @@
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Interfaces.Dashboard;
 using MyBudgetApp.Models;
+using MyBudgetApp.Resources;
+using MyBudgetApp.Validators.Dashboard;
 using MyBudgetApp.ViewModels.Dashboard;
 using System;
 using System.Collections.Generic;
@@ -52,7 +54,25 @@ namespace MyBudgetApp.Services.Dashboard
             return null;
         }
 
-        public async Task DeleteTransactionAsync(int transactionId) =>
-            await databaseService.DeleteTransactionAsync(transactionId);
+        public async Task<bool> DeleteTransactionAsync(TransactionViewModel transaction, decimal currentBalance)
+        {
+            var confirmed = await dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Transaction.ConfirmDelete);
+
+            if (!confirmed)
+                return false;
+
+            if (TransactionValidator.IsDeletionAllowed(transaction, currentBalance))
+            {
+                await databaseService.DeleteTransactionAsync(transaction.Id);
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.Transaction.DeletedSuccess, DialogType.Success);
+
+                return true;
+            }
+            else
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.Transaction.DeletionNotAllowed, DialogType.Error);
+                return false;
+            }
+        }
     }
 }
