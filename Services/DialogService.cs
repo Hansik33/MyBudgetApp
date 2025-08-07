@@ -168,7 +168,7 @@ namespace MyBudgetApp.Services
             return result;
         }
 
-        public async Task<Category?> ShowAddCategoryDialogAsync(IEnumerable<CategoryViewModel> categories)
+        public async Task<AddCategoryDialogViewModel?> ShowAddCategoryDialogAsync(IEnumerable<CategoryViewModel> categories)
         {
             var viewModel = new AddCategoryDialogViewModel();
 
@@ -186,7 +186,7 @@ namespace MyBudgetApp.Services
                 {
                     var validationResult = await ShowCategoryNameValidationDialog(viewModel.Name, categories);
                     if (validationResult == CategoryValidationResult.Success)
-                        return new Category { Name = viewModel.Name };
+                        return viewModel;
                     continue;
                 }
                 return null;

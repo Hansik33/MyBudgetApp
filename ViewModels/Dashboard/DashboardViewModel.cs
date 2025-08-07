@@ -130,14 +130,10 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task AddCategory()
         {
-            var category = await _dialogService.ShowAddCategoryDialogAsync(Categories);
+            var category = await _categoryService.AddCategoryAsync(UserId, Categories);
 
             if (category != null)
-            {
-                category.UserId = UserId;
-                var newCategory = await _categoryService.AddCategoryAsync(category);
-                Categories.Add(new CategoryViewModel(newCategory));
-            }
+                Categories.Add(new CategoryViewModel(category));
         }
 
         private async Task DeleteCategory(CategoryViewModel category)
