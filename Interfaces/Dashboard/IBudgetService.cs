@@ -9,6 +9,6 @@ namespace MyBudgetApp.Interfaces.Dashboard
     {
         Task<List<Budget>> GetBudgetsAsync(int userId);
         Task<Budget?> AddBudgetAsync(int userId, IEnumerable<BudgetViewModel> budgets, IEnumerable<CategoryViewModel> categories);
-        Task DeleteBudgetAsync(int budgetId);
+        Task<bool> DeleteBudgetAsync(int budgetId);
     }
 }

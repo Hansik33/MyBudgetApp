@@ -122,15 +122,10 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task DeleteBudget(BudgetViewModel budget)
         {
-            var confirmed = await _dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Budget.ConfirmDelete);
+            var success = await _budgetService.DeleteBudgetAsync(budget.Id);
 
-            if (!confirmed)
-                return;
-
-            await _budgetService.DeleteBudgetAsync(budget.Id);
-            Budgets.Remove(budget);
-
-            await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Budget.DeletedSuccess, DialogType.Success);
+            if (success)
+                Budgets.Remove(budget);
         }
 
         private async Task AddCategory()
