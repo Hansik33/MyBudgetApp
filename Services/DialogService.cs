@@ -236,7 +236,7 @@ namespace MyBudgetApp.Services
             return result;
         }
 
-        public async Task<Transaction?> ShowAddTransactionDialogAsync(IEnumerable<CategoryViewModel> categories)
+        public async Task<AddTransactionDialogViewModel?> ShowAddTransactionDialogAsync(IEnumerable<CategoryViewModel> categories)
         {
             var viewModel = new AddTransactionDialogViewModel(categories);
 
@@ -258,17 +258,7 @@ namespace MyBudgetApp.Services
                         viewModel.SelectedDateAsDateTime,
                         categories);
                     if (validationResult == TransactionValidationResult.Success)
-                    {
-                        return new Transaction
-                        {
-                            Type = viewModel.SelectedType?.Value ?? TransactionType.Expense,
-                            CategoryId = viewModel.SelectedCategory?.Id ?? 0,
-                            Amount = decimal.TryParse(viewModel.Amount, out var amount) ? amount : 0,
-                            Method = viewModel.SelectedMethod?.Value ?? PaymentMethod.Cash,
-                            Description = viewModel.Description == string.Empty ? "Brak" : viewModel.Description,
-                            Date = viewModel.SelectedDateAsDateTime
-                        };
-                    }
+                        return viewModel;
                     continue;
                 }
                 return null;

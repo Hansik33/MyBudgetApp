@@ -18,7 +18,7 @@ namespace MyBudgetApp.Interfaces
         Task<AddBudgetDialogViewModel?> ShowAddBudgetDialogAsync(IEnumerable<BudgetViewModel> budgets,
                                                                  IEnumerable<CategoryViewModel> categories);
         Task<AddCategoryDialogViewModel?> ShowAddCategoryDialogAsync(IEnumerable<CategoryViewModel> categories);
-        Task<Transaction?> ShowAddTransactionDialogAsync(IEnumerable<CategoryViewModel> categories);
+        Task<AddTransactionDialogViewModel?> ShowAddTransactionDialogAsync(IEnumerable<CategoryViewModel> categories);
         Task<SavingGoal?> ShowAddSavingGoalDialogAsync(IEnumerable<SavingGoalViewModel> savingGoals);
     }
 }

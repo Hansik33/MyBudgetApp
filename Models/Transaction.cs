@@ -6,7 +6,7 @@ namespace MyBudgetApp.Models
     public class Transaction
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public required int UserId { get; set; }
         public required TransactionType Type { get; set; }
         public required int CategoryId { get; set; }
         public required decimal Amount { get; set; }

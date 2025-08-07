@@ -153,21 +153,20 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task AddTransaction()
         {
-            var transaction = await _dialogService.ShowAddTransactionDialogAsync(Categories);
+            var transaction = await _transactionService.AddTransactionAsync(UserId, Categories);
 
             if (transaction != null)
             {
-                transaction.UserId = UserId;
-
-                var newTransaction = await _transactionService.AddTransactionAsync(transaction);
                 var category = Categories.FirstOrDefault(category => category.Id == transaction.CategoryId);
+
                 if (category != null)
                     transaction.Category = category.Model;
 
-                Transactions.Add(new TransactionViewModel(newTransaction));
+                Transactions.Add(new TransactionViewModel(transaction));
+
+                RefreshBudgets();
+                UpdateUi();
             }
-            RefreshBudgets();
-            UpdateUi();
         }
 
         private async Task DeleteTransaction(TransactionViewModel transaction)
