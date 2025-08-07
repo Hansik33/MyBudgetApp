@@ -30,7 +30,7 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
                 new(PaymentMethod.Transfer, "Przelew"),
                 new(PaymentMethod.Card, "Karta"),
                 new(PaymentMethod.Mobile, "Płatność mobilna"),
-                new(PaymentMethod.Other, "Inne")
+                new(PaymentMethod.Other, "Inna")
             ];
 
             SelectedType = Types.FirstOrDefault();
@@ -45,12 +45,26 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
             get => _selectedType;
             set => SetProperty(ref _selectedType, value);
         }
+        public TransactionType SelectedTypeAsEnum
+        {
+            get => SelectedType?.Value ?? TransactionType.Expense;
+            set => SelectedType = Types.FirstOrDefault(type => type.Value == value);
+        }
 
         private CategoryViewModel? _selectedCategory;
         public CategoryViewModel? SelectedCategory
         {
             get => _selectedCategory;
             set => SetProperty(ref _selectedCategory, value);
+        }
+        public int SelectedCategoryId
+        {
+            get => SelectedCategory?.Id ?? 0;
+            set
+            {
+                if (SelectedCategory != null && SelectedCategory.Id != value)
+                    SelectedCategory = Categories.FirstOrDefault(category => category.Id == value);
+            }
         }
 
         private string _amount = string.Empty;
@@ -59,12 +73,27 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
             get => _amount;
             set => SetProperty(ref _amount, value);
         }
+        public decimal AmountAsDecimal
+        {
+            get
+            {
+                if (decimal.TryParse(Amount, out var amount))
+                    return amount;
+                return 0m;
+            }
+            set => Amount = value.ToString("0.00");
+        }
 
         private EnumDisplay<PaymentMethod>? _selectedMethod;
         public EnumDisplay<PaymentMethod>? SelectedMethod
         {
             get => _selectedMethod;
             set => SetProperty(ref _selectedMethod, value);
+        }
+        public PaymentMethod SelectedMethodAsEnum
+        {
+            get => SelectedMethod?.Value ?? PaymentMethod.Other;
+            set => SelectedMethod = Methods.FirstOrDefault(method => method.Value == value);
         }
 
         private string _description = string.Empty;

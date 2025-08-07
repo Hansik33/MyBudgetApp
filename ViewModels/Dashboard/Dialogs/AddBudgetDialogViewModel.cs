@@ -89,7 +89,7 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
             get => _limitAmount;
             set => SetProperty(ref _limitAmount, value, nameof(LimitAmount));
         }
-        public decimal LimitAmountDecimal
+        public decimal LimitAmountAsDecimal
         {
             get
             {

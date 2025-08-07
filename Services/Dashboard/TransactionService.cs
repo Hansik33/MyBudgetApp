@@ -41,10 +41,10 @@ namespace MyBudgetApp.Services.Dashboard
             if (viewModel != null)
             {
                 var transaction = CreateTransaction(userId,
-                                                    viewModel.SelectedType!.Value,
-                                                    viewModel.SelectedCategory!.Id,
-                                                    decimal.TryParse(viewModel.Amount, out var amount) ? amount : 0,
-                                                    viewModel.SelectedMethod!.Value,
+                                                    viewModel.SelectedTypeAsEnum,
+                                                    viewModel.SelectedCategoryId,
+                                                    viewModel.AmountAsDecimal,
+                                                    viewModel.SelectedMethodAsEnum,
                                                     viewModel.Description == string.Empty ? "Brak" : viewModel.Description,
                                                     viewModel.SelectedDateAsDateTime);
                 return await databaseService.AddTransactionAsync(transaction);

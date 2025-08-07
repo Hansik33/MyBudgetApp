@@ -37,7 +37,7 @@ namespace MyBudgetApp.Services.Dashboard
                                           viewModel.SelectedCategoryId,
                                           viewModel.SelectedMonthNumber,
                                           viewModel.SelectedYearNumber,
-                                          viewModel.LimitAmountDecimal);
+                                          viewModel.LimitAmountAsDecimal);
                 return await databaseService.AddBudgetAsync(budget);
             }
             return null;
