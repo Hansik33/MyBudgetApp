@@ -3,7 +3,6 @@ using Microsoft.UI.Xaml.Controls;
 using MyBudgetApp.Enums;
 using MyBudgetApp.Enums.ValidationResults;
 using MyBudgetApp.Interfaces;
-using MyBudgetApp.Models;
 using MyBudgetApp.Resources;
 using MyBudgetApp.Validators.Dashboard;
 using MyBudgetApp.ViewModels.Dashboard;
@@ -324,7 +323,7 @@ namespace MyBudgetApp.Services
             return result;
         }
 
-        public async Task<SavingGoal?> ShowAddSavingGoalDialogAsync(IEnumerable<SavingGoalViewModel> savingGoals)
+        public async Task<AddSavingGoalDialogViewModel?> ShowAddSavingGoalDialogAsync(IEnumerable<SavingGoalViewModel> savingGoals)
         {
             var viewModel = new AddSavingGoalDialogViewModel();
 
@@ -345,14 +344,7 @@ namespace MyBudgetApp.Services
                                                                                 viewModel.SelectedDeadlineAsDateTime,
                                                                                 savingGoals);
                     if (validationResult == SavingGoalValidationResult.Success)
-                    {
-                        return new SavingGoal
-                        {
-                            Name = viewModel.Name,
-                            TargetAmount = decimal.TryParse(viewModel.TargetAmount, out var amount) ? amount : 0,
-                            Deadline = viewModel.SelectedDeadlineAsDateTime
-                        };
-                    }
+                        return viewModel;
                     continue;
                 }
                 return null;

@@ -1,6 +1,5 @@
 ﻿using Microsoft.UI.Xaml;
 using MyBudgetApp.Enums;
-using MyBudgetApp.Models;
 using MyBudgetApp.ViewModels.Dashboard;
 using MyBudgetApp.ViewModels.Dashboard.Dialogs;
 using System.Collections.Generic;
@@ -20,6 +19,6 @@ namespace MyBudgetApp.Interfaces
         Task<AddCategoryDialogViewModel?> ShowAddCategoryDialogAsync(IEnumerable<CategoryViewModel> categories);
         Task<AddTransactionDialogViewModel?> ShowAddTransactionDialogAsync(IEnumerable<CategoryViewModel> categories,
                                                                            decimal currentBalance);
-        Task<SavingGoal?> ShowAddSavingGoalDialogAsync(IEnumerable<SavingGoalViewModel> savingGoals);
+        Task<AddSavingGoalDialogViewModel?> ShowAddSavingGoalDialogAsync(IEnumerable<SavingGoalViewModel> savingGoals);
     }
 }

@@ -18,6 +18,17 @@ namespace MyBudgetApp.ViewModels.Dashboard.Dialogs
             get => _targetAmount;
             set => SetProperty(ref _targetAmount, value);
         }
+        public decimal TargetAmountAsDecimal
+        {
+            get
+            {
+                if (decimal.TryParse(TargetAmount, out var amount))
+                {
+                    return amount;
+                }
+                return 0m;
+            }
+        }
 
         private DateTimeOffset _selectedDeadline = new(DateTime.Now.AddMonths(1));
         public DateTimeOffset SelectedDeadline
