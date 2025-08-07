@@ -9,6 +9,6 @@ namespace MyBudgetApp.Interfaces.Dashboard
     {
         Task<List<SavingGoal>> GetSavingGoalsAsync(int userId);
         Task<SavingGoal?> AddSavingGoalAsync(int userId, IEnumerable<SavingGoalViewModel> savingGoals);
-        Task DeleteSavingGoalAsync(int savingGoalId);
+        Task<bool> DeleteSavingGoalAsync(int savingGoalId);
     }
 }

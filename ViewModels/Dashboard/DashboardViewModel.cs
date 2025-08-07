@@ -206,21 +206,19 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task DeleteSavingGoal(SavingGoalViewModel savingGoal)
         {
-            var confirmed = await _dialogService.ShowConfirmationAsync(AppStrings.Dialogs.SavingGoal.ConfirmDelete);
+            var success = await _savingGoalService.DeleteSavingGoalAsync(savingGoal.Id);
 
-            if (!confirmed)
-                return;
+            if (success)
+            {
+                var savingsToRemove = Savings.Where(saving => saving.GoalId == savingGoal.Id).ToList();
 
-            await _savingGoalService.DeleteSavingGoalAsync(savingGoal.Id);
-            SavingGoals.Remove(savingGoal);
+                foreach (var saving in savingsToRemove)
+                    Savings.Remove(saving);
 
-            var savingsToRemove = Savings.Where(saving => saving.GoalId == savingGoal.Id).ToList();
-            foreach (var saving in savingsToRemove)
-                Savings.Remove(saving);
+                SavingGoals.Remove(savingGoal);
 
-            await _dialogService.ShowMessageAsync(AppStrings.Dialogs.SavingGoal.DeletedSuccess, DialogType.Success);
-
-            UpdateUi();
+                UpdateUi();
+            }
         }
 
         private void RefreshBudgets()
