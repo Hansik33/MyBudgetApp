@@ -152,7 +152,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task AddTransaction()
         {
-            var transaction = await _transactionService.AddTransactionAsync(UserId, Categories);
+            var transaction = await _transactionService.AddTransactionAsync(UserId, Categories, BalanceNumber);
 
             if (transaction != null)
             {

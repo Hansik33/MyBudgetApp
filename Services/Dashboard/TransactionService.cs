@@ -36,9 +36,11 @@ namespace MyBudgetApp.Services.Dashboard
         public async Task<List<Transaction>> GetTransactionsAsync(int userId) =>
             await databaseService.GetTransactionsAsync(userId);
 
-        public async Task<Transaction?> AddTransactionAsync(int userId, IEnumerable<CategoryViewModel> categories)
+        public async Task<Transaction?> AddTransactionAsync(int userId,
+                                                            IEnumerable<CategoryViewModel> categories,
+                                                            decimal currentBalance)
         {
-            var viewModel = await dialogService.ShowAddTransactionDialogAsync(categories);
+            var viewModel = await dialogService.ShowAddTransactionDialogAsync(categories, currentBalance);
 
             if (viewModel != null)
             {

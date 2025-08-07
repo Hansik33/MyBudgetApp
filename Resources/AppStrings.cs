@@ -47,9 +47,10 @@
                 public const string NameTooLong = "Nazwa kategorii nie może przekraczać 30 znaków!";
                 public const string NameExists = "Kategoria o tej nazwie już istnieje!";
 
-                public const string CreatedSuccess = "Kategoria została utworzona.";
                 public const string ConfirmDelete = "Czy na pewno chcesz usunąć tę kategorię?";
                 public const string DeletionNotAllowed = "Kategoria jest używana i nie może zostać usunięta!";
+
+                public const string CreatedSuccess = "Kategoria została utworzona.";
                 public const string DeletedSuccess = "Kategoria została usunięta.";
             }
 
@@ -68,10 +69,13 @@
 
                 public const string CategoryNotSelected = "Wybierz kategorię dla transakcji!";
 
-                public const string CreatedSuccess = "Transakcja została utworzona.";
                 public const string ConfirmDelete = "Czy na pewno chcesz usunąć tę transakcję?";
-                public const string DeletedSuccess = "Transakcja została usunięta.";
                 public const string DeletionNotAllowed = "Nie można usunąć tej transakcji, ponieważ spowodowałoby to ujemne saldo!";
+
+                public const string AdditionNotAllowed = "Nie można dodać tej transakcji, ponieważ przekracza ona dostępne saldo!";
+
+                public const string CreatedSuccess = "Transakcja została utworzona.";
+                public const string DeletedSuccess = "Transakcja została usunięta.";
             }
 
             public static class Saving

@@ -9,10 +9,12 @@ namespace MyBudgetApp.Validators.Dashboard
 {
     public static class TransactionValidator
     {
-        public static TransactionValidationResult Validate(string transactionAmount,
+        public static TransactionValidationResult Validate(TransactionType transactionType,
+                                                           string transactionAmount,
                                                            string description,
                                                            DateTime date,
-                                                           IEnumerable<CategoryViewModel> categories)
+                                                           IEnumerable<CategoryViewModel> categories,
+                                                           decimal currentBalance)
         {
             if (string.IsNullOrEmpty(transactionAmount))
                 return TransactionValidationResult.AmountEmpty;
@@ -32,6 +34,8 @@ namespace MyBudgetApp.Validators.Dashboard
                 return TransactionValidationResult.DateInvalid;
             if (!categories.Any())
                 return TransactionValidationResult.CategoryNotSelected;
+            if (!IsAdditionAllowed(transactionType, amount, currentBalance))
+                return TransactionValidationResult.AdditionNotAllowed;
             return TransactionValidationResult.Success;
         }
 
@@ -44,6 +48,8 @@ namespace MyBudgetApp.Validators.Dashboard
             return date >= minDate && date <= maxDate;
         }
 
+        public static bool IsAdditionAllowed(TransactionType transactionType, decimal amount, decimal currentBalance) =>
+            transactionType == TransactionType.Income || amount <= currentBalance;
         public static bool IsDeletionAllowed(TransactionViewModel transaction, decimal currentBalance) =>
             transaction.TransactionType != TransactionType.Income || transaction.Amount <= currentBalance;
     }

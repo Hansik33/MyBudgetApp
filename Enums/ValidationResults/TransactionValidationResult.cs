@@ -11,6 +11,7 @@
         DescriptionTooShort,
         DescriptionTooLong,
         DateInvalid,
-        CategoryNotSelected
+        CategoryNotSelected,
+        AdditionNotAllowed
     }
 }

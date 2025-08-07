@@ -194,12 +194,19 @@ namespace MyBudgetApp.Services
         }
 
         private async Task<TransactionValidationResult>
-            ShowTransactionValidationDialog(string transactionAmount,
+            ShowTransactionValidationDialog(TransactionType transactionType,
+                                            string transactionAmount,
                                             string description,
                                             DateTime transactionDate,
-                                            IEnumerable<CategoryViewModel> categories)
+                                            IEnumerable<CategoryViewModel> categories,
+                                            decimal currentBalance)
         {
-            var result = TransactionValidator.Validate(transactionAmount, description, transactionDate, categories);
+            var result = TransactionValidator.Validate(transactionType,
+                                                       transactionAmount,
+                                                       description,
+                                                       transactionDate,
+                                                       categories,
+                                                       currentBalance);
             switch (result)
             {
                 case TransactionValidationResult.AmountEmpty:
@@ -229,6 +236,9 @@ namespace MyBudgetApp.Services
                 case TransactionValidationResult.CategoryNotSelected:
                     await ShowMessageAsync(AppStrings.Dialogs.Transaction.CategoryNotSelected, DialogType.Error);
                     break;
+                case TransactionValidationResult.AdditionNotAllowed:
+                    await ShowMessageAsync(AppStrings.Dialogs.Transaction.AdditionNotAllowed, DialogType.Error);
+                    break;
                 case TransactionValidationResult.Success:
                     await ShowMessageAsync(AppStrings.Dialogs.Transaction.CreatedSuccess, DialogType.Success);
                     break;
@@ -236,7 +246,8 @@ namespace MyBudgetApp.Services
             return result;
         }
 
-        public async Task<AddTransactionDialogViewModel?> ShowAddTransactionDialogAsync(IEnumerable<CategoryViewModel> categories)
+        public async Task<AddTransactionDialogViewModel?> ShowAddTransactionDialogAsync(IEnumerable<CategoryViewModel> categories,
+                                                                                        decimal currentBalance)
         {
             var viewModel = new AddTransactionDialogViewModel(categories);
 
@@ -253,10 +264,12 @@ namespace MyBudgetApp.Services
                 if (result == ContentDialogResult.Primary)
                 {
                     var validationResult = await ShowTransactionValidationDialog(
+                        viewModel.SelectedTypeAsEnum,
                         viewModel.Amount,
                         viewModel.Description,
                         viewModel.SelectedDateAsDateTime,
-                        categories);
+                        categories,
+                        currentBalance);
                     if (validationResult == TransactionValidationResult.Success)
                         return viewModel;
                     continue;
