@@ -9,6 +9,8 @@ namespace MyBudgetApp.Interfaces.Dashboard
     {
         Task<List<Category>> GetCategoriesAsync(int userId);
         Task<Category?> AddCategoryAsync(int userId, IEnumerable<CategoryViewModel> categories);
-        Task DeleteCategoryAsync(int categoryId);
+        Task<bool> DeleteCategoryAsync(CategoryViewModel category,
+                                       IEnumerable<BudgetViewModel> budgets,
+                                       IEnumerable<TransactionViewModel> transactions);
     }
 }

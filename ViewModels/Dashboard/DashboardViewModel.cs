@@ -138,20 +138,10 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task DeleteCategory(CategoryViewModel category)
         {
-            var confirmed = await _dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Category.ConfirmDelete);
+            var success = await _categoryService.DeleteCategoryAsync(category, Budgets, Transactions);
 
-            if (!confirmed)
-                return;
-
-            if (CategoryValidator.IsDeletionAllowed(category, Budgets, Transactions))
-            {
-                await _categoryService.DeleteCategoryAsync(category.Id);
+            if (success)
                 Categories.Remove(category);
-
-                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.DeletedSuccess, DialogType.Success);
-            }
-            else
-                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.DeletionNotAllowed, DialogType.Error);
         }
 
         private async Task AddTransaction()
