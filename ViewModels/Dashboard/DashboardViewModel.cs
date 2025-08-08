@@ -39,9 +39,11 @@ namespace MyBudgetApp.ViewModels.Dashboard
             .ThenBy(transaction => transaction.TransactionType);
 
         public ObservableCollection<SavingViewModel> Savings { get; } = [];
+
         private ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = [];
         public IEnumerable<SavingGoalViewModel> SortedSavingGoals => SavingGoals
-            .OrderBy(savingGoal => savingGoal.Name);
+            .OrderBy(savingGoal => savingGoal.DeadlineAsDateTime)
+            .ThenBy(savingGoal => savingGoal.Name);
 
         public ICommand AddBudgetCommand { get; }
         public ICommand AddCategoryCommand { get; }
