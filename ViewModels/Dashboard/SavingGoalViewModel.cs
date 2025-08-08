@@ -21,15 +21,15 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public string Name => savingGoal.Name;
 
         public decimal TargetAmount => savingGoal.TargetAmount;
+        public double TargetAmountAsDouble => (double)TargetAmount;
+
         public decimal SavedAmount => _savings
             .Where(saving => saving.GoalId == savingGoal.Id)
             .Sum(saving => saving.Amount);
+        public double SavedAmountAsDouble => (double)SavedAmount;
 
-        public DateTime DeadlineDateTime => savingGoal.Deadline;
-        public string Deadline => DeadlineDateTime.ToString("dd.MM.yyyy", Culture);
-
-        public double TargetAmountDouble => (double)TargetAmount;
-        public double SavedAmountDouble => (double)SavedAmount;
+        public DateTime DeadlineAsDateTime => savingGoal.Deadline;
+        public string Deadline => DeadlineAsDateTime.ToString("dd.MM.yyyy", Culture);
 
         public double ProgressPercentNumber =>
             TargetAmount == 0 ? 0 : Math.Min((double)(SavedAmount / TargetAmount) * 100.0, 999.0);

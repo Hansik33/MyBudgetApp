@@ -35,8 +35,8 @@
             <TextBlock Text="{Binding ProgressPercent}" 
                        HorizontalAlignment="Center" />
             <ProgressBar Minimum="0"
-                         Maximum="{Binding TargetAmountDouble}" 
-                         Value="{Binding SavedAmountDouble}"
+                         Maximum="{Binding TargetAmountAsDouble}" 
+                         Value="{Binding SavedAmountAsDouble}"
                          Foreground="{Binding ProgressBrush}"
                          Height="8" />
             <TextBlock Text="{Binding ProgressAmount}" 
