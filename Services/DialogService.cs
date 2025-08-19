@@ -277,6 +277,24 @@ namespace MyBudgetApp.Services
             }
         }
 
+        public async Task<AddSavingDialogViewModel?> ShowAddSavingDialogAsync(IEnumerable<SavingGoalViewModel> savingGoals)
+        {
+            var viewModel = new AddSavingDialogViewModel(savingGoals);
+
+            while (true)
+            {
+                var dialog = new AddSavingDialog
+                {
+                    DataContext = viewModel,
+                    XamlRoot = _xamlRoot
+                };
+
+                _ = await dialog.ShowAsync();
+
+                return null;
+            }
+        }
+
         private async Task<SavingGoalValidationResult>
             ShowSavingGoalValidationDialog(string name,
                                            string targetAmount,

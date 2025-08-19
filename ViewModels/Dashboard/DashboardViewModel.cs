@@ -48,6 +48,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public ICommand AddBudgetCommand { get; }
         public ICommand AddCategoryCommand { get; }
         public ICommand AddTransactionCommand { get; }
+        public ICommand AddSavingCommand { get; }
         public ICommand AddSavingGoalCommand { get; }
 
         public ICommand DeleteBudgetCommand { get; }
@@ -80,6 +81,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
             AddBudgetCommand = new RelayCommand(async () => await AddBudget());
             AddCategoryCommand = new RelayCommand(async () => await AddCategory());
             AddTransactionCommand = new RelayCommand(async () => await AddTransaction());
+            AddSavingCommand = new RelayCommand(async () => await AddSaving());
             AddSavingGoalCommand = new RelayCommand(async () => await AddSavingGoal());
 
             DeleteBudgetCommand = new RelayCommand<BudgetViewModel>(async budget => await DeleteBudget(budget));
@@ -104,13 +106,13 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public string Username => _userContext.Username;
 
         private decimal SavingAmountTotal => Savings.Sum(saving => saving.Amount);
+
         private decimal BalanceNumber =>
             Transactions.Where(transaction =>
                 transaction.TransactionType == TransactionType.Income).Sum(transaction => transaction.Amount)
             - Transactions.Where(transaction =>
                 transaction.TransactionType == TransactionType.Expense).Sum(transaction => transaction.Amount)
             - SavingAmountTotal;
-
         public string Balance => $"{BalanceNumber:0.00} zł";
 
         private async Task AddBudget()
@@ -183,6 +185,14 @@ namespace MyBudgetApp.ViewModels.Dashboard
             }
         }
 
+        private async Task AddSaving()
+        {
+            var saving = await _savingService.AddSavingAsync(UserId, SavingGoals);
+
+            if (saving != null)
+                Savings.Add(new SavingViewModel(saving, SavingGoals));
+        }
+
         private async Task DeleteSaving(SavingViewModel saving)
         {
             var confirmed = await _dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Saving.ConfirmDelete);
@@ -226,7 +236,9 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private void RefreshBudgets()
         {
             var budgetModels = Budgets.Select(budget => budget.Model).ToList();
+
             Budgets.Clear();
+
             foreach (var budget in budgetModels)
                 Budgets.Add(new BudgetViewModel(budget, Transactions));
         }
@@ -252,6 +264,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private void PopulateBudgets(IEnumerable<Budget> budgets)
         {
             Budgets.Clear();
+
             foreach (var budget in budgets)
                 Budgets.Add(new BudgetViewModel(budget, Transactions));
         }
@@ -259,6 +272,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private void PopulateCategories(IEnumerable<Category> categories)
         {
             Categories.Clear();
+
             foreach (var category in categories)
                 Categories.Add(new CategoryViewModel(category));
         }
@@ -266,6 +280,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private void PopulateTransactions(IEnumerable<Transaction> transactions)
         {
             Transactions.Clear();
+
             foreach (var transaction in transactions)
                 Transactions.Add(new TransactionViewModel(transaction));
         }
@@ -273,6 +288,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private void PopulateSavings(IEnumerable<Saving> savings)
         {
             Savings.Clear();
+
             foreach (var saving in savings)
                 Savings.Add(new SavingViewModel(saving, SavingGoals));
         }
@@ -280,6 +296,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private void PopulateSavingGoals(IEnumerable<SavingGoal> savingGoals)
         {
             SavingGoals.Clear();
+
             foreach (var savingGoal in savingGoals)
                 SavingGoals.Add(new SavingGoalViewModel(savingGoal, Savings));
         }
