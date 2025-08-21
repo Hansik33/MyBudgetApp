@@ -80,8 +80,8 @@
 
             public static class Saving
             {
-                public const string ConfirmDelete = "Czy na pewno chcesz usunąć tę wpłatę do celu?";
-                public const string DeletedSuccess = "Wpłata do celu została usunięta.";
+                public const string ConfirmDelete = "Czy na pewno chcesz usunąć tę wpłatę na cel?";
+                public const string DeletedSuccess = "Wpłata na cel została usunięta.";
             }
 
             public static class SavingGoal
