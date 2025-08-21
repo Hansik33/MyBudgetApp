@@ -195,17 +195,15 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task DeleteSaving(SavingViewModel saving)
         {
-            var confirmed = await _dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Saving.ConfirmDelete);
+            var success = await _savingService.DeleteSavingAsync(saving.Id);
 
-            if (!confirmed)
-                return;
+            if (success)
+            {
+                Savings.Remove(saving);
 
-            await _savingService.DeleteSavingAsync(saving.Id);
-            Savings.Remove(saving);
-
-            await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Saving.DeletedSuccess, DialogType.Success);
-
-            UpdateUi();
+                RefreshSavingGoals();
+                UpdateUi();
+            }
         }
 
         private async Task AddSavingGoal()
@@ -241,6 +239,16 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
             foreach (var budget in budgetModels)
                 Budgets.Add(new BudgetViewModel(budget, Transactions));
+        }
+
+        private void RefreshSavingGoals()
+        {
+            var savingGoalModels = SavingGoals.Select(savingGoal => savingGoal.Model).ToList();
+
+            SavingGoals.Clear();
+
+            foreach (var savingGoal in savingGoalModels)
+                SavingGoals.Add(new SavingGoalViewModel(savingGoal, Savings));
         }
 
         private async Task<List<Budget>> LoadBudgetsAsync() => await _budgetService.GetBudgetsAsync(UserId);
