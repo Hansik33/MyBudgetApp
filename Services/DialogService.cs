@@ -277,7 +277,43 @@ namespace MyBudgetApp.Services
             }
         }
 
-        public async Task<AddSavingDialogViewModel?> ShowAddSavingDialogAsync(IEnumerable<SavingGoalViewModel> savingGoals)
+        private async Task<SavingValidationResult>
+            ShowSavingValidationDialog(string savingAmount,
+                                       IEnumerable<SavingGoalViewModel> savingGoals,
+                                       decimal currentBalance)
+        {
+            var result = SavingValidator.Validate(savingAmount,
+                                                  savingGoals,
+                                                  currentBalance);
+            switch (result)
+            {
+                case SavingValidationResult.AmountEmpty:
+                    await ShowMessageAsync(AppStrings.Dialogs.Saving.AmountEmpty, DialogType.Error);
+                    break;
+                case SavingValidationResult.AmountNotANumber:
+                    await ShowMessageAsync(AppStrings.Dialogs.Saving.AmountNotANumber, DialogType.Error);
+                    break;
+                case SavingValidationResult.AmountNegative:
+                    await ShowMessageAsync(AppStrings.Dialogs.Saving.AmountNegative, DialogType.Error);
+                    break;
+                case SavingValidationResult.AmountZero:
+                    await ShowMessageAsync(AppStrings.Dialogs.Saving.AmountZero, DialogType.Error);
+                    break;
+                case SavingValidationResult.AmountTooLarge:
+                    await ShowMessageAsync(AppStrings.Dialogs.Saving.AmountTooLarge, DialogType.Error);
+                    break;
+                case SavingValidationResult.SavingGoalNotSelected:
+                    await ShowMessageAsync(AppStrings.Dialogs.Saving.SavingGoalNotSelected, DialogType.Error);
+                    break;
+                case SavingValidationResult.Success:
+                    await ShowMessageAsync(AppStrings.Dialogs.Saving.CreatedSuccess, DialogType.Success);
+                    break;
+            }
+            return result;
+        }
+
+        public async Task<AddSavingDialogViewModel?> ShowAddSavingDialogAsync(IEnumerable<SavingGoalViewModel> savingGoals,
+                                                                              decimal currentBalance)
         {
             var viewModel = new AddSavingDialogViewModel(savingGoals);
 
@@ -289,8 +325,15 @@ namespace MyBudgetApp.Services
                     XamlRoot = _xamlRoot
                 };
 
-                _ = await dialog.ShowAsync();
+                var result = await dialog.ShowAsync();
 
+                if (result == ContentDialogResult.Primary)
+                {
+                    var validationResult = await ShowSavingValidationDialog(viewModel.Amount, savingGoals, currentBalance);
+                    if (validationResult == SavingValidationResult.Success)
+                        return null;
+                    continue;
+                }
                 return null;
             }
         }

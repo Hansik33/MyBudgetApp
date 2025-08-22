@@ -52,8 +52,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public ICommand AddSavingGoalCommand { get; }
 
         public ICommand DeleteBudgetCommand { get; }
-        public ICommand DeleteTransactionCommand { get; }
         public ICommand DeleteCategoryCommand { get; }
+        public ICommand DeleteTransactionCommand { get; }
         public ICommand DeleteSavingCommand { get; }
         public ICommand DeleteSavingGoalCommand { get; }
 
@@ -187,7 +187,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task AddSaving()
         {
-            var saving = await _savingService.AddSavingAsync(UserId, SavingGoals);
+            var saving = await _savingService.AddSavingAsync(UserId, SavingGoals, BalanceNumber);
 
             if (saving != null)
                 Savings.Add(new SavingViewModel(saving, SavingGoals));

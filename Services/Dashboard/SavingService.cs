@@ -14,9 +14,11 @@ namespace MyBudgetApp.Services.Dashboard
         public async Task<List<Saving>> GetSavingsAsync(int userId) =>
             await databaseService.GetSavingsAsync(userId);
 
-        public async Task<Saving?> AddSavingAsync(int userId, IEnumerable<SavingGoalViewModel> savingGoals)
+        public async Task<Saving?> AddSavingAsync(int userId,
+                                                  IEnumerable<SavingGoalViewModel> savingGoals,
+                                                  decimal currentBalance)
         {
-            _ = await dialogService.ShowAddSavingDialogAsync(savingGoals);
+            _ = await dialogService.ShowAddSavingDialogAsync(savingGoals, currentBalance);
 
             return null;
         }

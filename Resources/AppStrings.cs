@@ -80,6 +80,15 @@
 
             public static class Saving
             {
+                public const string AmountEmpty = "Wpłata nie może być pusta!";
+                public const string AmountNotANumber = "Wpłata musi być liczbą!";
+                public const string AmountNegative = "Wpłata nie może być ujemna!";
+                public const string AmountZero = "Wpłata musi być dodatnia!";
+                public const string AmountTooLarge = "Wpłata nie może przekraczać dostępnego salda!";
+
+                public const string SavingGoalNotSelected = "Wybierz cel oszczędnościowy dla wpłaty!";
+
+                public const string CreatedSuccess = "Wpłata na cel została dodana.";
                 public const string ConfirmDelete = "Czy na pewno chcesz usunąć tę wpłatę na cel?";
                 public const string DeletedSuccess = "Wpłata na cel została usunięta.";
             }
