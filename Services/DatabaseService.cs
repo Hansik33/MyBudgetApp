@@ -139,6 +139,16 @@ namespace MyBudgetApp.Services
             return transaction;
         }
 
+        public async Task<Saving> AddSavingAsync(Saving saving)
+        {
+            using var appDbContext = new AppDbContext(CreateOptions());
+
+            appDbContext.Savings.Add(saving);
+            await appDbContext.SaveChangesAsync();
+
+            return saving;
+        }
+
         public async Task<SavingGoal> AddSavingGoalAsync(SavingGoal savingGoal)
         {
             using var appDbContext = new AppDbContext(CreateOptions());

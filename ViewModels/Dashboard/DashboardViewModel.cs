@@ -190,7 +190,16 @@ namespace MyBudgetApp.ViewModels.Dashboard
             var saving = await _savingService.AddSavingAsync(UserId, SavingGoals, BalanceNumber);
 
             if (saving != null)
-                Savings.Add(new SavingViewModel(saving, SavingGoals));
+            {
+                var newSaving = new SavingViewModel(saving, SavingGoals);
+                newSaving.UpdateSavingGoalsReference(SavingGoals as ObservableCollection<SavingGoalViewModel>
+                    ?? new ObservableCollection<SavingGoalViewModel>(SavingGoals));
+
+                Savings.Add(newSaving);
+
+                RefreshSavingGoals();
+                UpdateUi();
+            }
         }
 
         private async Task DeleteSaving(SavingViewModel saving)

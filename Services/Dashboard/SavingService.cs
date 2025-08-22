@@ -4,6 +4,7 @@ using MyBudgetApp.Interfaces.Dashboard;
 using MyBudgetApp.Models;
 using MyBudgetApp.Resources;
 using MyBudgetApp.ViewModels.Dashboard;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,6 +12,17 @@ namespace MyBudgetApp.Services.Dashboard
 {
     public class SavingService(IDialogService dialogService, IDatabaseService databaseService) : ISavingService
     {
+        private static Saving CreateSaving(int userId, int goalId, decimal amount, DateTime date)
+        {
+            return new Saving
+            {
+                UserId = userId,
+                GoalId = goalId,
+                Amount = amount,
+                Date = date
+            };
+        }
+
         public async Task<List<Saving>> GetSavingsAsync(int userId) =>
             await databaseService.GetSavingsAsync(userId);
 
@@ -18,8 +30,13 @@ namespace MyBudgetApp.Services.Dashboard
                                                   IEnumerable<SavingGoalViewModel> savingGoals,
                                                   decimal currentBalance)
         {
-            _ = await dialogService.ShowAddSavingDialogAsync(savingGoals, currentBalance);
+            var viewModel = await dialogService.ShowAddSavingDialogAsync(savingGoals, currentBalance);
 
+            if (viewModel != null)
+            {
+                var saving = CreateSaving(userId, viewModel.SelectedSavingGoalId, viewModel.AmountAsDecimal, DateTime.Today);
+                return await databaseService.AddSavingAsync(saving);
+            }
             return null;
         }
 

@@ -331,7 +331,7 @@ namespace MyBudgetApp.Services
                 {
                     var validationResult = await ShowSavingValidationDialog(viewModel.Amount, savingGoals, currentBalance);
                     if (validationResult == SavingValidationResult.Success)
-                        return null;
+                        return viewModel;
                     continue;
                 }
                 return null;
