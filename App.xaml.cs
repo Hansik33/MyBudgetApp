@@ -2,8 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using MyBudgetApp.Interfaces;
+using MyBudgetApp.Interfaces.Auth;
 using MyBudgetApp.Interfaces.Dashboard;
 using MyBudgetApp.Services;
+using MyBudgetApp.Services.Auth;
 using MyBudgetApp.Services.Dashboard;
 using MyBudgetApp.ViewModels.Auth;
 using MyBudgetApp.ViewModels.Dashboard;
@@ -29,6 +31,9 @@ namespace MyBudgetApp
 
         private static void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<ILoginService, LoginService>();
+            services.AddSingleton<IRegistrationService, RegistrationService>();
+
             services.AddSingleton<IBudgetService, BudgetService>();
             services.AddSingleton<ICategoryService, CategoryService>();
             services.AddSingleton<ITransactionService, TransactionService>();

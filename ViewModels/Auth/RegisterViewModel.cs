@@ -1,9 +1,6 @@
-﻿using MyBudgetApp.Enums;
-using MyBudgetApp.Helpers;
+﻿using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
-using MyBudgetApp.Resources;
-using MyBudgetApp.Validators.Auth;
-using System.Linq;
+using MyBudgetApp.Interfaces.Auth;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -11,19 +8,16 @@ namespace MyBudgetApp.ViewModels.Auth
 {
     public partial class RegisterViewModel : BaseViewModel
     {
-        private readonly IUserService _userService;
-        private readonly IDialogService _dialogService;
+        private readonly IRegistrationService _registrationService;
         private readonly INavigationService _navigationService;
 
         public ICommand GoToLoginCommand { get; }
         public ICommand RegisterCommand { get; }
 
-        public RegisterViewModel(IUserService userService,
-                                 IDialogService dialogService,
+        public RegisterViewModel(IRegistrationService registrationService,
                                  INavigationService navigationService)
         {
-            _userService = userService;
-            _dialogService = dialogService;
+            _registrationService = registrationService;
             _navigationService = navigationService;
 
             GoToLoginCommand = new RelayCommand(() => _navigationService.GoToLogin());
@@ -53,35 +47,8 @@ namespace MyBudgetApp.ViewModels.Auth
 
         private async Task Register()
         {
-            var errors = AuthenticationValidator
-                .Validate(Username, Password, ConfirmPassword)
-                .ToList();
-
-            if (errors.Count != 0)
-            {
-                var firstError = errors.First();
-                var message = firstError switch
-                {
-                    "UsernameEmpty" => AppStrings.Dialogs.Auth.UserEmpty,
-                    "PasswordEmpty" => AppStrings.Dialogs.Auth.PasswordEmpty,
-                    "PasswordMismatch" => AppStrings.Dialogs.Auth.PasswordMismatch,
-                    _ => throw new System.NotImplementedException()
-                };
-
-                await _dialogService.ShowMessageAsync(message, DialogType.Warning);
-                return;
-            }
-
-            var success = _userService.AddUser(Username, Password);
-
-            if (!success)
-            {
-                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Auth.UserExists, DialogType.Warning);
-                return;
-            }
-
-            await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Auth.RegisterSuccess, DialogType.Success);
-            _navigationService.GoToLogin();
+            if (await _registrationService.RegisterAsync(Username, Password, ConfirmPassword))
+                _navigationService.GoToLogin();
         }
     }
 }

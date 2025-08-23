@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using MyBudgetApp.Enums;
+using MyBudgetApp.Enums.ValidationResults;
 using MyBudgetApp.ViewModels.Dashboard;
 using MyBudgetApp.ViewModels.Dashboard.Dialogs;
 using System.Collections.Generic;
@@ -13,6 +14,11 @@ namespace MyBudgetApp.Interfaces
 
         Task ShowMessageAsync(string message, DialogType dialogType = DialogType.Info);
         Task<bool> ShowConfirmationAsync(string message);
+
+        Task<AuthenticationValidationResult> ShowAuthenticationValidationDialog(string username, string password);
+        Task<AuthenticationValidationResult> ShowAuthenticationValidationDialog(string username,
+                                                                                             string password,
+                                                                                             string confirmPassword);
 
         Task<AddBudgetDialogViewModel?> ShowAddBudgetDialogAsync(IEnumerable<BudgetViewModel> budgets,
                                                                  IEnumerable<CategoryViewModel> categories);

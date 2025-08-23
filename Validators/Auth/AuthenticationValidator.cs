@@ -1,27 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using MyBudgetApp.Enums.ValidationResults;
 
 namespace MyBudgetApp.Validators.Auth;
 
 public static class AuthenticationValidator
 {
-    public static IEnumerable<string> Validate(string username, string password)
+    public static AuthenticationValidationResult Validate(string username, string password)
     {
         if (string.IsNullOrWhiteSpace(username))
-            yield return "UsernameEmpty";
-
+            return AuthenticationValidationResult.UserEmpty;
         if (string.IsNullOrWhiteSpace(password))
-            yield return "PasswordEmpty";
+            return AuthenticationValidationResult.PasswordEmpty;
+        return AuthenticationValidationResult.Success;
     }
 
-    public static IEnumerable<string> Validate(string username, string password, string confirmPassword)
+    public static AuthenticationValidationResult Validate(string username, string password, string confirmPassword)
     {
         if (string.IsNullOrWhiteSpace(username))
-            yield return "UsernameEmpty";
-
+            return AuthenticationValidationResult.UserEmpty;
         if (string.IsNullOrWhiteSpace(password))
-            yield return "PasswordEmpty";
-
+            return AuthenticationValidationResult.PasswordEmpty;
         if (password != confirmPassword)
-            yield return "PasswordMismatch";
+            return AuthenticationValidationResult.PasswordMismatch;
+        return AuthenticationValidationResult.Success;
     }
 }

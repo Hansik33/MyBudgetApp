@@ -18,8 +18,9 @@
                 public const string PasswordEmpty = "Wprowadź hasło!";
                 public const string PasswordMismatch = "Hasła nie są identyczne!";
 
-                public const string RegisterSuccess = "Rejestracja zakończona pomyślnie.";
                 public const string LoginSuccess = "Zalogowano jako: {0}.";
+                public const string RegisterSuccess = "Rejestracja zakończona pomyślnie.";
+
                 public const string UserLoggedOut = "Wylogowano pomyślnie.";
             }
 

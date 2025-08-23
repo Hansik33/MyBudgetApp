@@ -1,9 +1,6 @@
-﻿using MyBudgetApp.Enums;
-using MyBudgetApp.Helpers;
+﻿using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
-using MyBudgetApp.Resources;
-using MyBudgetApp.Validators.Auth;
-using System.Linq;
+using MyBudgetApp.Interfaces.Auth;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -11,22 +8,16 @@ namespace MyBudgetApp.ViewModels.Auth
 {
     public partial class LoginViewModel : BaseViewModel
     {
-        private readonly IUserContext _userContext;
-        private readonly IUserService _userService;
-        private readonly IDialogService _dialogService;
+        private readonly ILoginService _loginService;
         private readonly INavigationService _navigationService;
 
         public ICommand GoToRegisterCommand { get; }
         public ICommand LoginCommand { get; }
 
-        public LoginViewModel(IUserContext userContext,
-                              IUserService userService,
-                              IDialogService dialogService,
+        public LoginViewModel(ILoginService loginService,
                               INavigationService navigationService)
         {
-            _userContext = userContext;
-            _userService = userService;
-            _dialogService = dialogService;
+            _loginService = loginService;
             _navigationService = navigationService;
 
             GoToRegisterCommand = new RelayCommand(() => _navigationService.GoToRegister());
@@ -49,39 +40,8 @@ namespace MyBudgetApp.ViewModels.Auth
 
         private async Task Login()
         {
-            var errors = AuthenticationValidator
-                .Validate(Username, Password)
-                .ToList();
-
-            if (errors.Count != 0)
-            {
-                var firstError = errors.First();
-                var message = firstError switch
-                {
-                    "UsernameEmpty" => AppStrings.Dialogs.Auth.UserEmpty,
-                    "PasswordEmpty" => AppStrings.Dialogs.Auth.PasswordEmpty,
-                    _ => throw new System.NotImplementedException()
-                };
-
-                await _dialogService.ShowMessageAsync(message, DialogType.Warning);
-                return;
-            }
-
-            var user = _userService.GetUserByCredentials(Username, Password);
-
-            if (user == null)
-            {
-                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Auth.UserNotFound, DialogType.Error);
-                return;
-            }
-
-            await _dialogService.ShowMessageAsync(string.Format(AppStrings.Dialogs.Auth.LoginSuccess, user.Username),
-                DialogType.Info);
-
-            _userContext.UserId = user.Id;
-            _userContext.Username = user.Username;
-
-            _navigationService.GoToDashboard();
+            if (await _loginService.LoginAsync(Username, Password))
+                _navigationService.GoToDashboard();
         }
     }
 }

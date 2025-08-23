@@ -4,6 +4,7 @@ using MyBudgetApp.Enums;
 using MyBudgetApp.Enums.ValidationResults;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Resources;
+using MyBudgetApp.Validators.Auth;
 using MyBudgetApp.Validators.Dashboard;
 using MyBudgetApp.ViewModels.Dashboard;
 using MyBudgetApp.ViewModels.Dashboard.Dialogs;
@@ -69,6 +70,43 @@ namespace MyBudgetApp.Services
             _isDialogOpen = false;
 
             return result == ContentDialogResult.Primary;
+        }
+
+        public async Task<AuthenticationValidationResult> ShowAuthenticationValidationDialog(string username, string password)
+        {
+            var result = AuthenticationValidator.Validate(username, password);
+
+            switch (result)
+            {
+                case AuthenticationValidationResult.UserEmpty:
+                    await ShowMessageAsync(AppStrings.Dialogs.Auth.UserEmpty, DialogType.Error);
+                    break;
+                case AuthenticationValidationResult.PasswordEmpty:
+                    await ShowMessageAsync(AppStrings.Dialogs.Auth.PasswordEmpty, DialogType.Error);
+                    break;
+            }
+            return result;
+        }
+
+        public async Task<AuthenticationValidationResult> ShowAuthenticationValidationDialog(string username,
+                                                                                             string password,
+                                                                                             string confirmPassword)
+        {
+            var result = AuthenticationValidator.Validate(username, password, confirmPassword);
+
+            switch (result)
+            {
+                case AuthenticationValidationResult.UserEmpty:
+                    await ShowMessageAsync(AppStrings.Dialogs.Auth.UserEmpty, DialogType.Error);
+                    break;
+                case AuthenticationValidationResult.PasswordEmpty:
+                    await ShowMessageAsync(AppStrings.Dialogs.Auth.PasswordEmpty, DialogType.Error);
+                    break;
+                case AuthenticationValidationResult.PasswordMismatch:
+                    await ShowMessageAsync(AppStrings.Dialogs.Auth.PasswordMismatch, DialogType.Error);
+                    break;
+            }
+            return result;
         }
 
         private async Task<BudgetValidationResult> ShowBudgetValidationDialog(string limitAmount,
