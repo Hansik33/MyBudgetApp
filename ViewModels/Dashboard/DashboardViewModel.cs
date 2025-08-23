@@ -27,7 +27,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private ObservableCollection<BudgetViewModel> Budgets { get; } = [];
         public IEnumerable<BudgetViewModel> SortedBudgets => Budgets
-            .OrderBy(budget => budget.Year).ThenBy(budget => budget.MonthNumber);
+            .OrderBy(budget => budget.Year)
+            .ThenBy(budget => budget.MonthNumber);
 
         private ObservableCollection<CategoryViewModel> Categories { get; } = [];
         public IEnumerable<CategoryViewModel> SortedCategories => Categories
@@ -38,7 +39,10 @@ namespace MyBudgetApp.ViewModels.Dashboard
             .OrderByDescending(transaction => transaction.Date)
             .ThenBy(transaction => transaction.TransactionType);
 
-        public ObservableCollection<SavingViewModel> Savings { get; } = [];
+        private ObservableCollection<SavingViewModel> Savings { get; } = [];
+        public IEnumerable<SavingViewModel> SortedSavings => Savings
+            .OrderByDescending(savings => savings.Date)
+            .ThenByDescending(savings => savings.Amount);
 
         private ObservableCollection<SavingGoalViewModel> SavingGoals { get; } = [];
         public IEnumerable<SavingGoalViewModel> SortedSavingGoals => SavingGoals
@@ -97,6 +101,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
             Budgets.CollectionChanged += Budgets_CollectionChanged;
             Categories.CollectionChanged += Categories_CollectionChanged;
             Transactions.CollectionChanged += Transactions_CollectionChanged;
+            Savings.CollectionChanged += Savings_CollectionChanged;
             SavingGoals.CollectionChanged += SavingGoals_CollectionChanged;
 
             _ = LoadDataAsync();
@@ -273,6 +278,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
             => OnPropertyChanged(nameof(SortedTransactions));
 
         private async Task<List<Saving>> LoadSavingsAsync() => await _savingService.GetSavingsAsync(UserId);
+        private void Savings_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+            => OnPropertyChanged(nameof(SortedSavings));
 
         private async Task<List<SavingGoal>> LoadSavingGoalsAsync() => await _savingGoalService.GetSavingGoalsAsync(UserId);
         private void SavingGoals_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

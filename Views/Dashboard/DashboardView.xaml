@@ -72,7 +72,7 @@
 
             <TextBlock Text="Wpłaty na cele" 
                        FontWeight="Bold" FontSize="16" />
-            <ItemsControl ItemsSource="{Binding Savings}">
+            <ItemsControl ItemsSource="{Binding SortedSavings}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:SavingViewModel">
                         <dashboardControls:SavingCard Saving="{x:Bind}" 
