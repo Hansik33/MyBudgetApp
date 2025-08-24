@@ -100,8 +100,20 @@ namespace MyBudgetApp.Services
                 case AuthenticationValidationResult.UserEmpty:
                     await ShowMessageAsync(AppStrings.Dialogs.Auth.UserEmpty, DialogType.Error);
                     break;
+                case AuthenticationValidationResult.UserTooShort:
+                    await ShowMessageAsync(AppStrings.Dialogs.Auth.UserTooShort, DialogType.Error);
+                    break;
+                case AuthenticationValidationResult.UserTooLong:
+                    await ShowMessageAsync(AppStrings.Dialogs.Auth.UserTooLong, DialogType.Error);
+                    break;
                 case AuthenticationValidationResult.PasswordEmpty:
                     await ShowMessageAsync(AppStrings.Dialogs.Auth.PasswordEmpty, DialogType.Error);
+                    break;
+                case AuthenticationValidationResult.PasswordTooShort:
+                    await ShowMessageAsync(AppStrings.Dialogs.Auth.PasswordTooShort, DialogType.Error);
+                    break;
+                case AuthenticationValidationResult.PasswordTooLong:
+                    await ShowMessageAsync(AppStrings.Dialogs.Auth.PasswordTooLong, DialogType.Error);
                     break;
                 case AuthenticationValidationResult.PasswordMismatch:
                     await ShowMessageAsync(AppStrings.Dialogs.Auth.PasswordMismatch, DialogType.Error);

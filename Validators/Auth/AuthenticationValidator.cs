@@ -17,8 +17,16 @@ public static class AuthenticationValidator
     {
         if (string.IsNullOrWhiteSpace(username))
             return AuthenticationValidationResult.UserEmpty;
+        if (username.Length < 3)
+            return AuthenticationValidationResult.UserTooShort;
+        if (username.Length > 20)
+            return AuthenticationValidationResult.UserTooLong;
         if (string.IsNullOrWhiteSpace(password))
             return AuthenticationValidationResult.PasswordEmpty;
+        if (password.Length < 4)
+            return AuthenticationValidationResult.PasswordTooShort;
+        if (password.Length > 32)
+            return AuthenticationValidationResult.PasswordTooLong;
         if (password != confirmPassword)
             return AuthenticationValidationResult.PasswordMismatch;
         return AuthenticationValidationResult.Success;

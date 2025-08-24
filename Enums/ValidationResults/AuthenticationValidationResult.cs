@@ -4,7 +4,11 @@
     {
         Success,
         UserEmpty,
+        UserTooShort,
+        UserTooLong,
         PasswordEmpty,
+        PasswordTooShort,
+        PasswordTooLong,
         PasswordMismatch
     }
 }
