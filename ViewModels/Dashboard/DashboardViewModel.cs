@@ -137,9 +137,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task DeleteBudget(BudgetViewModel budget)
         {
-            var success = await _budgetService.DeleteBudgetAsync(budget.Id);
-
-            if (success)
+            if (await _budgetService.DeleteBudgetAsync(budget.Id))
                 Budgets.Remove(budget);
         }
 
@@ -153,9 +151,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task DeleteCategory(CategoryViewModel category)
         {
-            var success = await _categoryService.DeleteCategoryAsync(category, Budgets, Transactions);
-
-            if (success)
+            if (await _categoryService.DeleteCategoryAsync(category, Budgets, Transactions))
                 Categories.Remove(category);
         }
 
@@ -179,9 +175,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task DeleteTransaction(TransactionViewModel transaction)
         {
-            var success = await _transactionService.DeleteTransactionAsync(transaction, BalanceNumber);
-
-            if (success)
+            if (await _transactionService.DeleteTransactionAsync(transaction, BalanceNumber))
             {
                 Transactions.Remove(transaction);
 
@@ -209,9 +203,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task DeleteSaving(SavingViewModel saving)
         {
-            var success = await _savingService.DeleteSavingAsync(saving.Id);
-
-            if (success)
+            if (await _savingService.DeleteSavingAsync(saving.Id))
             {
                 Savings.Remove(saving);
 
@@ -230,9 +222,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task DeleteSavingGoal(SavingGoalViewModel savingGoal)
         {
-            var success = await _savingGoalService.DeleteSavingGoalAsync(savingGoal.Id);
-
-            if (success)
+            if (await _savingGoalService.DeleteSavingGoalAsync(savingGoal.Id))
             {
                 var savingsToRemove = Savings.Where(saving => saving.GoalId == savingGoal.Id).ToList();
 
