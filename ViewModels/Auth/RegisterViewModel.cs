@@ -28,7 +28,7 @@ namespace MyBudgetApp.ViewModels.Auth
         public string Username
         {
             get => _username;
-            set => SetProperty(ref _username, value);
+            set => SetProperty(ref _username, value.Trim().Replace(" ", ""));
         }
 
         private string _password = string.Empty;
