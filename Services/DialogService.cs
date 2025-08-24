@@ -72,7 +72,8 @@ namespace MyBudgetApp.Services
             return result == ContentDialogResult.Primary;
         }
 
-        public async Task<AuthenticationValidationResult> ShowAuthenticationValidationDialog(string username, string password)
+        public async Task<AuthenticationValidationResult> ShowAuthenticationValidationDialogAsync(string username,
+                                                                                                  string password)
         {
             var result = AuthenticationValidator.Validate(username, password);
 
@@ -88,9 +89,9 @@ namespace MyBudgetApp.Services
             return result;
         }
 
-        public async Task<AuthenticationValidationResult> ShowAuthenticationValidationDialog(string username,
-                                                                                             string password,
-                                                                                             string confirmPassword)
+        public async Task<AuthenticationValidationResult> ShowAuthenticationValidationDialogAsync(string username,
+                                                                                                  string password,
+                                                                                                  string confirmPassword)
         {
             var result = AuthenticationValidator.Validate(username, password, confirmPassword);
 

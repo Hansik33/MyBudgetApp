@@ -15,10 +15,10 @@ namespace MyBudgetApp.Interfaces
         Task ShowMessageAsync(string message, DialogType dialogType = DialogType.Info);
         Task<bool> ShowConfirmationAsync(string message);
 
-        Task<AuthenticationValidationResult> ShowAuthenticationValidationDialog(string username, string password);
-        Task<AuthenticationValidationResult> ShowAuthenticationValidationDialog(string username,
-                                                                                             string password,
-                                                                                             string confirmPassword);
+        Task<AuthenticationValidationResult> ShowAuthenticationValidationDialogAsync(string username, string password);
+        Task<AuthenticationValidationResult> ShowAuthenticationValidationDialogAsync(string username,
+                                                                                     string password,
+                                                                                     string confirmPassword);
 
         Task<AddBudgetDialogViewModel?> ShowAddBudgetDialogAsync(IEnumerable<BudgetViewModel> budgets,
                                                                  IEnumerable<CategoryViewModel> categories);

@@ -11,7 +11,7 @@ namespace MyBudgetApp.Services.Auth
     {
         public async Task<bool> LoginAsync(string username, string password)
         {
-            if (await dialogService.ShowAuthenticationValidationDialog(username, password)
+            if (await dialogService.ShowAuthenticationValidationDialogAsync(username, password)
                 == AuthenticationValidationResult.Success)
             {
                 var user = userService.GetUserByCredentials(username, password);

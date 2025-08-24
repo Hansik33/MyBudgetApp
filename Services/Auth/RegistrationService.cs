@@ -11,7 +11,7 @@ namespace MyBudgetApp.Services.Auth
     {
         public async Task<bool> RegisterAsync(string username, string password, string confirmPassword)
         {
-            if (await dialogService.ShowAuthenticationValidationDialog(username, password, confirmPassword)
+            if (await dialogService.ShowAuthenticationValidationDialogAsync(username, password, confirmPassword)
                 == AuthenticationValidationResult.Success)
             {
                 if (userService.AddUser(username, password))
