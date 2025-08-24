@@ -11,7 +11,8 @@
     xmlns:authControls="using:MyBudgetApp.Controls.Auth"
     xmlns:behaviors="using:MyBudgetApp.Behaviors"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance Type=viewmodels:RegisterViewModel}">
+    d:DataContext="{d:DesignInstance Type=viewmodels:RegisterViewModel}"
+    Loaded="ContentDialog_Loaded">
 
     <StackPanel helpers:DialogServiceXamlRootSetter.Attach="True"
                 behaviors:EnterKeyBehavior.Command="{Binding RegisterCommand}"
@@ -21,7 +22,8 @@
                    FontSize="28" FontWeight="Bold" 
                    Margin="0,0,0,10" />
 
-        <TextBox Header="Nazwa użytkownika:" 
+        <TextBox x:Name="UsernameTextBox"
+                 Header="Nazwa użytkownika:" 
                  Text="{Binding Username, Mode=TwoWay}" />
 
         <TextBlock Text="Hasło:" />
