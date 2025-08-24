@@ -43,7 +43,7 @@ namespace MyBudgetApp.Services
             appDbContext.Users.Add(new User
             {
                 Username = username,
-                PasswordHash = hashed
+                Password = hashed
             });
 
             appDbContext.SaveChanges();
@@ -58,7 +58,7 @@ namespace MyBudgetApp.Services
             if (user == null)
                 return null;
 
-            return passwordHashService.Verify(plainPassword, user.PasswordHash) ? user : null;
+            return passwordHashService.Verify(plainPassword, user.Password) ? user : null;
         }
 
         public async Task<List<Budget>> GetBudgetsAsync(int userId)

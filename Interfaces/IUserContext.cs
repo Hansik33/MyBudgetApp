@@ -2,8 +2,9 @@
 {
     public interface IUserContext
     {
-        int UserId { get; set; }
+        int Id { get; set; }
         string Username { get; set; }
+
         void Clear();
     }
 }

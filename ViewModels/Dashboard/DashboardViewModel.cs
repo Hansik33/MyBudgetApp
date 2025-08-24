@@ -107,7 +107,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
             _ = LoadDataAsync();
         }
 
-        public int UserId => _userContext.UserId;
+        public int UserId => _userContext.Id;
         public string Username => _userContext.Username;
 
         private decimal SavingAmountTotal => Savings.Sum(saving => saving.Amount);

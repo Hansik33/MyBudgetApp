@@ -18,8 +18,8 @@ namespace MyBudgetApp.Services.Auth
 
                 if (user != null)
                 {
+                    userContext.Id = user.Id;
                     userContext.Username = user.Username;
-                    userContext.UserId = user.Id;
 
                     await dialogService.ShowMessageAsync(string.Format(AppStrings.Dialogs.Auth.LoginSuccess, username),
                                                          DialogType.Info);
