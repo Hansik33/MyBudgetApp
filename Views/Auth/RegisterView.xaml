@@ -38,8 +38,11 @@
 
         <TextBlock Text="Masz już konto?" 
                    HorizontalAlignment="Center" />
-        <Button Content="Zaloguj się" Command="{Binding GoToLoginCommand}" 
-                HorizontalAlignment="Center" />
+        <Button Content="Zaloguj się" Command="{Binding GoToLoginCommand}" HorizontalAlignment="Center">
+            <Button.KeyboardAccelerators>
+                <KeyboardAccelerator Key="L" Modifiers="Control" />
+            </Button.KeyboardAccelerators>
+        </Button>
     </StackPanel>
 
 </UserControl>
