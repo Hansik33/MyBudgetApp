@@ -35,8 +35,11 @@
 
         <TextBlock Text="Nie masz konta?" 
                    HorizontalAlignment="Center" />
-        <Button Content="Zarejestruj się" Command="{Binding GoToRegisterCommand}" 
-                HorizontalAlignment="Center" />
+        <Button Content="Zarejestruj się" Command="{Binding GoToRegisterCommand}" HorizontalAlignment="Center">
+            <Button.KeyboardAccelerators>
+                <KeyboardAccelerator Key="R" Modifiers="Control" />
+            </Button.KeyboardAccelerators>
+        </Button>
     </StackPanel>
     
 </UserControl>
