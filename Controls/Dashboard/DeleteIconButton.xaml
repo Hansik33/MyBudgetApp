@@ -13,6 +13,10 @@
             CommandParameter="{x:Bind CommandParameter, Mode=OneWay}"
             Width="32" Height="32"
             Padding="0" Margin="0,0,0,10"
-            HorizontalAlignment="Center" />
+            HorizontalAlignment="Center">
+        <Button.KeyboardAccelerators>
+            <KeyboardAccelerator Key="Delete"/>
+        </Button.KeyboardAccelerators>
+    </Button>
 
 </UserControl>
