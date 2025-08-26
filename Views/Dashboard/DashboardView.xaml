@@ -16,7 +16,7 @@
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center"
                     MinWidth="280" Padding="40" Spacing="14">
 
-            <TextBlock HorizontalAlignment="Center" FontSize="16">
+            <TextBlock FontSize="18" HorizontalAlignment="Center">
                 <Run Text="Saldo:" FontWeight="Bold" />
                 <Run Text="{Binding Balance}" />
             </TextBlock>
