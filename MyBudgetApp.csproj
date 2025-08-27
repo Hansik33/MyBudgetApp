@@ -13,6 +13,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\appicon.ico" />
     <None Remove="Controls\BindablePasswordBox.xaml" />
     <None Remove="Controls\Dashboard\CategoryCard.xaml" />
     <None Remove="Controls\Dashboard\DeleteIconButton.xaml" />
@@ -23,11 +24,9 @@
 
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 
@@ -93,6 +92,11 @@
   <ItemGroup>
     <Folder Include="Controls\Auth\" />
     <Folder Include="Views\Auth\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Assets\appicon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">

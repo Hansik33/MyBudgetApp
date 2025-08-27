@@ -20,6 +20,8 @@ namespace MyBudgetApp.Services
                 var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hwnd);
                 var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
 
+                appWindow.SetIcon("Assets/appicon.ico");
+
                 if (appWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
                 {
                     presenter.IsResizable = false;
