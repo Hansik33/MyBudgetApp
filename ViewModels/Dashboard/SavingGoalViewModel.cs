@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI;
 using Microsoft.UI.Xaml.Media;
 using MyBudgetApp.Models;
+using MyBudgetApp.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,7 +26,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         public decimal SavedAmount => _savings
             .Where(saving => saving.GoalId == savingGoal.Id)
-            .Sum(saving => saving.Amount);
+            .Sum(saving => saving.AmountNumber);
         public double SavedAmountAsDouble => (double)SavedAmount;
 
         public DateTime DeadlineAsDateTime => savingGoal.Deadline;
@@ -34,7 +35,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public double ProgressPercentNumber =>
             TargetAmount == 0 ? 0 : Math.Min((double)(SavedAmount / TargetAmount) * 100.0, 999.0);
         public string ProgressPercent => $"{ProgressPercentNumber:0}%";
-        public string ProgressAmount => $"{SavedAmount:0.00} / {TargetAmount:0.00} zł";
+        public string ProgressAmount =>
+            $"{NumberFormatter.FormatThousands(SavedAmount)} / {NumberFormatter.FormatThousands(TargetAmount)} zł";
 
         public SolidColorBrush ProgressBrush
         {

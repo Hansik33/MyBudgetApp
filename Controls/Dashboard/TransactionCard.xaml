@@ -33,7 +33,6 @@
             <TextBlock>
             <Run Text="Kwota:" FontWeight="Bold" />
             <Run Text="{Binding Amount}" />
-            <Run Text="zł" />
             </TextBlock>
             <TextBlock>
             <Run Text="Metoda płatności:" FontWeight="Bold" />

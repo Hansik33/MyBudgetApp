@@ -1,5 +1,6 @@
 ﻿using MyBudgetApp.Enums;
 using MyBudgetApp.Models;
+using MyBudgetApp.Utils;
 using System;
 using System.Globalization;
 
@@ -22,7 +23,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public int CategoryId => transaction.CategoryId;
         public string Category => transaction.Category?.Name ?? string.Empty;
 
-        public decimal Amount => transaction.Amount;
+        public decimal AmountNumber => transaction.Amount;
+        public string Amount => $"{NumberFormatter.FormatThousands(AmountNumber)} zł";
 
         public PaymentMethod PaymentMethod => transaction.Method;
         public string Method => PaymentMethod switch

@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Media;
 using MyBudgetApp.Enums;
 using MyBudgetApp.Models;
+using MyBudgetApp.Utils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -32,7 +33,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
                                   transaction.CategoryId == budget.CategoryId &&
                                   transaction.RawDate.Year == budget.Year &&
                                   transaction.RawDate.Month == budget.MonthNumber)
-            .Sum(transaction => transaction.Amount);
+            .Sum(transaction => transaction.AmountNumber);
 
         public double UsedAmountDouble => (double)UsedAmount;
         public double LimitAmountDouble => (double)LimitAmount;
@@ -41,7 +42,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
             LimitAmount == 0 ? 0 : Math.Min((double)(UsedAmount / LimitAmount) * 100.0, 999.0);
 
         public string UsagePercent => $"{UsagePercentNumber:0}%";
-        public string UsageLimit => $"{UsedAmount:0.00} / {LimitAmount:0.00} zł";
+        public string UsageLimit =>
+            $"{NumberFormatter.FormatThousands(UsedAmount)} / {NumberFormatter.FormatThousands(LimitAmount)} zł";
 
         public SolidColorBrush UsageBrush =>
             LimitAmount == 0 ? new SolidColorBrush(Colors.Gray)

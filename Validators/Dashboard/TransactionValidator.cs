@@ -51,6 +51,6 @@ namespace MyBudgetApp.Validators.Dashboard
         public static bool IsAdditionAllowed(TransactionType transactionType, decimal amount, decimal currentBalance) =>
             transactionType == TransactionType.Income || amount <= currentBalance;
         public static bool IsDeletionAllowed(TransactionViewModel transaction, decimal currentBalance) =>
-            transaction.TransactionType != TransactionType.Income || transaction.Amount <= currentBalance;
+            transaction.TransactionType != TransactionType.Income || transaction.AmountNumber <= currentBalance;
     }
 }

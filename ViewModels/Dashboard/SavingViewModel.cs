@@ -1,4 +1,5 @@
 ﻿using MyBudgetApp.Models;
+using MyBudgetApp.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -25,7 +26,9 @@ namespace MyBudgetApp.ViewModels.Dashboard
             set => SetProperty(ref _goal, value);
         }
 
-        public decimal Amount => saving.Amount;
+        public decimal AmountNumber => saving.Amount;
+        public string Amount => $"{NumberFormatter.FormatThousands(AmountNumber)} zł";
+
         public string Date => saving.Date.ToString("dd.MM.yyyy", Culture);
 
         public void UpdateSavingGoalsReference(ObservableCollection<SavingGoalViewModel> savingGoals)

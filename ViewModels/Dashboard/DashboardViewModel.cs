@@ -4,6 +4,7 @@ using MyBudgetApp.Interfaces;
 using MyBudgetApp.Interfaces.Auth;
 using MyBudgetApp.Interfaces.Dashboard;
 using MyBudgetApp.Models;
+using MyBudgetApp.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -110,15 +111,15 @@ namespace MyBudgetApp.ViewModels.Dashboard
         public int UserId => _userContext.Id;
         public string Username => _userContext.Username;
 
-        private decimal SavingAmountTotal => Savings.Sum(saving => saving.Amount);
+        private decimal SavingAmountTotal => Savings.Sum(saving => saving.AmountNumber);
 
         private decimal BalanceNumber =>
             Transactions.Where(transaction =>
-                transaction.TransactionType == TransactionType.Income).Sum(transaction => transaction.Amount)
+                transaction.TransactionType == TransactionType.Income).Sum(transaction => transaction.AmountNumber)
             - Transactions.Where(transaction =>
-                transaction.TransactionType == TransactionType.Expense).Sum(transaction => transaction.Amount)
+                transaction.TransactionType == TransactionType.Expense).Sum(transaction => transaction.AmountNumber)
             - SavingAmountTotal;
-        public string Balance => $"{BalanceNumber:0.00} zł";
+        public string Balance => $"{NumberFormatter.FormatThousands(BalanceNumber)} zł";
 
         private async Task AddBudget()
         {
