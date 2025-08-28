@@ -1,9 +1,9 @@
 ﻿using MyBudgetApp.Enums;
 using MyBudgetApp.Helpers;
 using MyBudgetApp.Interfaces;
+using MyBudgetApp.Interfaces.Auth;
 using MyBudgetApp.Interfaces.Dashboard;
 using MyBudgetApp.Models;
-using MyBudgetApp.Resources;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -22,7 +22,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private readonly ISavingGoalService _savingGoalService;
 
         private readonly IUserContext _userContext;
-        private readonly IDialogService _dialogService;
+        private readonly ILoginService _loginService;
         private readonly INavigationService _navigationService;
 
         private ObservableCollection<BudgetViewModel> Budgets { get; } = [];
@@ -69,7 +69,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
                                   ISavingService savingService,
                                   ISavingGoalService savingGoalService,
                                   IUserContext userContext,
-                                  IDialogService dialogService,
+                                  ILoginService loginService,
                                   INavigationService navigationService)
         {
             _budgetService = budgetService;
@@ -79,7 +79,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
             _savingGoalService = savingGoalService;
 
             _userContext = userContext;
-            _dialogService = dialogService;
+            _loginService = loginService;
             _navigationService = navigationService;
 
             AddBudgetCommand = new RelayCommand(async () => await AddBudget());
@@ -352,8 +352,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
         private async Task Logout()
         {
-            await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Auth.UserLoggedOut, DialogType.Info);
-            _userContext.Clear();
+            await _loginService.LogoutAsync();
             _navigationService.GoToLogin();
         }
     }

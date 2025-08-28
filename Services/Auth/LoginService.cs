@@ -31,5 +31,11 @@ namespace MyBudgetApp.Services.Auth
             }
             return false;
         }
+
+        public async Task LogoutAsync()
+        {
+            userContext.Clear();
+            await dialogService.ShowMessageAsync(AppStrings.Dialogs.Auth.UserLoggedOut, DialogType.Info);
+        }
     }
 }
