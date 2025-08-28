@@ -105,7 +105,14 @@ namespace MyBudgetApp.ViewModels.Dashboard
             Savings.CollectionChanged += Savings_CollectionChanged;
             SavingGoals.CollectionChanged += SavingGoals_CollectionChanged;
 
-            _ = LoadDataAsync();
+            _ = InitializeAsync();
+        }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
         }
 
         public int UserId => _userContext.Id;
@@ -349,6 +356,13 @@ namespace MyBudgetApp.ViewModels.Dashboard
             UpdateSavingReferences();
 
             UpdateUi();
+        }
+
+        private async Task InitializeAsync()
+        {
+            IsLoading = true;
+            await LoadDataAsync();
+            IsLoading = false;
         }
 
         private async Task Logout()

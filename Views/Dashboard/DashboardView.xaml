@@ -12,128 +12,139 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type=viewmodels:DashboardViewModel}">
 
-    <ScrollViewer>
-        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                    MinWidth="280" Padding="40" Spacing="14">
+    <Grid>
+        <ScrollViewer>
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                MinWidth="280" Padding="40" Spacing="14">
 
-            <TextBlock FontSize="18" HorizontalAlignment="Center">
-                <Run Text="Saldo:" FontWeight="Bold" />
-                <Run Text="{Binding Balance}" />
-            </TextBlock>
-            <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />
+                <TextBlock FontSize="18" HorizontalAlignment="Center">
+            <Run Text="Saldo:" FontWeight="Bold" />
+            <Run Text="{Binding Balance}" />
+                </TextBlock>
+                <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />
 
-            <Grid HorizontalAlignment="Stretch">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Spacing="8" Margin="5">
-                    <TextBlock Text="Budżety" FontWeight="Bold" FontSize="16" TextAlignment="Center" />
-                    <ItemsControl ItemsSource="{Binding SortedBudgets}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="viewmodels:BudgetViewModel">
-                                <dashboardControls:BudgetCard Budget="{x:Bind}"
-                                    DeleteCommand="{Binding DataContext.DeleteBudgetCommand, ElementName=Root}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <Button Content="Dodaj budżet" Command="{Binding AddBudgetCommand}" 
-                            HorizontalAlignment="Center" Margin="0,10,0,0">
-                        <Button.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="B" Modifiers="Control" />
-                        </Button.KeyboardAccelerators>
-                    </Button>
-                </StackPanel>
+                    <StackPanel Grid.Column="0" Spacing="8" Margin="5">
+                        <TextBlock Text="Budżety" FontWeight="Bold" FontSize="16" TextAlignment="Center" />
+                        <ItemsControl ItemsSource="{Binding SortedBudgets}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="viewmodels:BudgetViewModel">
+                                    <dashboardControls:BudgetCard Budget="{x:Bind}"
+                                DeleteCommand="{Binding DataContext.DeleteBudgetCommand, ElementName=Root}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Button Content="Dodaj budżet" Command="{Binding AddBudgetCommand}" 
+                        HorizontalAlignment="Center" Margin="0,10,0,0">
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="B" Modifiers="Control" />
+                            </Button.KeyboardAccelerators>
+                        </Button>
+                    </StackPanel>
 
-                <StackPanel Grid.Column="1" Spacing="8" Margin="5">
-                    <TextBlock Text="Kategorie" FontWeight="Bold" FontSize="16" TextAlignment="Center" />
-                    <ItemsControl ItemsSource="{Binding SortedCategories}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="viewmodels:CategoryViewModel">
-                                <dashboardControls:CategoryCard Category="{x:Bind}"
-                                    DeleteCommand="{Binding DataContext.DeleteCategoryCommand, ElementName=Root}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <Button Content="Dodaj kategorię" Command="{Binding AddCategoryCommand}" 
-                            HorizontalAlignment="Center" Margin="0,10,0,0" >
+                    <StackPanel Grid.Column="1" Spacing="8" Margin="5">
+                        <TextBlock Text="Kategorie" FontWeight="Bold" FontSize="16" TextAlignment="Center" />
+                        <ItemsControl ItemsSource="{Binding SortedCategories}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="viewmodels:CategoryViewModel">
+                                    <dashboardControls:CategoryCard Category="{x:Bind}"
+                                DeleteCommand="{Binding DataContext.DeleteCategoryCommand, ElementName=Root}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Button Content="Dodaj kategorię" Command="{Binding AddCategoryCommand}" 
+                        HorizontalAlignment="Center" Margin="0,10,0,0" >
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="C" Modifiers="Control" />
+                            </Button.KeyboardAccelerators>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Spacing="8" Margin="5">
+                        <TextBlock Text="Transakcje" FontWeight="Bold" FontSize="16" TextAlignment="Center" />
+                        <ItemsControl ItemsSource="{Binding SortedTransactions}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="viewmodels:TransactionViewModel">
+                                    <dashboardControls:TransactionCard Transaction="{x:Bind}"
+                                DeleteCommand="{Binding DataContext.DeleteTransactionCommand, ElementName=Root}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Button Content="Dodaj transakcję" Command="{Binding AddTransactionCommand}" 
+                        HorizontalAlignment="Center" Margin="0,10,0,0">
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="T" Modifiers="Control" />
+                            </Button.KeyboardAccelerators>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="3" Spacing="8" Margin="5">
+                        <TextBlock Text="Wpłaty na cele" FontWeight="Bold" FontSize="16" TextAlignment="Center" />
+                        <ItemsControl ItemsSource="{Binding SortedSavings}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="viewmodels:SavingViewModel">
+                                    <dashboardControls:SavingCard Saving="{x:Bind}"
+                                DeleteCommand="{Binding DataContext.DeleteSavingCommand, ElementName=Root}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Button Content="Dodaj wpłatę" Command="{Binding AddSavingCommand}" 
+                        HorizontalAlignment="Center" Margin="0,10,0,0">
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="S" Modifiers="Control" />
+                            </Button.KeyboardAccelerators>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="4" Spacing="8" Margin="5">
+                        <TextBlock Text="Cele oszczędnościowe" FontWeight="Bold" FontSize="16" TextAlignment="Center" />
+                        <ItemsControl ItemsSource="{Binding SortedSavingGoals}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="viewmodels:SavingGoalViewModel">
+                                    <dashboardControls:SavingGoalCard SavingGoal="{x:Bind}"
+                                DeleteCommand="{Binding DataContext.DeleteSavingGoalCommand, ElementName=Root}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Button Content="Dodaj cel" Command="{Binding AddSavingGoalCommand}" 
+                        HorizontalAlignment="Center" Margin="0,10,0,0">
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="G" Modifiers="Control" />
+                            </Button.KeyboardAccelerators>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />
+
+                <TextBlock HorizontalAlignment="Center">
+            <Run Text="Zalogowano jako:" />
+            <Run Text="{Binding Username}" FontWeight="Bold" />
+                </TextBlock>
+                <Button Content="Wyloguj się" Command="{Binding LogoutCommand}" HorizontalAlignment="Center">
                     <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="C" Modifiers="Control" />
+                        <KeyboardAccelerator Key="L" Modifiers="Control" />
                     </Button.KeyboardAccelerators>
-                    </Button>
-                </StackPanel>
+                </Button>
+            </StackPanel>
+        </ScrollViewer>
 
-                <StackPanel Grid.Column="2" Spacing="8" Margin="5">
-                    <TextBlock Text="Transakcje" FontWeight="Bold" FontSize="16" TextAlignment="Center" />
-                    <ItemsControl ItemsSource="{Binding SortedTransactions}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="viewmodels:TransactionViewModel">
-                                <dashboardControls:TransactionCard Transaction="{x:Bind}"
-                                    DeleteCommand="{Binding DataContext.DeleteTransactionCommand, ElementName=Root}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <Button Content="Dodaj transakcję" Command="{Binding AddTransactionCommand}" 
-                            HorizontalAlignment="Center" Margin="0,10,0,0">
-                        <Button.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="T" Modifiers="Control" />
-                        </Button.KeyboardAccelerators>
-                    </Button>
-                </StackPanel>
+        <Grid Background="#80000000"
+          Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"
+          IsHitTestVisible="{Binding IsLoading}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ProgressRing IsActive="True" Width="60" Height="60" />
+            </StackPanel>
+        </Grid>
 
-                <StackPanel Grid.Column="3" Spacing="8" Margin="5">
-                    <TextBlock Text="Wpłaty na cele" FontWeight="Bold" FontSize="16" TextAlignment="Center" />
-                    <ItemsControl ItemsSource="{Binding SortedSavings}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="viewmodels:SavingViewModel">
-                                <dashboardControls:SavingCard Saving="{x:Bind}"
-                                    DeleteCommand="{Binding DataContext.DeleteSavingCommand, ElementName=Root}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <Button Content="Dodaj wpłatę" Command="{Binding AddSavingCommand}" 
-                            HorizontalAlignment="Center" Margin="0,10,0,0">
-                        <Button.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="S" Modifiers="Control" />
-                        </Button.KeyboardAccelerators>
-                    </Button>
-                </StackPanel>
-
-                <StackPanel Grid.Column="4" Spacing="8" Margin="5">
-                    <TextBlock Text="Cele oszczędnościowe" FontWeight="Bold" FontSize="16" TextAlignment="Center" />
-                    <ItemsControl ItemsSource="{Binding SortedSavingGoals}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="viewmodels:SavingGoalViewModel">
-                                <dashboardControls:SavingGoalCard SavingGoal="{x:Bind}"
-                                    DeleteCommand="{Binding DataContext.DeleteSavingGoalCommand, ElementName=Root}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <Button Content="Dodaj cel" Command="{Binding AddSavingGoalCommand}" 
-                            HorizontalAlignment="Center" Margin="0,10,0,0">
-                    <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="G" Modifiers="Control" />
-                    </Button.KeyboardAccelerators>
-                    </Button>
-                </StackPanel>
-            </Grid>
-
-            <Rectangle Height="1" Fill="Gray" Margin="0,10,0,10" />
-
-            <TextBlock HorizontalAlignment="Center">
-                <Run Text="Zalogowano jako:" />
-                <Run Text="{Binding Username}" FontWeight="Bold" />
-            </TextBlock>
-            <Button Content="Wyloguj się" Command="{Binding LogoutCommand}" HorizontalAlignment="Center">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="L" Modifiers="Control" />
-                </Button.KeyboardAccelerators>
-            </Button>
-        </StackPanel>
-    </ScrollViewer>
+    </Grid>
     
 </UserControl>
