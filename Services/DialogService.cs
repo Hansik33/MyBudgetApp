@@ -12,6 +12,7 @@ using MyBudgetApp.Views.Dashboard.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.System;
 
 namespace MyBudgetApp.Services
 {
@@ -70,6 +71,23 @@ namespace MyBudgetApp.Services
             _isDialogOpen = false;
 
             return result == ContentDialogResult.Primary;
+        }
+
+        public async Task ShowInfoAsync()
+        {
+            var dialog = new ContentDialog
+            {
+                Title = AppStrings.Dialogs.TitleInfo,
+                Content = AppStrings.Dialogs.Info,
+                PrimaryButtonText = "Otwórz GitHub",
+                CloseButtonText = "Zamknij",
+                DefaultButton = ContentDialogButton.Close,
+                XamlRoot = _xamlRoot
+            };
+
+            var result = await dialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+                await Launcher.LaunchUriAsync(new Uri("https://github.com/Hansik33/MyBudgetApp"));
         }
 
         public async Task<AuthenticationValidationResult> ShowAuthenticationValidationDialogAsync(string username,

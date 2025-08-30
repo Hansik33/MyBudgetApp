@@ -14,6 +14,7 @@ namespace MyBudgetApp.Interfaces
 
         Task ShowMessageAsync(string message, DialogType dialogType = DialogType.Info);
         Task<bool> ShowConfirmationAsync(string message);
+        Task ShowInfoAsync();
 
         Task<AuthenticationValidationResult> ShowAuthenticationValidationDialogAsync(string username, string password);
         Task<AuthenticationValidationResult> ShowAuthenticationValidationDialogAsync(string username,

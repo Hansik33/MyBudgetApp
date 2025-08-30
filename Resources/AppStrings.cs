@@ -9,6 +9,13 @@
             public const string TitleError = "❌ Błąd";
             public const string TitleInfo = "ℹ️ Informacja";
 
+            public const string Info =
+                "Budżet Domowy\r\n" +
+                "Wersja: 1.0.0\r\n\r\n" +
+                "Autor: Hansik33\r\n" +
+                "Repozytorium: github.com/Hansik33/MyBudgetApp\r\n\r\n" +
+                "Aplikacja do zarządzania domowym budżetem.";
+
             public static class Auth
             {
                 public const string UserEmpty = "Wprowadź nazwę użytkownika!";
