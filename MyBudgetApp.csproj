@@ -150,6 +150,7 @@
 
   <!-- Publish Properties -->
   <PropertyGroup>
+	<ApplicationIcon>Assets\appicon.ico</ApplicationIcon>
     <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
     <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
