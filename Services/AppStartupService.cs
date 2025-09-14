@@ -1,5 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using MyBudgetApp.Interfaces;
+using System.IO;
+using System.Reflection;
 
 namespace MyBudgetApp.Services
 {
@@ -20,7 +22,18 @@ namespace MyBudgetApp.Services
                 var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hwnd);
                 var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
 
-                appWindow.SetIcon("Assets/appicon.ico");
+                var resourceName = "MyBudgetApp.Assets.appicon.ico";
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+                {
+                    if (stream != null)
+                    {
+                        var tempIconPath = Path.Combine(Path.GetTempPath(), "appicon_temp.ico");
+                        using (var fileStream = File.Create(tempIconPath))
+                            stream.CopyTo(fileStream);
+
+                        appWindow.SetIcon(tempIconPath);
+                    }
+                }
 
                 if (appWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
                 {
@@ -29,8 +42,7 @@ namespace MyBudgetApp.Services
                     presenter.IsMinimizable = true;
                 }
 
-                var displayArea = Microsoft.UI.Windowing.DisplayArea.GetFromWindowId(windowId,
-                    Microsoft.UI.Windowing.DisplayAreaFallback.Primary);
+                var displayArea = Microsoft.UI.Windowing.DisplayArea.GetFromWindowId(windowId, Microsoft.UI.Windowing.DisplayAreaFallback.Primary);
                 var workArea = displayArea.WorkArea;
                 appWindow.MoveAndResize(workArea);
 
