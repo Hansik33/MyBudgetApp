@@ -5,14 +5,12 @@ using System.Reflection;
 
 namespace MyBudgetApp.Services
 {
-    public class AppStartupService(INavigationService navigationService, IDatabaseService databaseService)
+    public class AppStartupService(INavigationService navigationService)
     {
         private Window? _window;
 
         public void Start()
         {
-            databaseService.TryConnect();
-
             _window = new MainWindow();
             _window.Activate();
 

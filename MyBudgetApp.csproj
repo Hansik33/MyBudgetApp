@@ -103,9 +103,6 @@
     <Folder Include="Views\Auth\" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Page Update="Views\Dashboard\Dialogs\AddCategoryDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

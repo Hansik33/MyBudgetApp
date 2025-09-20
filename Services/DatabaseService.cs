@@ -3,217 +3,527 @@ using Microsoft.Extensions.Configuration;
 using MyBudgetApp.Data;
 using MyBudgetApp.Interfaces;
 using MyBudgetApp.Models;
+using MyBudgetApp.Resources;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyBudgetApp.Services
 {
-    public class DatabaseService(IPasswordHashService passwordHashService, IConfiguration configuration) : IDatabaseService
+    public class DatabaseService(IConfiguration configuration,
+                                 IDialogService dialogService,
+                                 IPasswordHashService passwordHashService) : IDatabaseService
     {
-        private readonly string _connectionString =
-            configuration.GetConnectionString("Default")
-            ?? throw new InvalidOperationException("Connection string 'Default' is missing.");
+        private readonly string? _connectionString = configuration.GetConnectionString("Default");
 
+        private bool TryConnect()
+        {
+            if (string.IsNullOrEmpty(_connectionString))
+            {
+                dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return false;
+            }
 
-        private DbContextOptions<AppDbContext> CreateOptions() =>
-            new DbContextOptionsBuilder<AppDbContext>()
+            try
+            {
+                using var connection = new MySqlConnection(_connectionString);
+
+                connection.Open();
+                connection.Close();
+
+                return true;
+            }
+            catch (MySqlException)
+            {
+                dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return false;
+            }
+            catch
+            {
+                dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return false;
+            }
+        }
+
+        private DbContextOptions<AppDbContext>? CreateOptions()
+        {
+            if (!TryConnect())
+                return null;
+
+            return new DbContextOptionsBuilder<AppDbContext>()
                 .UseMySql(_connectionString, ServerVersion.AutoDetect(_connectionString))
                 .Options;
-
-        public bool TryConnect()
-        {
-            using var appDbContext = new AppDbContext(CreateOptions());
-            bool connected = appDbContext.Database.CanConnect();
-            Debug.WriteLine($"Database connection: {connected}");
-            return connected;
         }
 
         public bool AddUser(string username, string plainPassword)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
-
-            if (appDbContext.Users.Any(user => user.Username == username))
+            var options = CreateOptions();
+            if (options == null)
                 return false;
 
-            var hashed = passwordHashService.Hash(plainPassword);
-
-            appDbContext.Users.Add(new User
+            try
             {
-                Username = username,
-                Password = hashed
-            });
+                using var appDbContext = new AppDbContext(options);
 
-            appDbContext.SaveChanges();
-            return true;
+                if (appDbContext.Users.Any(user => user.Username == username))
+                    return false;
+
+                var hashed = passwordHashService.Hash(plainPassword);
+
+                appDbContext.Users.Add(new User
+                {
+                    Username = username,
+                    Password = hashed
+                });
+
+                appDbContext.SaveChanges();
+                return true;
+            }
+            catch (MySqlException)
+            {
+                dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return false;
+            }
+            catch
+            {
+                dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return false;
+            }
         }
 
         public User? GetUserByCredentials(string username, string plainPassword)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
-
-            var user = appDbContext.Users.FirstOrDefault(user => user.Username == username);
-            if (user == null)
+            var options = CreateOptions();
+            if (options == null)
                 return null;
 
-            return passwordHashService.Verify(plainPassword, user.Password) ? user : null;
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
+
+                var user = appDbContext.Users.FirstOrDefault(user => user.Username == username);
+                if (user == null)
+                    return null;
+
+                return passwordHashService.Verify(plainPassword, user.Password) ? user : null;
+            }
+            catch (MySqlException)
+            {
+                dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return null;
+            }
+            catch
+            {
+                dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return null;
+            }
         }
 
         public async Task<List<Budget>> GetBudgetsAsync(int userId)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
+            var options = CreateOptions();
+            if (options == null)
+                return new List<Budget>();
 
-            return await appDbContext.Budgets
-                .Include(budget => budget.Category)
-                .Where(budget => budget.UserId == userId)
-                .ToListAsync();
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
+
+                return await appDbContext.Budgets
+                    .Include(budget => budget.Category)
+                    .Where(budget => budget.UserId == userId)
+                    .ToListAsync();
+            }
+            catch (MySqlException)
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return new List<Budget>();
+            }
+            catch
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return new List<Budget>();
+            }
         }
 
         public async Task<List<Category>> GetCategoriesAsync(int userId)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
+            var options = CreateOptions();
+            if (options == null)
+                return new List<Category>();
 
-            return await appDbContext.Categories
-                .Where(category => category.UserId == userId)
-                .ToListAsync();
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
+
+                return await appDbContext.Categories
+                    .Where(category => category.UserId == userId)
+                    .ToListAsync();
+            }
+            catch (MySqlException)
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return new List<Category>();
+            }
+            catch
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return new List<Category>();
+            }
         }
 
         public async Task<List<Transaction>> GetTransactionsAsync(int userId)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
+            var options = CreateOptions();
+            if (options == null)
+                return new List<Transaction>();
 
-            return await appDbContext.Transactions
-                .Include(transaction => transaction.Category)
-                .Where(transaction => transaction.UserId == userId)
-                .ToListAsync();
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
+
+                return await appDbContext.Transactions
+                    .Include(transaction => transaction.Category)
+                    .Where(transaction => transaction.UserId == userId)
+                    .ToListAsync();
+            }
+            catch (MySqlException)
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return new List<Transaction>();
+            }
+            catch
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return new List<Transaction>();
+            }
         }
 
         public async Task<List<Saving>> GetSavingsAsync(int userId)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
+            var options = CreateOptions();
+            if (options == null)
+                return new List<Saving>();
 
-            return await appDbContext.Savings
-                .Where(saving => saving.UserId == userId)
-                .ToListAsync();
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
+
+                return await appDbContext.Savings
+                    .Where(saving => saving.UserId == userId)
+                    .ToListAsync();
+            }
+            catch (MySqlException)
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return new List<Saving>();
+            }
+            catch
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return new List<Saving>();
+            }
         }
 
         public async Task<List<SavingGoal>> GetSavingGoalsAsync(int userId)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
+            var options = CreateOptions();
+            if (options == null)
+                return new List<SavingGoal>();
 
-            return await appDbContext.SavingGoals
-                .Where(savingGoal => savingGoal.UserId == userId)
-                .ToListAsync();
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
+
+                return await appDbContext.SavingGoals
+                    .Where(savingGoal => savingGoal.UserId == userId)
+                    .ToListAsync();
+            }
+            catch (MySqlException)
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return new List<SavingGoal>();
+            }
+            catch
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return new List<SavingGoal>();
+            }
         }
 
-        public async Task<Budget> AddBudgetAsync(Budget budget)
+        public async Task<Budget?> AddBudgetAsync(Budget budget)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
+            var options = CreateOptions();
+            if (options == null)
+                return null;
 
-            appDbContext.Budgets.Add(budget);
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
 
-            await appDbContext.SaveChangesAsync();
+                appDbContext.Budgets.Add(budget);
 
-            return budget;
+                await appDbContext.SaveChangesAsync();
+
+                return budget;
+            }
+            catch (MySqlException)
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return null;
+            }
+            catch
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return null;
+            }
         }
 
-        public async Task<Category> AddCategoryAsync(Category category)
+        public async Task<Category?> AddCategoryAsync(Category category)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
+            var options = CreateOptions();
+            if (options == null)
+                return null;
 
-            appDbContext.Categories.Add(category);
-            await appDbContext.SaveChangesAsync();
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
 
-            return category;
+                appDbContext.Categories.Add(category);
+                await appDbContext.SaveChangesAsync();
+
+                return category;
+            }
+            catch (MySqlException)
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return null;
+            }
+            catch
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return null;
+            }
         }
 
-        public async Task<Transaction> AddTransactionAsync(Transaction transaction)
+        public async Task<Transaction?> AddTransactionAsync(Transaction transaction)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
+            var options = CreateOptions();
+            if (options == null)
+                return null;
 
-            appDbContext.Transactions.Add(transaction);
-            await appDbContext.SaveChangesAsync();
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
 
-            return transaction;
+                appDbContext.Transactions.Add(transaction);
+                await appDbContext.SaveChangesAsync();
+
+                return transaction;
+            }
+            catch (MySqlException)
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return null;
+            }
+            catch
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return null;
+            }
         }
 
-        public async Task<Saving> AddSavingAsync(Saving saving)
+        public async Task<Saving?> AddSavingAsync(Saving saving)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
+            var options = CreateOptions();
+            if (options == null)
+                return null;
 
-            appDbContext.Savings.Add(saving);
-            await appDbContext.SaveChangesAsync();
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
 
-            return saving;
+                appDbContext.Savings.Add(saving);
+                await appDbContext.SaveChangesAsync();
+
+                return saving;
+            }
+            catch (MySqlException)
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return null;
+            }
+            catch
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return null;
+            }
         }
 
-        public async Task<SavingGoal> AddSavingGoalAsync(SavingGoal savingGoal)
+        public async Task<SavingGoal?> AddSavingGoalAsync(SavingGoal savingGoal)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
+            var options = CreateOptions();
+            if (options == null)
+                return null;
 
-            appDbContext.SavingGoals.Add(savingGoal);
-            await appDbContext.SaveChangesAsync();
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
 
-            return savingGoal;
+                appDbContext.SavingGoals.Add(savingGoal);
+                await appDbContext.SaveChangesAsync();
+
+                return savingGoal;
+            }
+            catch (MySqlException)
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return null;
+            }
+            catch
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+                return null;
+            }
         }
 
         public async Task DeleteBudgetAsync(int budgetId)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
+            var options = CreateOptions();
+            if (options == null)
+                return;
 
-            var budget = await appDbContext.Budgets.FirstOrDefaultAsync(budget => budget.Id == budgetId);
-            if (budget is null) return;
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
 
-            appDbContext.Budgets.Remove(budget);
-            await appDbContext.SaveChangesAsync();
+                var budget = await appDbContext.Budgets.FirstOrDefaultAsync(budget => budget.Id == budgetId);
+                if (budget is null)
+                    return;
+
+                appDbContext.Budgets.Remove(budget);
+                await appDbContext.SaveChangesAsync();
+            }
+            catch (MySqlException)
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+            }
+            catch
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+            }
         }
 
         public async Task DeleteCategoryAsync(int categoryId)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
+            var options = CreateOptions();
+            if (options == null)
+                return;
 
-            var category = await appDbContext.Categories.FirstOrDefaultAsync(ccategory => ccategory.Id == categoryId);
-            if (category is null) return;
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
 
-            appDbContext.Categories.Remove(category);
-            await appDbContext.SaveChangesAsync();
+                var category = await appDbContext.Categories.FirstOrDefaultAsync(ccategory => ccategory.Id == categoryId);
+                if (category is null)
+                    return;
+
+                appDbContext.Categories.Remove(category);
+                await appDbContext.SaveChangesAsync();
+            }
+            catch (MySqlException)
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+            }
+            catch
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+            }
         }
 
         public async Task DeleteTransactionAsync(int transactionId)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
+            var options = CreateOptions();
+            if (options == null)
+                return;
 
-            var transaction = await appDbContext.Transactions.FirstOrDefaultAsync(transaction =>
-            transaction.Id == transactionId);
-            if (transaction is null) return;
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
 
-            appDbContext.Transactions.Remove(transaction);
-            await appDbContext.SaveChangesAsync();
+                var transaction = await appDbContext.Transactions.FirstOrDefaultAsync(transaction =>
+                transaction.Id == transactionId);
+                if (transaction is null)
+                    return;
+
+                appDbContext.Transactions.Remove(transaction);
+                await appDbContext.SaveChangesAsync();
+            }
+            catch (MySqlException)
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+            }
+            catch
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+            }
         }
 
         public async Task DeleteSavingAsync(int savingId)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
+            var options = CreateOptions();
+            if (options == null)
+                return;
 
-            var saving = await appDbContext.Savings.FirstOrDefaultAsync(saving => saving.Id == savingId);
-            if (saving is null) return;
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
 
-            appDbContext.Savings.Remove(saving);
-            await appDbContext.SaveChangesAsync();
+                var saving = await appDbContext.Savings.FirstOrDefaultAsync(saving => saving.Id == savingId);
+                if (saving is null)
+                    return;
+
+                appDbContext.Savings.Remove(saving);
+                await appDbContext.SaveChangesAsync();
+            }
+            catch (MySqlException)
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+            }
+            catch
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+            }
         }
 
         public async Task DeleteSavingGoalAsync(int savingGoalId)
         {
-            using var appDbContext = new AppDbContext(CreateOptions());
+            var options = CreateOptions();
+            if (options == null)
+                return;
 
-            var savingGoal = await appDbContext.SavingGoals.FirstOrDefaultAsync(savingGoal =>
-            savingGoal.Id == savingGoalId);
-            if (savingGoal is null) return;
+            try
+            {
+                using var appDbContext = new AppDbContext(options);
 
-            appDbContext.SavingGoals.Remove(savingGoal);
-            await appDbContext.SaveChangesAsync();
+                var savingGoal = await appDbContext.SavingGoals.FirstOrDefaultAsync(savingGoal =>
+                savingGoal.Id == savingGoalId);
+                if (savingGoal is null)
+                    return;
+
+                appDbContext.SavingGoals.Remove(savingGoal);
+                await appDbContext.SaveChangesAsync();
+            }
+            catch (MySqlException)
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+            }
+            catch
+            {
+                await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
+            }
         }
     }
 }

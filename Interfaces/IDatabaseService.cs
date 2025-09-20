@@ -6,8 +6,6 @@ namespace MyBudgetApp.Interfaces
 {
     public interface IDatabaseService
     {
-        bool TryConnect();
-
         bool AddUser(string username, string passwordHash);
         User? GetUserByCredentials(string username, string plainPassword);
 
@@ -17,11 +15,11 @@ namespace MyBudgetApp.Interfaces
         Task<List<Saving>> GetSavingsAsync(int userId);
         Task<List<SavingGoal>> GetSavingGoalsAsync(int userId);
 
-        Task<Budget> AddBudgetAsync(Budget budget);
-        Task<Category> AddCategoryAsync(Category category);
-        Task<Transaction> AddTransactionAsync(Transaction transaction);
-        Task<Saving> AddSavingAsync(Saving saving);
-        Task<SavingGoal> AddSavingGoalAsync(SavingGoal savingGoal);
+        Task<Budget?> AddBudgetAsync(Budget budget);
+        Task<Category?> AddCategoryAsync(Category category);
+        Task<Transaction?> AddTransactionAsync(Transaction transaction);
+        Task<Saving?> AddSavingAsync(Saving saving);
+        Task<SavingGoal?> AddSavingGoalAsync(SavingGoal savingGoal);
 
         Task DeleteBudgetAsync(int budgetId);
         Task DeleteCategoryAsync(int categoryId);

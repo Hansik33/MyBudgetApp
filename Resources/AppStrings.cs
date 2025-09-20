@@ -16,6 +16,11 @@
                 "Repozytorium: github.com/Hansik33/MyBudgetApp\r\n\r\n" +
                 "Aplikacja do zarządzania domowym budżetem.";
 
+            public const string UnableToConnectDatabase =
+                "Nie można połączyć się z bazą danych!\r\n" +
+                "Sprawdź plik konfiguracyjny (appsettings.json) i uruchom ponownie aplikację.\r\n" +
+                "Jeśli problem nadal występuje, zaimportuj ponownie plik skryptu SQL (MyBudgetApp.sql) bazy danych.";
+
             public static class Auth
             {
                 public const string UserEmpty = "Wprowadź nazwę użytkownika!";

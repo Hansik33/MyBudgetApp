@@ -10,6 +10,7 @@ using MyBudgetApp.Services.Dashboard;
 using MyBudgetApp.ViewModels.Auth;
 using MyBudgetApp.ViewModels.Dashboard;
 using System;
+using System.IO;
 
 namespace MyBudgetApp
 {
@@ -44,8 +45,16 @@ namespace MyBudgetApp
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IDatabaseService, DatabaseService>();
-            services.AddSingleton<IConfiguration>(new ConfigurationBuilder().SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile("appsettings.json", optional: false).Build());
+
+            var exePath = System.Diagnostics.Process.GetCurrentProcess().MainModule?.FileName;
+            var exeDir = exePath != null ? Path.GetDirectoryName(exePath) : AppContext.BaseDirectory;
+            var configPath = Path.Combine(exeDir ?? "", "appsettings.json");
+            services.AddSingleton<IConfiguration>(
+                new ConfigurationBuilder()
+                    .AddJsonFile(configPath, optional: true, reloadOnChange: true)
+                    .Build()
+            );
+
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<IPasswordHashService, PasswordHashService>();
             services.AddSingleton<AppStartupService>();
