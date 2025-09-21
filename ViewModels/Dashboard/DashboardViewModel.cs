@@ -248,7 +248,10 @@ namespace MyBudgetApp.ViewModels.Dashboard
             var savingGoal = await _savingGoalService.AddSavingGoalAsync(UserId, SavingGoals);
 
             if (savingGoal != null)
+            {
                 SavingGoals.Add(new SavingGoalViewModel(savingGoal, Savings));
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.SavingGoal.CreatedSuccess, DialogType.Success);
+            }
         }
 
         private async Task DeleteSavingGoal(SavingGoalViewModel savingGoal)
@@ -261,6 +264,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
                     Savings.Remove(saving);
 
                 SavingGoals.Remove(savingGoal);
+
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.SavingGoal.DeletedSuccess, DialogType.Success);
 
                 UpdateUi();
             }

@@ -404,9 +404,6 @@ namespace MyBudgetApp.Services
             var result = SavingGoalValidator.Validate(name, targetAmount, deadline, savingGoals);
             switch (result)
             {
-                case SavingGoalValidationResult.Success:
-                    await ShowMessageAsync(AppStrings.Dialogs.SavingGoal.CreatedSuccess, DialogType.Success);
-                    break;
                 case SavingGoalValidationResult.NameEmpty:
                     await ShowMessageAsync(AppStrings.Dialogs.SavingGoal.NameEmpty, DialogType.Error);
                     break;

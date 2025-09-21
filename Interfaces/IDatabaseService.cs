@@ -25,6 +25,6 @@ namespace MyBudgetApp.Interfaces
         Task<bool> DeleteCategoryAsync(int categoryId);
         Task<bool> DeleteTransactionAsync(int transactionId);
         Task<bool> DeleteSavingAsync(int savingId);
-        Task DeleteSavingGoalAsync(int savingGoalId);
+        Task<bool> DeleteSavingGoalAsync(int savingGoalId);
     }
 }
