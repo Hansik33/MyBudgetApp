@@ -1,5 +1,4 @@
-﻿using MyBudgetApp.Enums;
-using MyBudgetApp.Interfaces;
+﻿using MyBudgetApp.Interfaces;
 using MyBudgetApp.Interfaces.Dashboard;
 using MyBudgetApp.Models;
 using MyBudgetApp.Resources;
@@ -42,15 +41,13 @@ namespace MyBudgetApp.Services.Dashboard
 
         public async Task<bool> DeleteSavingAsync(int savingId)
         {
-            var confirmed = await dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Saving.ConfirmDelete);
-
-            if (!confirmed)
+            if (!await dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Saving.ConfirmDelete))
                 return false;
 
-            await databaseService.DeleteSavingAsync(savingId);
-            await dialogService.ShowMessageAsync(AppStrings.Dialogs.Saving.DeletedSuccess, DialogType.Success);
+            if (await databaseService.DeleteSavingAsync(savingId))
+                return true;
 
-            return true;
+            return false;
         }
     }
 }

@@ -480,11 +480,11 @@ namespace MyBudgetApp.Services
             return false;
         }
 
-        public async Task DeleteSavingAsync(int savingId)
+        public async Task<bool> DeleteSavingAsync(int savingId)
         {
             var options = CreateOptions();
             if (options == null)
-                return;
+                return false;
 
             try
             {
@@ -492,10 +492,12 @@ namespace MyBudgetApp.Services
 
                 var saving = await appDbContext.Savings.FirstOrDefaultAsync(saving => saving.Id == savingId);
                 if (saving is null)
-                    return;
+                    return false;
 
                 appDbContext.Savings.Remove(saving);
                 await appDbContext.SaveChangesAsync();
+
+                return true;
             }
             catch (MySqlException)
             {
@@ -505,6 +507,7 @@ namespace MyBudgetApp.Services
             {
                 await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
             }
+            return false;
         }
 
         public async Task DeleteSavingGoalAsync(int savingGoalId)

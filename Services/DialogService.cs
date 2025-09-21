@@ -365,9 +365,6 @@ namespace MyBudgetApp.Services
                 case SavingValidationResult.SavingGoalNotSelected:
                     await ShowMessageAsync(AppStrings.Dialogs.Saving.SavingGoalNotSelected, DialogType.Error);
                     break;
-                case SavingValidationResult.Success:
-                    await ShowMessageAsync(AppStrings.Dialogs.Saving.CreatedSuccess, DialogType.Success);
-                    break;
             }
             return result;
         }

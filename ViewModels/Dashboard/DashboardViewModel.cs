@@ -223,6 +223,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
                 Savings.Add(newSaving);
 
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Saving.CreatedSuccess, DialogType.Success);
+
                 RefreshSavingGoals();
                 UpdateUi();
             }
@@ -233,6 +235,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
             if (await _savingService.DeleteSavingAsync(saving.Id))
             {
                 Savings.Remove(saving);
+
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Saving.DeletedSuccess, DialogType.Success);
 
                 RefreshSavingGoals();
                 UpdateUi();
