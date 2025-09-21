@@ -58,23 +58,18 @@ namespace MyBudgetApp.Services.Dashboard
 
         public async Task<bool> DeleteTransactionAsync(TransactionViewModel transaction, decimal currentBalance)
         {
-            var confirmed = await dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Transaction.ConfirmDelete);
-
-            if (!confirmed)
+            if (!await dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Transaction.ConfirmDelete))
                 return false;
 
             if (TransactionValidator.IsDeletionAllowed(transaction, currentBalance))
             {
-                await databaseService.DeleteTransactionAsync(transaction.Id);
-                await dialogService.ShowMessageAsync(AppStrings.Dialogs.Transaction.DeletedSuccess, DialogType.Success);
-
-                return true;
+                if (await databaseService.DeleteTransactionAsync(transaction.Id))
+                    return true;
             }
             else
-            {
                 await dialogService.ShowMessageAsync(AppStrings.Dialogs.Transaction.DeletionNotAllowed, DialogType.Error);
-                return false;
-            }
+
+            return false;
         }
     }
 }

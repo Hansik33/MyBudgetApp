@@ -191,6 +191,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
 
                 Transactions.Add(new TransactionViewModel(transaction));
 
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Transaction.CreatedSuccess, DialogType.Success);
+
                 RefreshBudgets();
                 UpdateUi();
             }
@@ -201,6 +203,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
             if (await _transactionService.DeleteTransactionAsync(transaction, BalanceNumber))
             {
                 Transactions.Remove(transaction);
+
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Transaction.DeletedSuccess, DialogType.Success);
 
                 RefreshBudgets();
                 UpdateUi();

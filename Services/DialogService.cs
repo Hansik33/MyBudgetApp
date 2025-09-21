@@ -301,9 +301,6 @@ namespace MyBudgetApp.Services
                 case TransactionValidationResult.AdditionNotAllowed:
                     await ShowMessageAsync(AppStrings.Dialogs.Transaction.AdditionNotAllowed, DialogType.Error);
                     break;
-                case TransactionValidationResult.Success:
-                    await ShowMessageAsync(AppStrings.Dialogs.Transaction.CreatedSuccess, DialogType.Success);
-                    break;
             }
             return result;
         }

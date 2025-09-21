@@ -449,11 +449,11 @@ namespace MyBudgetApp.Services
             return false;
         }
 
-        public async Task DeleteTransactionAsync(int transactionId)
+        public async Task<bool> DeleteTransactionAsync(int transactionId)
         {
             var options = CreateOptions();
             if (options == null)
-                return;
+                return false;
 
             try
             {
@@ -462,10 +462,12 @@ namespace MyBudgetApp.Services
                 var transaction = await appDbContext.Transactions.FirstOrDefaultAsync(transaction =>
                 transaction.Id == transactionId);
                 if (transaction is null)
-                    return;
+                    return false;
 
                 appDbContext.Transactions.Remove(transaction);
                 await appDbContext.SaveChangesAsync();
+
+                return true;
             }
             catch (MySqlException)
             {
@@ -475,6 +477,7 @@ namespace MyBudgetApp.Services
             {
                 await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
             }
+            return false;
         }
 
         public async Task DeleteSavingAsync(int savingId)
