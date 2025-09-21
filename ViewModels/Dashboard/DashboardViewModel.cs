@@ -4,6 +4,7 @@ using MyBudgetApp.Interfaces;
 using MyBudgetApp.Interfaces.Auth;
 using MyBudgetApp.Interfaces.Dashboard;
 using MyBudgetApp.Models;
+using MyBudgetApp.Resources;
 using MyBudgetApp.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,6 +26,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
         private readonly IUserContext _userContext;
         private readonly ILoginService _loginService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         private ObservableCollection<BudgetViewModel> Budgets { get; } = [];
         public IEnumerable<BudgetViewModel> SortedBudgets => Budgets
@@ -71,7 +73,8 @@ namespace MyBudgetApp.ViewModels.Dashboard
                                   ISavingGoalService savingGoalService,
                                   IUserContext userContext,
                                   ILoginService loginService,
-                                  INavigationService navigationService)
+                                  INavigationService navigationService,
+                                  IDialogService dialogService)
         {
             _budgetService = budgetService;
             _categoryService = categoryService;
@@ -82,6 +85,7 @@ namespace MyBudgetApp.ViewModels.Dashboard
             _userContext = userContext;
             _loginService = loginService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
 
             AddBudgetCommand = new RelayCommand(async () => await AddBudget());
             AddCategoryCommand = new RelayCommand(async () => await AddCategory());
@@ -140,13 +144,18 @@ namespace MyBudgetApp.ViewModels.Dashboard
                     budget.Category = category.Model;
 
                 Budgets.Add(new BudgetViewModel(budget, Transactions));
+
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Budget.CreatedSuccess, DialogType.Success);
             }
         }
 
         private async Task DeleteBudget(BudgetViewModel budget)
         {
             if (await _budgetService.DeleteBudgetAsync(budget.Id))
+            {
                 Budgets.Remove(budget);
+                await _dialogService.ShowMessageAsync(AppStrings.Dialogs.Budget.DeletedSuccess, DialogType.Success);
+            }
         }
 
         private async Task AddCategory()

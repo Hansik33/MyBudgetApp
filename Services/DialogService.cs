@@ -172,9 +172,6 @@ namespace MyBudgetApp.Services
                 case BudgetValidationResult.CategoryNotSelected:
                     await ShowMessageAsync(AppStrings.Dialogs.Budget.CategoryNotSelected, DialogType.Error);
                     break;
-                case BudgetValidationResult.Success:
-                    await ShowMessageAsync(AppStrings.Dialogs.Budget.CreatedSuccess, DialogType.Success);
-                    break;
             }
             return result;
         }

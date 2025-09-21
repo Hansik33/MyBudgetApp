@@ -389,11 +389,11 @@ namespace MyBudgetApp.Services
             }
         }
 
-        public async Task DeleteBudgetAsync(int budgetId)
+        public async Task<bool> DeleteBudgetAsync(int budgetId)
         {
             var options = CreateOptions();
             if (options == null)
-                return;
+                return false;
 
             try
             {
@@ -401,10 +401,12 @@ namespace MyBudgetApp.Services
 
                 var budget = await appDbContext.Budgets.FirstOrDefaultAsync(budget => budget.Id == budgetId);
                 if (budget is null)
-                    return;
+                    return false;
 
                 appDbContext.Budgets.Remove(budget);
                 await appDbContext.SaveChangesAsync();
+
+                return true;
             }
             catch (MySqlException)
             {
@@ -414,6 +416,7 @@ namespace MyBudgetApp.Services
             {
                 await dialogService.ShowMessageAsync(AppStrings.Dialogs.UnableToConnectDatabase, Enums.DialogType.Error);
             }
+            return false;
         }
 
         public async Task DeleteCategoryAsync(int categoryId)
