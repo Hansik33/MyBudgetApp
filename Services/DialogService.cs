@@ -214,9 +214,6 @@ namespace MyBudgetApp.Services
 
             switch (result)
             {
-                case CategoryValidationResult.Success:
-                    await ShowMessageAsync(AppStrings.Dialogs.Category.CreatedSuccess, DialogType.Success);
-                    break;
                 case CategoryValidationResult.Empty:
                     await ShowMessageAsync(AppStrings.Dialogs.Category.NameEmpty, DialogType.Error);
                     break;

@@ -39,23 +39,18 @@ namespace MyBudgetApp.Services.Dashboard
                                                     IEnumerable<BudgetViewModel> budgets,
                                                     IEnumerable<TransactionViewModel> transactions)
         {
-            var confirmed = await dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Category.ConfirmDelete);
-
-            if (!confirmed)
+            if (!await dialogService.ShowConfirmationAsync(AppStrings.Dialogs.Category.ConfirmDelete))
                 return false;
 
             if (CategoryValidator.IsDeletionAllowed(category, budgets, transactions))
             {
-                await databaseService.DeleteCategoryAsync(category.Id);
-                await dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.DeletedSuccess, DialogType.Success);
-
-                return true;
+                if (await databaseService.DeleteCategoryAsync(category.Id))
+                    return true;
             }
             else
-            {
                 await dialogService.ShowMessageAsync(AppStrings.Dialogs.Category.DeletionNotAllowed, DialogType.Error);
-                return false;
-            }
+
+            return false;
         }
     }
 }
